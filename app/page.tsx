@@ -1,23 +1,179 @@
-export default function Page() {
+import Image from 'next/image'
+import Link from 'next/link'
+import {
+  ArrowRight,
+  BookOpen,
+  Calendar,
+  Cpu,
+  Code2,
+  Bot,
+  GraduationCap,
+  ShoppingBag,
+  Images,
+  Quote,
+} from 'lucide-react'
+import { AppShell } from '@/components/app-shell'
+
+const quickActions = [
+  { href: '/courses', label: 'Courses', icon: BookOpen, description: 'Slides & past questions' },
+  { href: '/scholarships', label: 'Scholarships', icon: GraduationCap, description: 'Funding opportunities' },
+  { href: '/shop', label: 'ACES Shop', icon: ShoppingBag, description: 'Hoodies, tees & more' },
+  { href: '/gallery', label: 'Gallery', icon: Images, description: 'Moments from events' },
+]
+
+const clubs = [
+  {
+    name: 'Arduino Club',
+    icon: Cpu,
+    description: 'Hands-on electronics and embedded systems with real hardware projects.',
+  },
+  {
+    name: 'Coding Club',
+    icon: Code2,
+    description: 'Build beautiful websites and apps with modern frameworks.',
+  },
+  {
+    name: 'Robotics Club',
+    icon: Bot,
+    description: 'Design, build and program intelligent robots as a team.',
+  },
+]
+
+const events = [
+  { name: 'CodeFest 2026', date: 'Feb 21', detail: 'Coding challenges, workshops and networking.' },
+  { name: 'Robotics Meeting', date: 'Mar 03', detail: 'Collaborate, build bots and automate solutions.' },
+  { name: 'ACES Dinner 2026', date: 'Apr 18', detail: 'A night of fun, food and fellowship.' },
+]
+
+export default function HomePage() {
   return (
-    <main className="relative flex min-h-screen items-center justify-center bg-[color:light-dark(#fff,#000)] text-[color:light-dark(#000,#fff)]">
-      <svg
-        aria-hidden="true"
-        className="size-20"
-        fill="none"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="0.5"
-      >
-        <path
-          d="M14.2 14.2H17V6.9375C17 4.76288 15.2371 3 13.0625 3H5.8V5.8M14.2 14.2V7.79063L7.79062 14.2H14.2ZM14.2 14.2V17H6.9375C4.76288 17 3 15.2371 3 13.0625V5.8H5.8M5.8 5.8V12.2313L12.2313 5.8H5.8Z"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <p className="absolute left-1/2 top-[calc(50%+56px)] -translate-x-1/2 whitespace-nowrap text-sm font-medium text-muted-foreground">
-        Your v0 generation will show here.
-      </p>
-    </main>
+    <AppShell>
+      {/* Hero */}
+      <section className="px-4 pt-5">
+        <div className="overflow-hidden rounded-3xl bg-navy">
+          <div className="relative h-44 w-full">
+            <Image
+              src="/images/hero-students.png"
+              alt="ACES students collaborating in the engineering lab"
+              fill
+              priority
+              className="object-cover opacity-90"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" aria-hidden="true" />
+          </div>
+          <div className="px-5 pb-5 pt-1 text-navy-foreground">
+            <p className="text-xs font-semibold uppercase tracking-widest text-secondary">Akwaaba, welcome back</p>
+            <h1 className="mt-1 font-heading text-2xl font-bold leading-tight text-balance">
+              The Land of ACES, now in your pocket
+            </h1>
+            <p className="mt-2 text-sm leading-relaxed text-navy-foreground/80 text-pretty">
+              Courses, scholarships, events and community for Computer Engineering students at KNUST.
+            </p>
+            <Link
+              href="/courses"
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
+            >
+              Explore resources
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick actions */}
+      <section className="px-4 pt-6" aria-labelledby="quick-actions">
+        <h2 id="quick-actions" className="font-heading text-lg font-bold text-navy">
+          Jump right in
+        </h2>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          {quickActions.map((action) => {
+            const Icon = action.icon
+            return (
+              <Link
+                key={action.href}
+                href={action.href}
+                className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-secondary/40"
+              >
+                <span className="flex size-10 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <Icon className="size-5" aria-hidden="true" />
+                </span>
+                <span className="text-sm font-semibold">{action.label}</span>
+                <span className="text-xs leading-snug text-muted-foreground">{action.description}</span>
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* Upcoming events */}
+      <section className="px-4 pt-7" aria-labelledby="events-heading">
+        <div className="flex items-center justify-between">
+          <h2 id="events-heading" className="font-heading text-lg font-bold text-navy">
+            Upcoming events
+          </h2>
+          <span className="text-xs font-medium text-muted-foreground">2026 calendar</span>
+        </div>
+        <ul className="mt-3 flex flex-col gap-3">
+          {events.map((event) => (
+            <li key={event.name} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
+              <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary text-primary">
+                <Calendar className="size-4" aria-hidden="true" />
+                <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold">{event.name}</p>
+                <p className="truncate text-xs text-muted-foreground">{event.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Clubs */}
+      <section className="px-4 pt-7" aria-labelledby="clubs-heading">
+        <h2 id="clubs-heading" className="font-heading text-lg font-bold text-navy">
+          Our clubs
+        </h2>
+        <div className="mt-3 flex flex-col gap-3">
+          {clubs.map((club) => {
+            const Icon = club.icon
+            return (
+              <div key={club.name} className="flex items-start gap-4 rounded-2xl bg-secondary/60 p-4">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <Icon className="size-5" aria-hidden="true" />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-navy">ACES {club.name}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{club.description}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* Testimonial */}
+      <section className="px-4 pt-7 pb-6" aria-labelledby="testimonial-heading">
+        <h2 id="testimonial-heading" className="sr-only">
+          Student testimonial
+        </h2>
+        <figure className="rounded-3xl bg-navy p-5 text-navy-foreground">
+          <Quote className="size-6 text-primary" aria-hidden="true" />
+          <blockquote className="mt-3 text-sm leading-relaxed text-pretty">
+            &ldquo;This platform helped me study for examinations. I love how everything is organized and
+            intuitive.&rdquo;
+          </blockquote>
+          <figcaption className="mt-4 flex items-center gap-3">
+            <span className="flex size-9 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              BA
+            </span>
+            <span>
+              <span className="block text-sm font-semibold">Benjamin Etonam Abotsi</span>
+              <span className="block text-xs text-navy-foreground/70">The great mind behind Prep AI</span>
+            </span>
+          </figcaption>
+        </figure>
+      </section>
+    </AppShell>
   )
 }

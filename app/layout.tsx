@@ -1,36 +1,29 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { DM_Sans, Space_Grotesk } from 'next/font/google'
+import { CartProvider } from '@/lib/cart-context'
 import './globals.css'
 
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+})
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+})
+
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'ACES KNUST — Association of Computer Engineering Students',
+  description:
+    'Mobile-first redesign of the ACES KNUST website. Courses, scholarships, shop, events and community for Computer Engineering students.',
   generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'light',
+  themeColor: '#0B5FFF',
 }
 
 export default function RootLayout({
@@ -39,9 +32,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`light bg-background ${dmSans.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased">
-        {children}
+        <CartProvider>{children}</CartProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
