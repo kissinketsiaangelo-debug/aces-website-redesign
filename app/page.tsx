@@ -111,7 +111,10 @@ export default function HomePage() {
           <h2 id="events-heading" className="font-heading text-lg font-bold text-navy">
             Upcoming events
           </h2>
-          <span className="text-xs font-medium text-muted-foreground">2026 calendar</span>
+          <Link href="/events" className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+            View all
+            <ArrowRight className="size-3" aria-hidden="true" />
+          </Link>
         </div>
         <ul className="mt-3 flex flex-col gap-3">
           {events.map((event) => (

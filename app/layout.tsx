@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans, Space_Grotesk } from 'next/font/google'
 import { CartProvider } from '@/lib/cart-context'
+import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -32,9 +33,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`light bg-background ${dmSans.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`bg-background ${dmSans.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className="antialiased">
-        <CartProvider>{children}</CartProvider>
+        <ThemeProvider>
+          <CartProvider>{children}</CartProvider>
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

@@ -1,20 +1,34 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Plus, ShoppingBag } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useCart, type Product } from '@/lib/cart-context'
 
-const products: Product[] = [
-  { id: 'hoodie', name: 'ACES Navy Hoodie', price: 180, image: '/images/product-hoodie.png', tag: 'Best seller' },
-  { id: 'tee', name: 'ACES Classic Tee', price: 90, image: '/images/product-tee.png' },
-  { id: 'mug', name: 'ACES Coffee Mug', price: 45, image: '/images/product-mug.png' },
-  { id: 'stickers', name: 'Sticker Pack (x8)', price: 25, image: '/images/product-stickers.png', tag: 'New' },
+type ProductWithCategory = Product & { category: 'apparel' | 'accessories' | 'codefest' }
+
+const products: ProductWithCategory[] = [
+  { id: 'hoodie', name: 'ACES Navy Hoodie', price: 180, image: '/images/product-hoodie.png', tag: 'Best seller', category: 'apparel' },
+  { id: 'tee', name: 'ACES Classic Tee', price: 90, image: '/images/product-tee.png', category: 'apparel' },
+  { id: 'mug', name: 'ACES Coffee Mug', price: 45, image: '/images/product-mug.png', category: 'accessories' },
+  { id: 'stickers', name: 'Sticker Pack (x8)', price: 25, image: '/images/product-stickers.png', tag: 'New', category: 'accessories' },
+]
+
+const categories = [
+  { key: 'all', label: 'All' },
+  { key: 'apparel', label: 'Apparel' },
+  { key: 'accessories', label: 'Accessories' },
+  
 ]
 
 export default function ShopPage() {
   const { addToCart, count } = useCart()
+  const [activeCategory, setActiveCategory] = useState('all')
+
+  const filtered =
+    activeCategory === 'all' ? products : products.filter((p) => p.category === activeCategory)
 
   return (
     <AppShell title="ACES Shop">
@@ -39,8 +53,25 @@ export default function ShopPage() {
         </Link>
       </section>
 
-      <section className="grid grid-cols-2 gap-3 px-4 pt-5 pb-8" aria-label="Products">
-        {products.map((product) => (
+      {/* Sub-market tabs */}
+      <div className="flex gap-2 overflow-x-auto px-4 pt-4 pb-1 no-scrollbar">
+        {categories.map((cat) => (
+          <button
+            key={cat.key}
+            onClick={() => setActiveCategory(cat.key)}
+            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition ${
+              activeCategory === cat.key
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-secondary text-navy'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <section className="grid grid-cols-2 gap-3 px-4 pt-4 pb-8" aria-label="Products">
+        {filtered.map((product) => (
           <article key={product.id} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
             <div className="relative aspect-square bg-muted">
               <Image

@@ -13,7 +13,7 @@ const tabs = [
   { href: '/profile', label: 'Profile', icon: User },
 ]
 
-const resourcesPaths = ['/resources', '/courses', '/scholarships']
+const resourcesPaths = ['/resources', '/courses', '/scholarships', '/events']
 
 export function BottomNav() {
   const pathname = usePathname()

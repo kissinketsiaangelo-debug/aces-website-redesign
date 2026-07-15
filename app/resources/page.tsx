@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { ArrowRight, BookOpen, GraduationCap, FileText, Sparkles } from 'lucide-react'
+import { ArrowRight, BookOpen, GraduationCap, Calendar, FileText, Sparkles } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 
 export const metadata: Metadata = {
@@ -21,6 +21,13 @@ const hubs = [
     icon: GraduationCap,
     description: 'Funding opportunities, grants and awards for Computer Engineering students.',
     stat: '4 open now',
+  },
+  {
+    href: '/events',
+    label: 'Events',
+    icon: Calendar,
+    description: 'ACES calendar — workshops, socials, hackathons and more.',
+    stat: '8 coming up',
   },
 ]
 

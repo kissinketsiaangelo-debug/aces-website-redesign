@@ -66,6 +66,32 @@
   --radius: 1rem;
 }
 
+.dark {
+  color-scheme: dark;
+  --background: #0b1324;
+  --foreground: #edf2f9;
+  --card: #111d35;
+  --card-foreground: #edf2f9;
+  --popover: #111d35;
+  --popover-foreground: #edf2f9;
+  --primary: #3b82f6; /* brighter blue for dark mode */
+  --primary-foreground: #ffffff;
+  --secondary: #1a2d4e;
+  --secondary-foreground: #d6e4ff;
+  --muted: #15233f;
+  --muted-foreground: #8a9bb5;
+  --accent: #1a2d4e;
+  --accent-foreground: #3b82f6;
+  --destructive: #f87171;
+  --border: #1e3154;
+  --input: #1e3154;
+  --ring: #3b82f6;
+  --navy: #0a1628;
+  --navy-foreground: #edf2f9;
+  --success: #34d399;
+  --warning: #fbbf24;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
