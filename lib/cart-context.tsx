@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 export type Product = {
   id: string
@@ -29,6 +29,24 @@ const CartContext = createContext<CartContextValue | null>(null)
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
   const [toast, setToast] = useState<string | null>(null)
+
+  // Restore prototype cart state so a page refresh doesn't break the demo flow
+  useEffect(() => {
+    try {
+      const saved = window.sessionStorage.getItem('aces-cart')
+      if (saved) setItems(JSON.parse(saved) as CartItem[])
+    } catch {
+      // ignore corrupt state
+    }
+  }, [])
+
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem('aces-cart', JSON.stringify(items))
+    } catch {
+      // storage unavailable — in-memory cart still works
+    }
+  }, [items])
 
   const addToCart = useCallback((product: Product) => {
     setItems((prev) => {
