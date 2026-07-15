@@ -7,7 +7,7 @@ import { Plus, ShoppingBag } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useCart, type Product } from '@/lib/cart-context'
 
-type ProductWithCategory = Product & { category: 'apparel' | 'accessories' | 'codefest' }
+type ProductWithCategory = Product & { category: 'apparel' | 'accessories' }
 
 const products: ProductWithCategory[] = [
   { id: 'hoodie', name: 'ACES Navy Hoodie', price: 180, image: '/images/product-hoodie.png', tag: 'Best seller', category: 'apparel' },
@@ -20,7 +20,6 @@ const categories = [
   { key: 'all', label: 'All' },
   { key: 'apparel', label: 'Apparel' },
   { key: 'accessories', label: 'Accessories' },
-  
 ]
 
 export default function ShopPage() {
@@ -54,10 +53,12 @@ export default function ShopPage() {
       </section>
 
       {/* Sub-market tabs */}
-      <div className="flex gap-2 overflow-x-auto px-4 pt-4 pb-1 no-scrollbar">
+      <div role="tablist" aria-label="Filter by product category" className="flex gap-2 overflow-x-auto px-4 pt-4 pb-1 no-scrollbar">
         {categories.map((cat) => (
           <button
             key={cat.key}
+            role="tab"
+            aria-selected={activeCategory === cat.key}
             onClick={() => setActiveCategory(cat.key)}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition ${
               activeCategory === cat.key

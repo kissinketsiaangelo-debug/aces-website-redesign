@@ -115,8 +115,8 @@ export default function ProfilePage() {
               </li>
             )
           })}
-          <li className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-sm font-medium text-destructive">
-            <span className="flex size-9 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+          <li className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-sm font-medium text-muted-foreground">
+            <span className="flex size-9 items-center justify-center rounded-lg bg-muted text-muted-foreground">
               <LogOut className="size-4" aria-hidden="true" />
             </span>
             Sign out

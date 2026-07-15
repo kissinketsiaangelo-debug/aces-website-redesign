@@ -39,12 +39,13 @@ export default function StaffPage() {
               <p className="text-xs font-medium text-primary">{member.role}</p>
               <p className="text-xs text-muted-foreground">{member.area}</p>
             </div>
-            <span
-              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-navy"
+            <a
+              href={`mailto:${member.name.toLowerCase().replace(/\s+/g, '.').replace(/[^a-z.]/g, '')}@knust.edu.gh`}
+              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-navy transition-colors hover:bg-accent"
               aria-label={`Email ${member.name}`}
             >
               <Mail className="size-4" aria-hidden="true" />
-            </span>
+            </a>
           </li>
         ))}
       </ul>

@@ -16,6 +16,7 @@ type Scholarship = {
   deadline: string
   daysLeft: number
   eligibility: string
+  applyUrl: string
 }
 
 const scholarships: Scholarship[] = [
@@ -27,6 +28,7 @@ const scholarships: Scholarship[] = [
     deadline: 'Mar 15, 2026',
     daysLeft: 39,
     eligibility: 'CWA 65+ · Continuing students',
+    applyUrl: 'https://www.mtn.com.gh/mtn-bright-scholarship',
   },
   {
     id: 'getfund',
@@ -36,6 +38,7 @@ const scholarships: Scholarship[] = [
     deadline: 'Feb 28, 2026',
     daysLeft: 24,
     eligibility: 'All levels · Needs-based',
+    applyUrl: 'https://www.getfund.gov.gh',
   },
   {
     id: 'vodafone',
@@ -45,6 +48,7 @@ const scholarships: Scholarship[] = [
     deadline: 'Feb 20, 2026',
     daysLeft: 16,
     eligibility: 'Women in engineering · Year 2+',
+    applyUrl: 'https://www.telecel.com.gh/stem-award',
   },
   {
     id: 'knust-dean',
@@ -54,6 +58,7 @@ const scholarships: Scholarship[] = [
     deadline: 'Feb 10, 2026',
     daysLeft: 6,
     eligibility: 'Top 5% of class · Any year',
+    applyUrl: 'https://coe.knust.edu.gh/merit-grant',
   },
 ]
 
@@ -123,7 +128,12 @@ export default function ScholarshipsPage() {
                       <p className="text-xs text-muted-foreground">Deadline: {scholarship.deadline}</p>
                       <button
                         type="button"
-                        onClick={() => setApplied((prev) => (hasApplied ? prev : [...prev, scholarship.id]))}
+                        onClick={() => {
+                          if (!hasApplied) {
+                            setApplied((prev) => [...prev, scholarship.id])
+                            window.open(scholarship.applyUrl, '_blank', 'noopener,noreferrer')
+                          }
+                        }}
                         className={cn(
                           'inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-colors',
                           hasApplied

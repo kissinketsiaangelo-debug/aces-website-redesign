@@ -14,7 +14,7 @@ export default function CartPage() {
 
   function handleCheckout() {
     setStatus('processing')
-    window.setTimeout(() => {
+    setTimeout(() => {
       setStatus('done')
       clearCart()
     }, 1800)

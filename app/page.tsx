@@ -57,6 +57,7 @@ export default function HomePage() {
               alt="ACES students collaborating in the engineering lab"
               fill
               priority
+              sizes="(max-width: 448px) 100vw, 448px"
               className="object-cover opacity-90"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" aria-hidden="true" />

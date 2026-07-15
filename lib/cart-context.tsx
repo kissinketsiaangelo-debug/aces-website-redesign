@@ -57,7 +57,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return [...prev, { ...product, qty: 1 }]
     })
     setToast(`Great choice! The ${product.name} is in your bag. Ready to check out?`)
-    window.setTimeout(() => setToast(null), 3500)
+    setTimeout(() => setToast(null), 3500)
   }, [])
 
   const removeFromCart = useCallback((id: string) => {

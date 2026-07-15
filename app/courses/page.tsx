@@ -39,6 +39,34 @@ const filters = [
 function CourseCard({ course }: { course: Course }) {
   const [downloaded, setDownloaded] = useState(false)
 
+  function handleDownload() {
+    const content = [
+      `${course.code} - ${course.title}`,
+      `Year ${course.year} · ${course.semester}`,
+      `Materials: ${course.materials} files (${course.size})`,
+      '',
+      '--- Course Materials ---',
+      '1. Lecture Notes (PDF)',
+      '2. Tutorial Questions (PDF)',
+      '3. Past Questions (PDF)',
+      '4. Lab Manual (PDF)',
+      '',
+      'Downloaded from ACES KNUST digital library.',
+    ].join('\n')
+
+    const blob = new Blob([content], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${course.code}-materials.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+
+    setDownloaded(true)
+  }
+
   return (
     <li className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
       <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary text-primary">
@@ -54,7 +82,7 @@ function CourseCard({ course }: { course: Course }) {
       </div>
       <button
         type="button"
-        onClick={() => setDownloaded(true)}
+        onClick={handleDownload}
         aria-label={downloaded ? `${course.title} downloaded` : `Download ${course.title} materials`}
         className={cn(
           'flex size-10 shrink-0 items-center justify-center rounded-full transition-colors',

@@ -35,6 +35,7 @@ export default function AboutPage() {
             src="/images/gallery-codefest.png"
             alt="ACES students at CodeFest"
             fill
+            sizes="(max-width: 448px) 100vw, 448px"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy/90 to-transparent" aria-hidden="true" />
