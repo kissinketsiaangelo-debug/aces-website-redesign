@@ -3,13 +3,15 @@ import { cn } from '@/lib/utils'
 
 export function AcesMark({ className }: { className?: string }) {
   return (
-    <Image
-      src="/images/aces-logo.png"
-      alt="Association of Computer Engineering Students Logo"
-      width={100}
-      height={100}
-      className={cn('size-14 object-contain', className)}
-    />
+    <div className="flex items-center justify-center rounded-lg bg-white p-1 shadow-sm">
+      <Image
+        src="/images/aces-logo.png"
+        alt="ACES KNUST Logo"
+        width={100}
+        height={100}
+        className={cn('size-8 object-contain', className)}
+      />
+    </div>
   )
 }
 
