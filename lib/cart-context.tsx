@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useNotifications } from '@/lib/notification-context'
 
 export type Product = {
   id: string
@@ -29,6 +30,7 @@ const CartContext = createContext<CartContextValue | null>(null)
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
   const [toast, setToast] = useState<string | null>(null)
+  const { addNotification } = useNotifications()
 
   // Restore prototype cart state so a page refresh doesn't break the demo flow
   useEffect(() => {
@@ -58,7 +60,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     })
     setToast(`Great choice! The ${product.name} is in your bag. Ready to check out?`)
     setTimeout(() => setToast(null), 3500)
-  }, [])
+    addNotification({ title: 'Added to bag', body: `${product.name} — GHS ${product.price}`, icon: 'bag', link: '/cart' })
+  }, [addNotification])
 
   const removeFromCart = useCallback((id: string) => {
     setItems((prev) => prev.filter((i) => i.id !== id))

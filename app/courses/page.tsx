@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
-import { Download, FileText, Check } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Download, FileText, Check, WifiOff } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { DemoStateToggle } from '@/components/demo-state-toggle'
 import { NotifyMeForm } from '@/components/notify-me-form'
@@ -36,8 +36,44 @@ const filters = [
   { label: 'Year 4', value: 4 },
 ]
 
+const DOWNLOADS_KEY = 'aces_downloaded_courses'
+
+function getDownloads(): string[] {
+  if (typeof window === 'undefined') return []
+  try {
+    const raw = localStorage.getItem(DOWNLOADS_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch {
+    return []
+  }
+}
+
+function saveDownload(code: string) {
+  try {
+    const existing = getDownloads()
+    if (!existing.includes(code)) {
+      localStorage.setItem(DOWNLOADS_KEY, JSON.stringify([...existing, code]))
+    }
+  } catch {
+    /* storage unavailable */
+  }
+}
+
 function CourseCard({ course }: { course: Course }) {
   const [downloaded, setDownloaded] = useState(false)
+  const [offline, setOffline] = useState(false)
+
+  useEffect(() => {
+    setDownloaded(getDownloads().includes(course.code))
+    setOffline(!navigator.onLine)
+    const handler = () => setOffline(!navigator.onLine)
+    window.addEventListener('online', handler)
+    window.addEventListener('offline', handler)
+    return () => {
+      window.removeEventListener('online', handler)
+      window.removeEventListener('offline', handler)
+    }
+  }, [course.code])
 
   function handleDownload() {
     const content = [
@@ -64,6 +100,7 @@ function CourseCard({ course }: { course: Course }) {
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
 
+    saveDownload(course.code)
     setDownloaded(true)
   }
 
@@ -76,8 +113,18 @@ function CourseCard({ course }: { course: Course }) {
       <div className="min-w-0 flex-1">
         <p className="text-xs font-bold text-primary">{course.code}</p>
         <p className="truncate text-sm font-semibold">{course.title}</p>
-        <p className="mt-0.5 text-xs text-muted-foreground">
+        <p className="mt-0.5 flex items-center gap-1.5 text-xs text-muted-foreground">
           {course.semester} · {course.materials} files · {course.size}
+          {downloaded && (
+            <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold text-success">
+              <Check className="size-2.5" aria-hidden="true" /> Downloaded
+            </span>
+          )}
+          {offline && (
+            <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold text-warning">
+              <WifiOff className="size-2.5" aria-hidden="true" /> Offline
+            </span>
+          )}
         </p>
       </div>
       <button

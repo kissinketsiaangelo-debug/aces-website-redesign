@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Calendar, MapPin, Clock, UserCheck } from 'lucide-react'
+import { Calendar, CalendarPlus, MapPin, Clock, UserCheck } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useRegistration } from '@/lib/registration-context'
 import { cn } from '@/lib/utils'
@@ -51,6 +51,38 @@ function SeatsBadge({ left }: { left: number }) {
       {left === 0 ? 'Full' : `${left} seat${left !== 1 ? 's' : ''} left`}
     </span>
   )
+}
+
+const monthIdx: Record<string, string> = {
+  JAN: '01', FEB: '02', MAR: '03', APR: '04', MAY: '05', JUN: '06',
+  JUL: '07', AUG: '08', SEP: '09', OCT: '10', NOV: '11', DEC: '12',
+}
+
+function getCalendarUrl(event: Event) {
+  const m = monthIdx[event.month] || '01'
+  const d = event.day.padStart(2, '0')
+
+  function to24h(t: string) {
+    const [h, m2] = t.replace(/(AM|PM)/i, '').trim().split(':').map(Number)
+    const isPM = /pm/i.test(t)
+    const hour = isPM && h !== 12 ? h + 12 : !isPM && h === 12 ? 0 : h
+    return `${String(hour).padStart(2, '0')}${String(m2 || 0).padStart(2, '0')}00`
+  }
+
+  const [startT, endT] = event.time.split('–').map((s) => s.trim())
+  const start = `2026${m}${d}T${to24h(startT)}`
+  const end = `2026${m}${d}T${to24h(endT)}`
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.name,
+    dates: `${start}/${end}`,
+    details: event.detail,
+    location: event.location,
+    sf: 'true',
+    output: 'xml',
+  })
+  return `https://www.google.com/calendar/render?${params.toString()}`
 }
 
 export default function EventsPage() {
@@ -138,6 +170,16 @@ export default function EventsPage() {
                 <MapPin className="size-3" aria-hidden="true" />
                 {event.location}
               </span>
+              <a
+                href={getCalendarUrl(event)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Add ${event.name} to calendar`}
+                className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-1 text-[10px] font-semibold text-white/80 transition-colors hover:bg-white/25"
+              >
+                <CalendarPlus className="size-3" aria-hidden="true" />
+                Calendar
+              </a>
               <button
                 type="button"
                 onClick={() => register(event.name)}

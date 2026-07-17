@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Plus, ShoppingBag } from 'lucide-react'
+import { Heart, Plus, ShoppingBag } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useCart, type Product } from '@/lib/cart-context'
+import { useWishlist } from '@/lib/wishlist-context'
+import { cn } from '@/lib/utils'
 
 type ProductWithCategory = Product & { category: 'apparel' | 'accessories' }
 
@@ -24,6 +26,7 @@ const categories = [
 
 export default function ShopPage() {
   const { addToCart, count } = useCart()
+  const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist()
   const [activeCategory, setActiveCategory] = useState('all')
 
   const filtered =
@@ -38,18 +41,27 @@ export default function ShopPage() {
             Official merch, made for CoE students. Pick up on campus — no delivery fees.
           </p>
         </div>
-        <Link
-          href="/cart"
-          aria-label={`Open cart, ${count} items`}
-          className="relative flex size-11 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
-        >
-          <ShoppingBag className="size-5" aria-hidden="true" />
-          {count > 0 && (
-            <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-              {count}
-            </span>
-          )}
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/wishlist"
+            aria-label="Open wishlist"
+            className="flex size-11 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
+          >
+            <Heart className="size-5" aria-hidden="true" />
+          </Link>
+          <Link
+            href="/cart"
+            aria-label={`Open cart, ${count} items`}
+            className="relative flex size-11 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
+          >
+            <ShoppingBag className="size-5" aria-hidden="true" />
+            {count > 0 && (
+              <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                {count}
+              </span>
+            )}
+          </Link>
+        </div>
       </section>
 
       {/* Sub-market tabs */}
@@ -87,6 +99,18 @@ export default function ShopPage() {
                   {product.tag}
                 </span>
               )}
+              <button
+                type="button"
+                onClick={() =>
+                  isWishlisted(product.id)
+                    ? removeFromWishlist(product.id)
+                    : addToWishlist({ id: product.id, name: product.name, price: product.price, image: product.image || '/placeholder.svg', addedAt: new Date().toISOString() })
+                }
+                aria-label={isWishlisted(product.id) ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+                className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+              >
+                <Heart className={cn('size-4', isWishlisted(product.id) && 'fill-current')} aria-hidden="true" />
+              </button>
             </div>
             <div className="flex flex-1 flex-col gap-1 p-3">
               <h2 className="text-sm font-semibold leading-snug">{product.name}</h2>

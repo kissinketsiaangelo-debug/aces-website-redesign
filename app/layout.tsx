@@ -5,7 +5,12 @@ import { CartProvider } from '@/lib/cart-context'
 import { MarketplaceProvider } from '@/lib/marketplace-context'
 import { RegistrationProvider } from '@/lib/registration-context'
 import { RecentlyViewedProvider } from '@/lib/recently-viewed-context'
+import { WishlistProvider } from '@/lib/wishlist-context'
+import { SearchProvider } from '@/lib/search-context'
+import { NotificationProvider } from '@/lib/notification-context'
 import { ThemeProvider } from '@/components/theme-provider'
+import { SearchOverlay } from '@/components/search-overlay'
+import { ServiceWorkerRegister } from '@/components/service-worker-register'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -39,15 +44,23 @@ export default function RootLayout({
     <html lang="en" className={`bg-background ${dmSans.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider>
-          <CartProvider>
-            <MarketplaceProvider>
-              <RecentlyViewedProvider>
-                <RegistrationProvider>
-                  {children}
-                </RegistrationProvider>
-              </RecentlyViewedProvider>
-            </MarketplaceProvider>
-          </CartProvider>
+          <NotificationProvider>
+            <CartProvider>
+              <MarketplaceProvider>
+                <RecentlyViewedProvider>
+                  <RegistrationProvider>
+                    <WishlistProvider>
+                      <SearchProvider>
+                        {children}
+                        <SearchOverlay />
+                      </SearchProvider>
+                    </WishlistProvider>
+                  </RegistrationProvider>
+                </RecentlyViewedProvider>
+              </MarketplaceProvider>
+            </CartProvider>
+          </NotificationProvider>
+          <ServiceWorkerRegister />
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

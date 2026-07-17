@@ -3,9 +3,11 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Menu, X, Info, Users, Briefcase, Images, Lightbulb, Calendar, Store, ChevronRight, Sun, Moon } from 'lucide-react'
+import { Menu, X, Info, Users, Briefcase, Images, Lightbulb, Calendar, Store, ChevronRight, Sun, Moon, Search, Bell } from 'lucide-react'
 import { AcesLogo, AcesMark } from '@/components/aces-logo'
 import { useTheme } from '@/components/theme-provider'
+import { useSearch } from '@/lib/search-context'
+import { useNotifications } from '@/lib/notification-context'
 import { cn } from '@/lib/utils'
 
 const menuLinks = [
@@ -22,6 +24,8 @@ export function AppHeader({ title }: { title?: string }) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const { theme, toggle } = useTheme()
+  const { setOpen: setSearchOpen } = useSearch()
+  const { unreadCount } = useNotifications()
 
   useEffect(() => {
     setOpen(false)
@@ -47,15 +51,37 @@ export function AppHeader({ title }: { title?: string }) {
             <AcesLogo />
           </Link>
         )}
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Open menu"
-          aria-expanded={open}
-          className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
-        >
-          <Menu className="size-5" aria-hidden="true" />
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Search"
+            className="flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary"
+          >
+            <Search className="size-5" aria-hidden="true" />
+          </button>
+          <Link
+            href="/notifications"
+            aria-label={`Notifications, ${unreadCount} unread`}
+            className="relative flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary"
+          >
+            <Bell className="size-5" aria-hidden="true" />
+            {unreadCount > 0 && (
+              <span className="absolute right-1.5 top-1.5 flex size-4 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
+          </Link>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={open}
+            className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
+          >
+            <Menu className="size-5" aria-hidden="true" />
+          </button>
+        </div>
       </header>
 
       {/* Overlay menu */}

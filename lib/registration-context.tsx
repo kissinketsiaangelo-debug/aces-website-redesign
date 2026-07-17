@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useNotifications } from '@/lib/notification-context'
 
 type RegistrationContextValue = {
   registered: Set<string>
@@ -38,13 +39,15 @@ function saveSet(key: string, data: string[]) {
 export function RegistrationProvider({ children }: { children: ReactNode }) {
   const [registered, setRegistered] = useState<string[]>(() => loadSet('aces_registered_events'))
   const [clubMemberships, setClubMemberships] = useState<string[]>(() => loadSet('aces_club_memberships'))
+  const { addNotification } = useNotifications()
 
   useEffect(() => { saveSet('aces_registered_events', registered) }, [registered])
   useEffect(() => { saveSet('aces_club_memberships', clubMemberships) }, [clubMemberships])
 
   const register = useCallback((key: string) => {
     setRegistered((prev) => (prev.includes(key) ? prev : [...prev, key]))
-  }, [])
+    addNotification({ title: 'Registered for event', body: `You're in for "${key}"`, icon: 'calendar', link: '/events' })
+  }, [addNotification])
 
   const unregister = useCallback((key: string) => {
     setRegistered((prev) => prev.filter((k) => k !== key))
@@ -52,7 +55,8 @@ export function RegistrationProvider({ children }: { children: ReactNode }) {
 
   const joinClub = useCallback((key: string) => {
     setClubMemberships((prev) => (prev.includes(key) ? prev : [...prev, key]))
-  }, [])
+    addNotification({ title: 'Joined club', body: `Welcome to ${key}!`, icon: 'user', link: '/executives' })
+  }, [addNotification])
 
   const leaveClub = useCallback((key: string) => {
     setClubMemberships((prev) => prev.filter((k) => k !== key))
