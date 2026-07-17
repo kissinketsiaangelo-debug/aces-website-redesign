@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans, Space_Grotesk } from 'next/font/google'
 import { CartProvider } from '@/lib/cart-context'
+import { MarketplaceProvider } from '@/lib/marketplace-context'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
@@ -36,7 +37,11 @@ export default function RootLayout({
     <html lang="en" className={`bg-background ${dmSans.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            <MarketplaceProvider>
+              {children}
+            </MarketplaceProvider>
+          </CartProvider>
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

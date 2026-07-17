@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Menu, X, Info, Users, Briefcase, Images, Lightbulb, Calendar, ChevronRight, Sun, Moon } from 'lucide-react'
+import { Menu, X, Info, Users, Briefcase, Images, Lightbulb, Calendar, Store, ChevronRight, Sun, Moon } from 'lucide-react'
 import { AcesLogo, AcesMark } from '@/components/aces-logo'
 import { useTheme } from '@/components/theme-provider'
 import { cn } from '@/lib/utils'
@@ -13,6 +13,7 @@ const menuLinks = [
   { href: '/events', label: 'Events', icon: Calendar },
   { href: '/executives', label: 'Executives', icon: Users },
   { href: '/staff', label: 'Staff', icon: Briefcase },
+  { href: '/marketplace', label: 'Marketplace', icon: Store },
   { href: '/gallery', label: 'Gallery', icon: Images },
   { href: '/problems', label: 'Why we redesigned', icon: Lightbulb },
 ]

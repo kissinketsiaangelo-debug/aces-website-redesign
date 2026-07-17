@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, ShoppingBag, BookOpen, User } from 'lucide-react'
+import { Home, ShoppingBag, Store, BookOpen, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/lib/cart-context'
 
 const tabs = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/shop', label: 'Shop', icon: ShoppingBag },
+  { href: '/marketplace', label: 'Marketplace', icon: Store },
   { href: '/resources', label: 'Resources', icon: BookOpen },
   { href: '/profile', label: 'Profile', icon: User },
 ]
