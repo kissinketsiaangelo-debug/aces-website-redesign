@@ -2,39 +2,59 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { ChevronDown, Users } from 'lucide-react'
+import { ChevronDown, Eye } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
+import { ExecutiveModal, type ExecutiveData } from '@/components/executives/executive-modal'
 
-const executivesByYear: Record<string, { initials: string; name: string; role: string; dark?: boolean }[]> = {
+type ExecInfo = ExecutiveData
+
+function exe(name: string, role: string, year: string, dept: string, email: string, linkedin: string): ExecInfo {
+  const initials = name
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+  return {
+    initials,
+    name,
+    role,
+    photo: `https://picsum.photos/seed/${name.replace(/\s+/g, '-').toLowerCase()}/200/200`,
+    year,
+    department: dept,
+    email,
+    linkedin,
+  }
+}
+
+const executivesByYear: Record<string, ExecInfo[]> = {
   '2025/26': [
-    { initials: 'KM', name: 'Kwame Mensah', role: 'President' },
-    { initials: 'AO', name: 'Ama Owusu', role: 'Vice President', dark: true },
-    { initials: 'YB', name: 'Yaw Boateng', role: 'General Secretary' },
-    { initials: 'AA', name: 'Akosua Asante', role: 'Financial Secretary', dark: true },
-    { initials: 'KA', name: 'Kofi Adjei', role: 'Organizing Secretary' },
-    { initials: 'ED', name: 'Efua Darko', role: 'PRO', dark: true },
-    { initials: 'NO', name: 'Nana Osei', role: "Women's Commissioner" },
-    { initials: 'KA', name: 'Kojo Appiah', role: 'Sports Secretary', dark: true },
+    exe('Kwame Mensah', 'President', 'Year 4', 'Computer Engineering', 'k.mensah@aces.edu', 'https://linkedin.com/in/kwamemensah'),
+    exe('Ama Owusu', 'Vice President', 'Year 3', 'Computer Engineering', 'a.owusu@aces.edu', 'https://linkedin.com/in/amaowusu'),
+    exe('Yaw Boateng', 'General Secretary', 'Year 3', 'Computer Engineering', 'y.boateng@aces.edu', 'https://linkedin.com/in/yawboateng'),
+    exe('Akosua Asante', 'Financial Secretary', 'Year 4', 'Computer Engineering', 'a.asante@aces.edu', 'https://linkedin.com/in/akosuaasante'),
+    exe('Kofi Adjei', 'Organizing Secretary', 'Year 3', 'Computer Engineering', 'k.adjei@aces.edu', 'https://linkedin.com/in/kofiadjei'),
+    exe('Efua Darko', 'PRO', 'Year 4', 'Computer Engineering', 'e.darko@aces.edu', 'https://linkedin.com/in/efuadarko'),
+    exe('Nana Osei', "Women's Commissioner", 'Year 3', 'Computer Engineering', 'n.osei@aces.edu', 'https://linkedin.com/in/nanaosei'),
+    exe('Kojo Appiah', 'Sports Secretary', 'Year 2', 'Computer Engineering', 'k.appiah@aces.edu', 'https://linkedin.com/in/kojoappiah'),
   ],
   '2024/25': [
-    { initials: 'JB', name: 'Joseph Baidoo', role: 'President' },
-    { initials: 'MF', name: 'Mercy Frimpong', role: 'Vice President', dark: true },
-    { initials: 'DA', name: 'Daniel Amankwah', role: 'General Secretary' },
-    { initials: 'PS', name: 'Priscilla Sarpong', role: 'Financial Secretary', dark: true },
-    { initials: 'EO', name: 'Emmanuel Owusu', role: 'Organizing Secretary' },
-    { initials: 'RT', name: 'Rita Tetteh', role: 'PRO', dark: true },
-    { initials: 'SB', name: 'Sarah Boakye', role: "Women's Commissioner" },
-    { initials: 'IK', name: 'Isaac Kumi', role: 'Sports Secretary', dark: true },
+    exe('Joseph Baidoo', 'President', 'Year 4', 'Computer Engineering', 'j.baidoo@aces.edu', 'https://linkedin.com/in/josephbaidoo'),
+    exe('Mercy Frimpong', 'Vice President', 'Year 4', 'Computer Engineering', 'm.frimpong@aces.edu', 'https://linkedin.com/in/mercyfrimpong'),
+    exe('Daniel Amankwah', 'General Secretary', 'Year 3', 'Computer Engineering', 'd.amankwah@aces.edu', 'https://linkedin.com/in/danielamankwah'),
+    exe('Priscilla Sarpong', 'Financial Secretary', 'Year 4', 'Computer Engineering', 'p.sarpong@aces.edu', 'https://linkedin.com/in/priscillasarpong'),
+    exe('Emmanuel Owusu', 'Organizing Secretary', 'Year 3', 'Computer Engineering', 'e.owusu@aces.edu', 'https://linkedin.com/in/emmanuelowusu'),
+    exe('Rita Tetteh', 'PRO', 'Year 3', 'Computer Engineering', 'r.tetteh@aces.edu', 'https://linkedin.com/in/ritatetteh'),
+    exe('Sarah Boakye', "Women's Commissioner", 'Year 4', 'Computer Engineering', 's.boakye@aces.edu', 'https://linkedin.com/in/sarahboakye'),
+    exe('Isaac Kumi', 'Sports Secretary', 'Year 2', 'Computer Engineering', 'i.kumi@aces.edu', 'https://linkedin.com/in/isaackumi'),
   ],
   '2023/24': [
-    { initials: 'FO', name: 'Francis Ofori', role: 'President' },
-    { initials: 'GN', name: 'Gifty Nkrumah', role: 'Vice President', dark: true },
-    { initials: 'BA', name: 'Bernard Anim', role: 'General Secretary' },
-    { initials: 'LT', name: 'Linda Twumasi', role: 'Financial Secretary', dark: true },
-    { initials: 'SM', name: 'Samuel Mensah', role: 'Organizing Secretary' },
-    { initials: 'CA', name: 'Comfort Asare', role: 'PRO', dark: true },
-    { initials: 'VD', name: 'Vera Darko', role: "Women's Commissioner" },
-    { initials: 'PO', name: 'Patrick Owusu', role: 'Sports Secretary', dark: true },
+    exe('Francis Ofori', 'President', 'Year 4', 'Computer Engineering', 'f.ofori@aces.edu', 'https://linkedin.com/in/francisofori'),
+    exe('Gifty Nkrumah', 'Vice President', 'Year 4', 'Computer Engineering', 'g.nkrumah@aces.edu', 'https://linkedin.com/in/giftynkrumah'),
+    exe('Bernard Anim', 'General Secretary', 'Year 3', 'Computer Engineering', 'b.anim@aces.edu', 'https://linkedin.com/in/bernardanim'),
+    exe('Linda Twumasi', 'Financial Secretary', 'Year 4', 'Computer Engineering', 'l.twumasi@aces.edu', 'https://linkedin.com/in/lindatwumasi'),
+    exe('Samuel Mensah', 'Organizing Secretary', 'Year 3', 'Computer Engineering', 's.mensah@aces.edu', 'https://linkedin.com/in/samuelmensah'),
+    exe('Comfort Asare', 'PRO', 'Year 3', 'Computer Engineering', 'c.asare@aces.edu', 'https://linkedin.com/in/comfortasare'),
+    exe('Vera Darko', "Women's Commissioner", 'Year 4', 'Computer Engineering', 'v.darko@aces.edu', 'https://linkedin.com/in/veradarko'),
+    exe('Patrick Owusu', 'Sports Secretary', 'Year 2', 'Computer Engineering', 'p.owusu@aces.edu', 'https://linkedin.com/in/patrickowusu'),
   ],
 }
 
@@ -43,6 +63,7 @@ const years = Object.keys(executivesByYear)
 export default function ExecutivesPage() {
   const [selectedYear, setSelectedYear] = useState(years[0])
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [profile, setProfile] = useState<ExecInfo | null>(null)
   const executives = executivesByYear[selectedYear]
 
   return (
@@ -115,24 +136,45 @@ export default function ExecutivesPage() {
       <section className="px-4 pt-6 pb-8">
         <h2 className="font-heading text-lg font-bold text-foreground">Your {selectedYear} executives</h2>
         <p className="mt-1 text-xs text-muted-foreground">
-          Elected by you, working for you. Reach any of them through the ACES office.
+          Elected by you, working for you. Tap &ldquo;View Profile&rdquo; to reach out.
         </p>
         <div className="mt-4 grid grid-cols-2 gap-3">
           {executives.map((exec, i) => (
-            <div key={i} className="flex flex-col items-center rounded-2xl border border-border bg-card p-4 text-center">
-              <span
-                className={`flex size-14 items-center justify-center rounded-full font-heading text-sm font-bold ${
-                  exec.dark ? 'bg-navy text-navy-foreground' : 'bg-primary text-primary-foreground'
-                }`}
-              >
-                {exec.initials}
-              </span>
+            <div
+              key={exec.name}
+              className="flex flex-col items-center rounded-2xl border border-border bg-card p-4 text-center"
+            >
+              {/* Photo */}
+              <div className="relative size-16 overflow-hidden rounded-full border-2 border-border">
+                <Image
+                  src={exec.photo}
+                  alt={exec.name}
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                  priority={i < 4}
+                />
+              </div>
               <p className="mt-2 text-sm font-semibold text-foreground">{exec.name}</p>
               <p className="text-xs font-medium text-primary">{exec.role}</p>
+              <p className="mt-0.5 text-[10px] text-muted-foreground">
+                {exec.year} &middot; {exec.department}
+              </p>
+              <button
+                type="button"
+                onClick={() => setProfile(exec)}
+                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-secondary px-4 py-2 text-[11px] font-semibold text-foreground transition-colors hover:bg-accent active:scale-95"
+              >
+                <Eye className="size-3.5" aria-hidden="true" />
+                View Profile
+              </button>
             </div>
           ))}
         </div>
       </section>
+
+      {/* Profile modal */}
+      <ExecutiveModal exec={profile} open={profile !== null} onClose={() => setProfile(null)} />
     </AppShell>
   )
 }
