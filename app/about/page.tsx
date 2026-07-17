@@ -32,7 +32,7 @@ export default function AboutPage() {
       <section className="px-4 pt-5">
         <div className="relative h-44 overflow-hidden rounded-3xl">
           <Image
-            src="/images/gallery-codefest.png"
+            src="/images/gallery-5.jpg"
             alt="ACES students at CodeFest"
             fill
             sizes="(max-width: 448px) 100vw, 448px"

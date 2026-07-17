@@ -56,7 +56,7 @@ export default function HomePage() {
         <div className="overflow-hidden rounded-3xl bg-navy">
           <div className="relative h-44 w-full">
             <Image
-              src="/images/hero-students.png"
+              src="/images/gallery-1.jpg"
               alt="ACES students collaborating in the engineering lab"
               fill
               priority

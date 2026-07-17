@@ -5,9 +5,55 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 
-const photos = Array.from({ length: 43 }, (_, i) => ({
+const captions = [
+  'Students competing at CodeFest hackathon',
+  'Robotics Club build night with Arduino boards',
+  'ACES Dinner — awards and fellowship',
+  'ACES Hangout — games and good vibes',
+  'Career Fair — networking with industry partners',
+  'Arduino Workshop — hands-on electronics',
+  'Coding Bootcamp — building modern web apps',
+  'Freshmen Orientation — welcoming new members',
+  'Robotics team testing their line-follower bot',
+  'CodeFest participants solving challenges',
+  'Group photo at the Engineering Auditorium',
+  'ACES executives at the annual planning retreat',
+  'Community outreach — mentoring high school students',
+  'Study session in the CEB lab',
+  'End of year party — celebrating achievements',
+  'Hardware project showcase',
+  'Networking session at the Career Fair',
+  'Dinner night — students and faculty mingling',
+  'Arduino Club — sensor interfacing workshop',
+  'Hackathon winners announcement',
+  'Team collaboration during CodeFest',
+  'Robotics demo day presentation',
+  'ACES community outreach program',
+  'Lab session — embedded systems programming',
+  'CodeFest keynote speech',
+  'Students at the Engineering Foyer',
+  'Robotics Club — robot assembly',
+  'Post-event group photograph',
+  'Coding workshop in the CS Department',
+  'ACES dinner table decorations',
+  'Engineering project exhibition',
+  'Students networking at the career fair',
+  'Robotics competition finals',
+  'Workshop on PCB design and fabrication',
+  'ACES general meeting',
+  'CodeFest closing ceremony',
+  'Outdoor team-building activity',
+  'Hands-on training in the robotics lab',
+  'Guest lecture from industry professionals',
+  'ACES merchandise stall at events',
+  'End of semester celebration',
+  'Engineering lab practical session',
+  'Annual ACES thanksgiving gathering',
+]
+
+const photos = captions.map((caption, i) => ({
   src: `/images/gallery-${i + 1}.jpg`,
-  caption: `ACES moment${i}`,
+  caption,
 }))
 
 export default function GalleryPage() {
