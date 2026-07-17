@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Calendar, MapPin, Clock } from 'lucide-react'
+import { Calendar, MapPin, Clock, UserCheck } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
+import { useRegistration } from '@/lib/registration-context'
 import { cn } from '@/lib/utils'
 
 type Event = {
@@ -16,17 +17,19 @@ type Event = {
   location: string
   category: 'academic' | 'social' | 'club'
   image: string
+  capacity: number
+  registered: number
 }
 
 const events: Event[] = [
-  { name: 'CodeFest 2026', date: 'Feb 21', month: 'FEB', day: '21', detail: 'Coding challenges, workshops and networking — a full day of tech.', time: '8:00 AM – 5:00 PM', location: 'Engineering Auditorium', category: 'academic', image: '/images/event-codefest.jpg' },
-  { name: 'Robotics Meeting', date: 'Mar 03', month: 'MAR', day: '03', detail: 'Collaborate, build bots and automate solutions with the Robotics Club.', time: '3:00 PM – 6:00 PM', location: 'Robotics Lab', category: 'club', image: '/images/event-robotics-meeting.jpg' },
-  { name: 'ACES Dinner 2026', date: 'Apr 18', month: 'APR', day: '18', detail: 'A night of fun, food and fellowship — awards and networking included.', time: '6:00 PM – 10:00 PM', location: 'Great Hall', category: 'social', image: '/images/event-dinner.jpg' },
-  { name: 'Arduino Workshop', date: 'May 10', month: 'MAY', day: '10', detail: 'Hands-on session on embedded systems and sensor interfacing.', time: '10:00 AM – 2:00 PM', location: 'CEB Lab 3', category: 'club', image: '/images/arduino-workshop.jpg' },
-  { name: 'Career Fair', date: 'Jun 05', month: 'JUN', day: '05', detail: 'Meet industry partners — internships, graduate roles and mentorship.', time: '9:00 AM – 4:00 PM', location: 'Engineering Foyer', category: 'academic', image: '/images/career-fair.jpg' },
-  { name: 'Coding Bootcamp', date: 'Jul 12', month: 'JUL', day: '12', detail: 'Weekend crash course on web development with modern frameworks.', time: '9:00 AM – 3:00 PM', location: 'CS Department', category: 'academic', image: '/images/coding-bootcamp.jpg' },
-  { name: 'ACES Hangout', date: 'Aug 22', month: 'AUG', day: '22', detail: 'Games, music and good vibes — a break from the books.', time: '2:00 PM – 7:00 PM', location: 'Unity Garden', category: 'social', image: '/images/gallery-12.jpg' },
-  { name: 'Freshmen Orientation', date: 'Sep 15', month: 'SEP', day: '15', detail: 'Welcome new ACES members — meet executives and learn the ropes.', time: '10:00 AM – 1:00 PM', location: 'LT 1', category: 'social', image: '/images/orientation.jpg' },
+  { name: 'CodeFest 2026', date: 'Feb 21', month: 'FEB', day: '21', detail: 'Coding challenges, workshops and networking — a full day of tech.', time: '8:00 AM – 5:00 PM', location: 'Engineering Auditorium', category: 'academic', image: '/images/event-codefest.jpg', capacity: 120, registered: 98 },
+  { name: 'Robotics Meeting', date: 'Mar 03', month: 'MAR', day: '03', detail: 'Collaborate, build bots and automate solutions with the Robotics Club.', time: '3:00 PM – 6:00 PM', location: 'Robotics Lab', category: 'club', image: '/images/event-robotics-meeting.jpg', capacity: 40, registered: 12 },
+  { name: 'ACES Dinner 2026', date: 'Apr 18', month: 'APR', day: '18', detail: 'A night of fun, food and fellowship — awards and networking included.', time: '6:00 PM – 10:00 PM', location: 'Great Hall', category: 'social', image: '/images/event-dinner.jpg', capacity: 200, registered: 145 },
+  { name: 'Arduino Workshop', date: 'May 10', month: 'MAY', day: '10', detail: 'Hands-on session on embedded systems and sensor interfacing.', time: '10:00 AM – 2:00 PM', location: 'CEB Lab 3', category: 'club', image: '/images/arduino-workshop.jpg', capacity: 30, registered: 28 },
+  { name: 'Career Fair', date: 'Jun 05', month: 'JUN', day: '05', detail: 'Meet industry partners — internships, graduate roles and mentorship.', time: '9:00 AM – 4:00 PM', location: 'Engineering Foyer', category: 'academic', image: '/images/career-fair.jpg', capacity: 150, registered: 72 },
+  { name: 'Coding Bootcamp', date: 'Jul 12', month: 'JUL', day: '12', detail: 'Weekend crash course on web development with modern frameworks.', time: '9:00 AM – 3:00 PM', location: 'CS Department', category: 'academic', image: '/images/coding-bootcamp.jpg', capacity: 50, registered: 35 },
+  { name: 'ACES Hangout', date: 'Aug 22', month: 'AUG', day: '22', detail: 'Games, music and good vibes — a break from the books.', time: '2:00 PM – 7:00 PM', location: 'Unity Garden', category: 'social', image: '/images/gallery-12.jpg', capacity: 100, registered: 44 },
+  { name: 'Freshmen Orientation', date: 'Sep 15', month: 'SEP', day: '15', detail: 'Welcome new ACES members — meet executives and learn the ropes.', time: '10:00 AM – 1:00 PM', location: 'LT 1', category: 'social', image: '/images/orientation.jpg', capacity: 80, registered: 61 },
 ]
 
 const categories = [
@@ -36,8 +39,23 @@ const categories = [
   { key: 'club', label: 'Club' },
 ]
 
+function SeatsBadge({ left }: { left: number }) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold',
+        left <= 5 ? 'bg-destructive/15 text-destructive' : left <= 15 ? 'bg-warning/15 text-warning' : 'bg-success/15 text-success',
+      )}
+    >
+      <UserCheck className="size-3" aria-hidden="true" />
+      {left === 0 ? 'Full' : `${left} seat${left !== 1 ? 's' : ''} left`}
+    </span>
+  )
+}
+
 export default function EventsPage() {
   const [activeCategory, setActiveCategory] = useState('all')
+  const { register, isRegistered } = useRegistration()
 
   const filtered = activeCategory === 'all'
     ? events
@@ -84,7 +102,10 @@ export default function EventsPage() {
       )}
 
       <ul className="flex flex-col gap-3 px-4 pt-3 pb-8">
-  {filtered.map((event) => (
+  {filtered.map((event) => {
+    const registered = isRegistered(event.name)
+    const left = Math.max(0, event.capacity - event.registered - (registered ? 1 : 0))
+    return (
     <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl">
       <Image
         src={event.image}
@@ -103,23 +124,42 @@ export default function EventsPage() {
             <span className="-mt-0.5 text-xs font-bold leading-none">{event.day}</span>
           </span>
           <div className="min-w-0 flex-1">
-            <h2 className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</h2>
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</h2>
+              <SeatsBadge left={left} />
+            </div>
             <p className="mt-0.5 text-xs leading-snug text-white/90 drop-shadow-sm line-clamp-2">{event.detail}</p>
-            <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-white/85">
-              <span className="inline-flex items-center gap-1">
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="inline-flex items-center gap-1 text-[10px] text-white/85">
                 <Clock className="size-3" aria-hidden="true" />
                 {event.time}
               </span>
-              <span className="inline-flex items-center gap-1">
+              <span className="inline-flex items-center gap-1 text-[10px] text-white/85">
                 <MapPin className="size-3" aria-hidden="true" />
                 {event.location}
               </span>
+              <button
+                type="button"
+                onClick={() => register(event.name)}
+                disabled={left === 0 && !registered}
+                className={cn(
+                  'ml-auto inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-bold transition-colors',
+                  registered
+                    ? 'bg-success/20 text-success'
+                    : left === 0
+                      ? 'bg-muted/30 text-white/50 cursor-not-allowed'
+                      : 'bg-white/25 text-white hover:bg-white/35',
+                )}
+              >
+                {registered ? 'Registered ✓' : left === 0 ? 'Full' : 'Register — Free'}
+              </button>
             </div>
           </div>
         </div>
       </div>
     </li>
-  ))}
+    )
+  })}
 </ul>
     </AppShell>
   )

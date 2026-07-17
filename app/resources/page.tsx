@@ -1,11 +1,9 @@
-import Link from 'next/link'
-import type { Metadata } from 'next'
-import { ArrowRight, BookOpen, GraduationCap, Calendar, FileText, Sparkles } from 'lucide-react'
-import { AppShell } from '@/components/app-shell'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Resources — ACES KNUST',
-}
+import Link from 'next/link'
+import { ArrowRight, BookOpen, GraduationCap, Calendar, FileText, Sparkles, History } from 'lucide-react'
+import { AppShell } from '@/components/app-shell'
+import { useRecentlyViewed } from '@/lib/recently-viewed-context'
 
 const hubs = [
   {
@@ -32,6 +30,8 @@ const hubs = [
 ]
 
 export default function ResourcesPage() {
+  const { items, addItem } = useRecentlyViewed()
+
   return (
     <AppShell title="Resources">
       <section className="px-4 pt-6">
@@ -48,6 +48,7 @@ export default function ResourcesPage() {
             <Link
               key={hub.href}
               href={hub.href}
+              onClick={() => addItem({ href: hub.href, label: hub.label, subtitle: hub.description })}
               className="flex items-start gap-4 rounded-3xl border border-border bg-card p-5 transition-colors hover:border-primary/40 hover:bg-secondary/30"
             >
               <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
@@ -67,6 +68,30 @@ export default function ResourcesPage() {
           )
         })}
       </section>
+
+      {/* Recently viewed */}
+      {items.length > 0 && (
+        <section className="px-4 pt-6" aria-labelledby="recently-viewed-heading">
+          <h2 id="recently-viewed-heading" className="font-heading text-sm font-bold text-navy-text inline-flex items-center gap-1.5">
+            <History className="size-4 text-muted-foreground" aria-hidden="true" />
+            Recently viewed
+          </h2>
+          <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
+            {items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="w-44 shrink-0 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary/40"
+              >
+                <p className="text-sm font-semibold text-foreground">{item.label}</p>
+                {item.subtitle && (
+                  <p className="mt-0.5 text-xs leading-snug text-muted-foreground line-clamp-2">{item.subtitle}</p>
+                )}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="px-4 pt-6 pb-8">
         <div className="flex items-start gap-3 rounded-3xl bg-secondary/60 p-5">

@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import { DM_Sans, Space_Grotesk } from 'next/font/google'
 import { CartProvider } from '@/lib/cart-context'
 import { MarketplaceProvider } from '@/lib/marketplace-context'
+import { RegistrationProvider } from '@/lib/registration-context'
+import { RecentlyViewedProvider } from '@/lib/recently-viewed-context'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
@@ -39,7 +41,11 @@ export default function RootLayout({
         <ThemeProvider>
           <CartProvider>
             <MarketplaceProvider>
-              {children}
+              <RecentlyViewedProvider>
+                <RegistrationProvider>
+                  {children}
+                </RegistrationProvider>
+              </RecentlyViewedProvider>
             </MarketplaceProvider>
           </CartProvider>
         </ThemeProvider>

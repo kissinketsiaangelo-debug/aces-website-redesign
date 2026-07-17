@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -11,8 +13,12 @@ import {
   ShoppingBag,
   Images,
   Quote,
+  UserCheck,
+  UserPlus,
 } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
+import { useRegistration } from '@/lib/registration-context'
+import { cn } from '@/lib/utils'
 
 const quickActions = [
   { href: '/courses', label: 'Courses', icon: BookOpen, description: 'Slides & past questions' },
@@ -27,28 +33,49 @@ const clubs = [
     icon: Cpu,
     image: '/images/club-arduino.jpg',
     description: 'Hands-on electronics and embedded systems with real hardware projects.',
+    capacity: 30,
+    members: 14,
   },
   {
     name: 'Coding Club',
     icon: Code2,
     image: '/images/club-coding.jpg',
     description: 'Build beautiful websites and apps with modern frameworks.',
+    capacity: 40,
+    members: 22,
   },
   {
     name: 'Robotics Club',
     icon: Bot,
     image: '/images/club-robotics.jpg',
     description: 'Design, build and program intelligent robots as a team.',
+    capacity: 25,
+    members: 18,
   },
 ]
 
 const events = [
-  { name: 'CodeFest 2026', date: 'Feb 21', image: '/images/event-codefest.jpg', detail: 'Coding challenges, workshops and networking.' },
-  { name: 'Robotics Meeting', date: 'Mar 03', image: '/images/event-robotics-meeting.jpg', detail: 'Collaborate, build bots and automate solutions.' },
-  { name: 'ACES Dinner 2026', date: 'Apr 18', image: '/images/event-dinner.jpg', detail: 'A night of fun, food and fellowship.' },
+  { name: 'CodeFest 2026', date: 'Feb 21', image: '/images/event-codefest.jpg', detail: 'Coding challenges, workshops and networking.', capacity: 120, registered: 98 },
+  { name: 'Robotics Meeting', date: 'Mar 03', image: '/images/event-robotics-meeting.jpg', detail: 'Collaborate, build bots and automate solutions.', capacity: 40, registered: 12 },
+  { name: 'ACES Dinner 2026', date: 'Apr 18', image: '/images/event-dinner.jpg', detail: 'A night of fun, food and fellowship.', capacity: 200, registered: 145 },
 ]
 
+function SeatsBadge({ left }: { left: number }) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold',
+        left <= 5 ? 'bg-destructive/15 text-destructive' : left <= 15 ? 'bg-warning/15 text-warning' : 'bg-success/15 text-success',
+      )}
+    >
+      <UserCheck className="size-2.5" aria-hidden="true" />
+      {left === 0 ? 'Full' : `${left} left`}
+    </span>
+  )
+}
+
 export default function HomePage() {
+  const { register, isRegistered, joinClub, isMember } = useRegistration()
   return (
     <AppShell>
       {/* Hero */}
@@ -119,7 +146,10 @@ export default function HomePage() {
           </Link>
         </div>
         <ul className="mt-3 flex flex-col gap-3">
-  {events.map((event) => (
+  {events.map((event) => {
+    const regd = isRegistered(event.name)
+    const left = Math.max(0, event.capacity - event.registered - (regd ? 1 : 0))
+    return (
     <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl">
       <Image
         src={event.image}
@@ -131,18 +161,37 @@ export default function HomePage() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
 
-      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-4 p-4">
+      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-4">
         <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
           <Calendar className="size-4" aria-hidden="true" />
           <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
         </span>
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</p>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</p>
+            <SeatsBadge left={left} />
+          </div>
           <p className="truncate text-xs text-white/90 drop-shadow-sm">{event.detail}</p>
         </div>
+        <button
+          type="button"
+          onClick={() => register(event.name)}
+          disabled={left === 0 && !regd}
+          className={cn(
+            'shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors',
+            regd
+              ? 'bg-success/20 text-success'
+              : left === 0
+                ? 'bg-muted/30 text-white/50 cursor-not-allowed'
+                : 'bg-white/25 text-white hover:bg-white/35',
+          )}
+        >
+          {regd ? '✓' : left === 0 ? 'Full' : 'Register'}
+        </button>
       </div>
     </li>
-  ))}
+    )
+  })}
 </ul>
       </section>
 
@@ -154,6 +203,8 @@ export default function HomePage() {
   <div className="mt-3 flex flex-col gap-3">
     {clubs.map((club) => {
       const Icon = club.icon
+      const member = isMember(club.name)
+      const spots = club.capacity - club.members - (member ? 1 : 0)
       return (
         <div
           key={club.name}
@@ -174,12 +225,27 @@ export default function HomePage() {
               <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
-              <div>
+              <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-white drop-shadow-sm">ACES {club.name}</p>
                 <p className="mt-1 text-xs leading-relaxed text-white/90 drop-shadow-sm">
                   {club.description}
                 </p>
+                <p className="mt-1 text-[10px] text-white/80 drop-shadow-sm">
+                  {club.members} member{club.members !== 1 ? 's' : ''} · {Math.max(0, spots)} spot{spots !== 1 ? 's' : ''} left
+                </p>
               </div>
+              <button
+                type="button"
+                onClick={() => member ? {} : joinClub(club.name)}
+                className={cn(
+                  'shrink-0 rounded-full px-3 py-1.5 text-[10px] font-bold transition-colors',
+                  member
+                    ? 'bg-success/20 text-success'
+                    : 'bg-white/25 text-white hover:bg-white/35',
+                )}
+              >
+                {member ? 'Member ✓' : 'Join'}
+              </button>
             </div>
           </div>
         </div>
