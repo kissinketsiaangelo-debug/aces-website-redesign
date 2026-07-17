@@ -25,24 +25,27 @@ const clubs = [
   {
     name: 'Arduino Club',
     icon: Cpu,
+    image: '/images/club-arduino.jpg',
     description: 'Hands-on electronics and embedded systems with real hardware projects.',
   },
   {
     name: 'Coding Club',
     icon: Code2,
+    image: '/images/club-coding.jpg',
     description: 'Build beautiful websites and apps with modern frameworks.',
   },
   {
     name: 'Robotics Club',
     icon: Bot,
+    image: '/images/club-robotics.jpg',
     description: 'Design, build and program intelligent robots as a team.',
   },
 ]
 
 const events = [
-  { name: 'CodeFest 2026', date: 'Feb 21', detail: 'Coding challenges, workshops and networking.' },
-  { name: 'Robotics Meeting', date: 'Mar 03', detail: 'Collaborate, build bots and automate solutions.' },
-  { name: 'ACES Dinner 2026', date: 'Apr 18', detail: 'A night of fun, food and fellowship.' },
+  { name: 'CodeFest 2026', date: 'Feb 21', image: '/images/event-codefest.jpg', detail: 'Coding challenges, workshops and networking.' },
+  { name: 'Robotics Meeting', date: 'Mar 03', image: '/images/event-robotics-meeting.jpg', detail: 'Collaborate, build bots and automate solutions.' },
+  { name: 'ACES Dinner 2026', date: 'Apr 18', image: '/images/event-dinner.jpg', detail: 'A night of fun, food and fellowship.' },
 ]
 
 export default function HomePage() {
@@ -83,7 +86,7 @@ export default function HomePage() {
 
       {/* Quick actions */}
       <section className="px-4 pt-6" aria-labelledby="quick-actions">
-        <h2 id="quick-actions" className="font-heading text-lg font-bold text-navy">
+        <h2 id="quick-actions" className="font-heading text-lg font-bold text-foreground">
           Jump right in
         </h2>
         <div className="mt-3 grid grid-cols-2 gap-3">
@@ -118,43 +121,73 @@ export default function HomePage() {
           </Link>
         </div>
         <ul className="mt-3 flex flex-col gap-3">
-          {events.map((event) => (
-            <li key={event.name} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
-              <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary text-primary">
-                <Calendar className="size-4" aria-hidden="true" />
-                <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
-              </span>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold">{event.name}</p>
-                <p className="truncate text-xs text-muted-foreground">{event.detail}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+  {events.map((event) => (
+    <li key={event.name} className="relative h-24 overflow-hidden rounded-2xl">
+      <Image
+        src={event.image}
+        alt=""
+        fill
+        sizes="400px"
+        className="object-cover"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-navy/35" aria-hidden="true" />
+
+      <div className="relative flex items-center gap-4 p-4 backdrop-blur-md bg-white/15 border border-white/25">
+        <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/25 backdrop-blur-sm text-white">
+          <Calendar className="size-4" aria-hidden="true" />
+          <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
+        </span>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</p>
+          <p className="truncate text-xs text-white/90 drop-shadow-sm">{event.detail}</p>
+        </div>
+      </div>
+    </li>
+  ))}
+</ul>
       </section>
 
       {/* Clubs */}
-      <section className="px-4 pt-7" aria-labelledby="clubs-heading">
-        <h2 id="clubs-heading" className="font-heading text-lg font-bold text-navy">
-          Our clubs
-        </h2>
-        <div className="mt-3 flex flex-col gap-3">
-          {clubs.map((club) => {
-            const Icon = club.icon
-            return (
-              <div key={club.name} className="flex items-start gap-4 rounded-2xl bg-secondary/60 p-4">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                  <Icon className="size-5" aria-hidden="true" />
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-navy">ACES {club.name}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{club.description}</p>
-                </div>
-              </div>
-            )
-          })}
+<section className="px-4 pt-7" aria-labelledby="clubs-heading">
+  <h2 id="clubs-heading" className="font-heading text-lg font-bold text-foreground">
+    Our clubs
+  </h2>
+  <div className="mt-3 flex flex-col gap-3">
+    {clubs.map((club) => {
+      const Icon = club.icon
+      return (
+        <div
+          key={club.name}
+          className="relative overflow-hidden rounded-2xl"
+        >
+          <Image
+            src={club.image}
+            alt=""
+            fill
+            sizes="400px"
+            className="object-cover"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-navy/30" aria-hidden="true" />
+
+          {/* Glass panel */}
+          <div className="relative flex items-start gap-4 p-4 backdrop-blur-md bg-white/15 border border-white/25">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/25 backdrop-blur-sm text-white">
+              <Icon className="size-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-white drop-shadow-sm">ACES {club.name}</p>
+              <p className="mt-1 text-xs leading-relaxed text-white/90 drop-shadow-sm">
+                {club.description}
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
+      )
+    })}
+  </div>
+</section>
 
       {/* Testimonial */}
       <section className="px-4 pt-7 pb-6" aria-labelledby="testimonial-heading">

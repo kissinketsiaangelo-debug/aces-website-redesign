@@ -7,7 +7,7 @@ import { AppShell } from '@/components/app-shell'
 
 const photos = Array.from({ length: 43 }, (_, i) => ({
   src: `/images/gallery-${i + 1}.jpg`,
-  caption: `ACES moment #${i + 1}`,
+  caption: `ACES moment${i}`,
 }))
 
 export default function GalleryPage() {
