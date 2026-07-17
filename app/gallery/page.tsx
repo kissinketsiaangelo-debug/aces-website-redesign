@@ -5,52 +5,10 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 
-const photos = [
-  { src: '/images/gallery-1.jpg', caption: 'Official/African Wear <p>Stepping into the spirit of the ACES KNUST Departmental Week Celebration in our finest Celebrating our culture, professionalism, and the unity that makes ACES stronger. Happy Departmental Week to everyone! 💙🎉</p>' },
-  { src: '/images/gallery-2.jpg', caption: 'Aces Knust Games <p>A day filled with fun, friendly competition, teamwork, and unforgettable moments.🏆🎉 </p>' },
-  { src: '/images/gallery-3.jpg', caption: 'Codefest <p>CodeFest 2025, Here is to coding, competing, learning, and creating unforgettable memories. Let the fest begin! 🚀🔥</p>' },
-  { src: '/images/gallery-4.jpg', caption: 'Members Of AceS' },
-  { src: '/images/gallery-5.jpg', caption: 'Aces Fun Games <p>A day filled with fun, friendly competition, teamwork, and unforgettable moments.🏆🎉 </p>' },
-  { src: '/images/gallery-6.jpg', caption: 'Aces Knust Games <p>A day filled with fun, friendly competition, teamwork, and unforgettable moments.🏆🎉 </p>' },
-  { src: '/images/gallery-7.jpg', caption: 'Official/African Wear <p>Stepping into the spirit of the ACES KNUST Departmental Week Celebration in our finest Celebrating our culture, professionalism, and the unity that makes ACES stronger. Happy Departmental Week to everyone! 💙🎉</p> ' },
-  { src: '/images/gallery-8.jpg', caption: 'Official/African Wear <p>Stepping into the spirit of the ACES KNUST Departmental Week Celebration in our finest Celebrating our culture, professionalism, and the unity that makes ACES stronger. Happy Departmental Week to everyone! 💙🎉</p> t' },
-  { src: '/images/gallery-9.jpg', caption: 'Official/African Wear <p>Stepping into the spirit of the ACES KNUST Departmental Week Celebration in our finest Celebrating our culture, professionalism, and the unity that makes ACES stronger. Happy Departmental Week to everyone! 💙🎉</p> ' },
-  { src: '/images/gallery-10.jpg', caption: 'Official/African Wear <p>Stepping into the spirit of the ACES KNUST Departmental Week Celebration in our finest Celebrating our culture, professionalism, and the unity that makes ACES stronger. Happy Departmental Week to everyone! 💙🎉</p> ' },
-  { src: '/images/gallery-11.jpg', caption: 'ACES KNUST Departmental Orientation! <p>A new chapter begins as we connect, learn, and get familiar with the department. It is a time to share insights, build relationships, and prepare for an amazing academic journey together.</p>' },
-  { src: '/images/gallery-12.jpg', caption: 'ACES KNUST Departmental Orientation! <p>A new chapter begins as we connect, learn, and get familiar with the department. It is a time to share insights, build relationships, and prepare for an amazing academic journey together.</p>' },
-  { src: '/images/gallery-13.jpg', caption: 'ACES KNUST Departmental Orientation! <p>A new chapter begins as we connect, learn, and get familiar with the department. It is a time to share insights, build relationships, and prepare for an amazing academic journey together.</p>' },
-  { src: '/images/gallery-14.jpg', caption: 'ACES KNUST Departmental Orientation! <p>A new chapter begins as we connect, learn, and get familiar with the department. It is a time to share insights, build relationships, and prepare for an amazing academic journey together.</p>t' },
-  { src: '/images/gallery-15.jpg', caption: 'ACES KNUST Departmental Orientation! <p>A new chapter begins as we connect, learn, and get familiar with the department. It is a time to share insights, build relationships, and prepare for an amazing academic journey together.</p>' },
-  { src: '/images/gallery-16.jpg', caption: 'ACES KNUST Departmental Orientation! <p>A new chapter begins as we connect, learn, and get familiar with the department. It is a time to share insights, build relationships, and prepare for an amazing academic journey together.</p>' },
-  { src: '/images/gallery-17.jpg', caption: 'CACES KNUST Departmental Orientation! <p>A new chapter begins as we connect, learn, and get familiar with the department. It is a time to share insights, build relationships, and prepare for an amazing academic journey together.</p>' },
-  { src: '/images/gallery-18.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-19.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-20.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-21.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-22.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-23.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-24.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-25.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-26.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-27.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-28.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-29.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-30.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-31.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-32.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-33.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-34.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-35.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-36.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-37.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-38.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-39.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-40.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-41.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-42.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-43.jpg', caption: 'Community hangout' },
-  { src: '/images/gallery-44.jpg', caption: 'Community hangout' },
-]
+const photos = Array.from({ length: 43 }, (_, i) => ({
+  src: `/images/gallery-${i + 1}.jpg`,
+  caption: `ACES moment #${i + 1}`,
+}))
 
 export default function GalleryPage() {
   const [activeIndex, setActiveIndex] = useState(0)
