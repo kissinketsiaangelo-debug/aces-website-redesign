@@ -39,7 +39,7 @@ export function AppHeader({ title }: { title?: string }) {
         {title ? (
           <span className="flex items-center gap-2">
             <AcesMark className="size-7 text-primary" />
-            <span className="font-heading text-base font-bold text-foreground">{title}</span>
+            <span className="font-heading text-base font-bold text-navy-text">{title}</span>
           </span>
         ) : (
           <Link href="/" aria-label="ACES KNUST home">

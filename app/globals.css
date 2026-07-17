@@ -24,6 +24,7 @@
   --color-foreground: var(--foreground);
   --color-background: var(--background);
   --color-navy: var(--navy);
+  --color-navy-text: var(--navy-text);
   --color-navy-foreground: var(--navy-foreground);
   --color-success: var(--success);
   --color-warning: var(--warning);
@@ -60,6 +61,7 @@
   --input: #e2eaf4;
   --ring: #0b5fff;
   --navy: #0b1f3a; /* Deep Navy */
+  --navy-text: #0b1f3a;
   --navy-foreground: #ffffff;
   --success: #0f9d58;
   --warning: #d97706;
@@ -87,6 +89,7 @@
   --input: #1e3154;
   --ring: #3b82f6;
   --navy: #0a1628;
+  --navy-text: #edf2f9;
   --navy-foreground: #edf2f9;
   --success: #34d399;
   --warning: #fbbf24;

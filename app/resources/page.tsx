@@ -35,7 +35,7 @@ export default function ResourcesPage() {
   return (
     <AppShell title="Resources">
       <section className="px-4 pt-6">
-        <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Everything you need to excel</h1>
+        <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">Everything you need to excel</h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
           Study materials and funding opportunities, curated by the ACES executive team.
         </p>
@@ -55,7 +55,7 @@ export default function ResourcesPage() {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="flex items-center justify-between">
-                  <span className="font-heading text-base font-bold text-foreground">{hub.label}</span>
+                  <span className="font-heading text-base font-bold text-navy-text">{hub.label}</span>
                   <ArrowRight className="size-4 text-primary" aria-hidden="true" />
                 </span>
                 <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">{hub.description}</span>
@@ -74,7 +74,7 @@ export default function ResourcesPage() {
             <Sparkles className="size-5" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="font-heading text-sm font-bold text-foreground">Prep AI study assistant</h2>
+            <h2 className="font-heading text-sm font-bold text-navy-text">Prep AI study assistant</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
               Built by ACES members, for ACES members. Practice with AI-generated questions based on your course
               materials.

@@ -33,7 +33,7 @@ export default function ShopPage() {
     <AppShell title="ACES Shop">
       <section className="flex items-start justify-between gap-3 px-4 pt-5">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Rep the Land of ACES</h1>
+          <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">Rep the Land of ACES</h1>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
             Official merch, made for CoE students. Pick up on campus — no delivery fees.
           </p>
@@ -91,7 +91,7 @@ export default function ShopPage() {
             <div className="flex flex-1 flex-col gap-1 p-3">
               <h2 className="text-sm font-semibold leading-snug">{product.name}</h2>
               <div className="mt-auto flex items-center justify-between pt-2">
-                <p className="text-sm font-bold text-foreground">GHS {product.price}</p>
+                <p className="text-sm font-bold text-navy-text">GHS {product.price}</p>
                 <button
                   type="button"
                   onClick={() => addToCart(product)}

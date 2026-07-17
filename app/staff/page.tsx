@@ -19,7 +19,7 @@ export default function StaffPage() {
   return (
     <AppShell title="Staff">
       <section className="px-4 pt-5">
-        <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Department staff</h1>
+        <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">Department staff</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           The lecturers and advisors supporting Computer Engineering at KNUST.
         </p>

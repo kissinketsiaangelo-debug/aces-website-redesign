@@ -104,7 +104,7 @@ export default function CoursesPage() {
   return (
     <AppShell title="Courses">
       <section className="px-4 pt-5">
-        <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Course materials</h1>
+        <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">Course materials</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           Slides, notes and past questions — download once, study anywhere.
         </p>
@@ -157,7 +157,7 @@ export default function CoursesPage() {
             height={200}
             className="rounded-3xl"
           />
-          <h2 className="mt-4 font-heading text-lg font-bold text-foreground">No course materials here yet</h2>
+          <h2 className="mt-4 font-heading text-lg font-bold text-navy-text">No course materials here yet</h2>
           <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
             The course reps are uploading materials as lecturers release them. Want a heads-up when they land?
           </p>

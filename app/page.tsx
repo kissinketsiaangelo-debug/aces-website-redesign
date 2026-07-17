@@ -65,12 +65,12 @@ export default function HomePage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" aria-hidden="true" />
           </div>
-          <div className="px-5 pb-5 pt-1 text-foreground-foreground">
+          <div className="px-5 pb-5 pt-1 text-navy-foreground">
             <p className="text-xs font-semibold uppercase tracking-widest text-secondary">Akwaaba, welcome back</p>
             <h1 className="mt-1 font-heading text-2xl font-bold leading-tight text-balance">
               The Land of ACES, now in your pocket
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-foreground-foreground/80 text-pretty">
+            <p className="mt-2 text-sm leading-relaxed text-navy-foreground/80 text-pretty">
               Courses, scholarships, events and community for Computer Engineering students at KNUST.
             </p>
             <Link
@@ -86,7 +86,7 @@ export default function HomePage() {
 
       {/* Quick actions */}
       <section className="px-4 pt-6" aria-labelledby="quick-actions">
-        <h2 id="quick-actions" className="font-heading text-lg font-bold text-foreground">
+        <h2 id="quick-actions" className="font-heading text-lg font-bold text-navy-text">
           Jump right in
         </h2>
         <div className="mt-3 grid grid-cols-2 gap-3">
@@ -112,7 +112,7 @@ export default function HomePage() {
       {/* Upcoming events */}
       <section className="px-4 pt-7" aria-labelledby="events-heading">
         <div className="flex items-center justify-between">
-          <h2 id="events-heading" className="font-heading text-lg font-bold text-foreground">
+          <h2 id="events-heading" className="font-heading text-lg font-bold text-navy-text">
             Upcoming events
           </h2>
           <Link href="/events" className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
@@ -150,7 +150,7 @@ export default function HomePage() {
 
       {/* Clubs */}
 <section className="px-4 pt-7" aria-labelledby="clubs-heading">
-  <h2 id="clubs-heading" className="font-heading text-lg font-bold text-foreground">
+  <h2 id="clubs-heading" className="font-heading text-lg font-bold text-navy-text">
     Our clubs
   </h2>
   <div className="mt-3 flex flex-col gap-3">
@@ -194,7 +194,7 @@ export default function HomePage() {
         <h2 id="testimonial-heading" className="sr-only">
           Student testimonial
         </h2>
-        <figure className="rounded-3xl bg-navy p-5 text-foreground-foreground">
+        <figure className="rounded-3xl bg-navy p-5 text-navy-foreground">
           <Quote className="size-6 text-primary" aria-hidden="true" />
           <blockquote className="mt-3 text-sm leading-relaxed text-pretty">
             &ldquo;This platform helped me study for examinations. I love how everything is organized and
@@ -206,7 +206,7 @@ export default function HomePage() {
             </span>
             <span>
               <span className="block text-sm font-semibold">Benjamin Etonam Abotsi</span>
-              <span className="block text-xs text-foreground-foreground/70">The great mind behind Prep AI</span>
+              <span className="block text-xs text-navy-foreground/70">The great mind behind Prep AI</span>
             </span>
           </figcaption>
         </figure>

@@ -36,7 +36,7 @@ export default function ProblemsPage() {
     <AppShell title="Why we redesigned">
       <section className="px-4 pt-6">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">CODEFEST 2026 · UI/UX Challenge</p>
-        <h1 className="mt-2 font-heading text-2xl font-bold leading-tight text-foreground text-balance">
+        <h1 className="mt-2 font-heading text-2xl font-bold leading-tight text-navy-text text-balance">
           3 problems we identified on acesknust.com
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
@@ -58,7 +58,7 @@ export default function ProblemsPage() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Problem {index + 1}
                   </p>
-                  <h2 className="font-heading text-base font-bold text-foreground">{item.problem}</h2>
+                  <h2 className="font-heading text-base font-bold text-navy-text">{item.problem}</h2>
                 </div>
               </div>
               <div className="flex flex-col gap-3 px-5 py-4">
