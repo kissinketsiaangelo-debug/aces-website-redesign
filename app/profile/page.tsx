@@ -30,9 +30,9 @@ const shortcuts = [
 ]
 
 const settings = [
-  { label: 'Notification preferences', icon: Bell },
-  { label: 'Account settings', icon: Settings },
-  { label: 'Help & feedback', icon: HelpCircle },
+  { href: '/settings/notifications', label: 'Notification preferences', icon: Bell },
+  { href: '/settings/account', label: 'Account settings', icon: Settings },
+  { href: '/settings/help', label: 'Help & feedback', icon: HelpCircle },
 ]
 
 export default function ProfilePage() {
@@ -103,15 +103,17 @@ export default function ProfilePage() {
           {settings.map((item) => {
             const Icon = item.icon
             return (
-              <li
-                key={item.label}
-                className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-sm font-medium"
-              >
-                <span className="flex size-9 items-center justify-center rounded-lg bg-secondary text-primary">
-                  <Icon className="size-4" aria-hidden="true" />
-                </span>
-                {item.label}
-                <ChevronRight className="ml-auto size-4 text-muted-foreground" aria-hidden="true" />
+              <li key={item.href + item.label}>
+                <Link
+                  href={item.href}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-sm font-medium transition-colors hover:bg-secondary/40"
+                >
+                  <span className="flex size-9 items-center justify-center rounded-lg bg-secondary text-primary">
+                    <Icon className="size-4" aria-hidden="true" />
+                  </span>
+                  {item.label}
+                  <ChevronRight className="ml-auto size-4 text-muted-foreground" aria-hidden="true" />
+                </Link>
               </li>
             )
           })}

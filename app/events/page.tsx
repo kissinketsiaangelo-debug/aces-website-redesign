@@ -94,9 +94,10 @@ export default function EventsPage() {
         className="object-cover"
         aria-hidden="true"
       />
-      <div className="absolute inset-x-0 bottom-0 p-4 backdrop-blur-md bg-white/20 border-t border-white/30">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 p-4">
         <div className="flex items-start gap-3">
-          <span className="flex size-11 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 backdrop-blur-sm text-white">
+          <span className="flex size-11 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
             <Calendar className="size-3.5" aria-hidden="true" />
             <span className="mt-0.5 text-[8px] font-bold tracking-wider">{event.month}</span>
             <span className="-mt-0.5 text-xs font-bold leading-none">{event.day}</span>

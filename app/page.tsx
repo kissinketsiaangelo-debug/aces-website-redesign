@@ -62,9 +62,9 @@ export default function HomePage() {
             sizes="(max-width: 448px) 100vw, 448px"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-navy/30" aria-hidden="true" />
-          <div className="absolute bottom-0 left-0 right-0 backdrop-blur-md bg-white/15 border-t border-white/25 p-5">
-            <p className="text-xs font-semibold uppercase tracking-widest text-white/90">Akwaaba, welcome back</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
+          <div className="absolute bottom-0 left-0 right-0 p-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/90 drop-shadow-sm">Akwaaba, welcome back</p>
             <h1 className="mt-1 font-heading text-2xl font-bold leading-tight text-balance text-white drop-shadow-sm">
               The Land of ACES, now in your pocket
             </h1>
@@ -129,10 +129,10 @@ export default function HomePage() {
         className="object-cover"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-navy/30" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
 
-      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-4 p-4 backdrop-blur-md bg-white/15 border-t border-white/25">
-        <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/25 backdrop-blur-sm text-white">
+      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-4 p-4">
+        <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
           <Calendar className="size-4" aria-hidden="true" />
           <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
         </span>
@@ -167,12 +167,11 @@ export default function HomePage() {
             className="object-cover"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-navy/30" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
 
-          {/* Glass panel */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 backdrop-blur-md bg-white/15 border-t border-white/25">
+          <div className="absolute bottom-0 left-0 right-0 p-4">
             <div className="flex items-start gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/25 backdrop-blur-sm text-white">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <div>
