@@ -53,24 +53,22 @@ export default function HomePage() {
     <AppShell>
       {/* Hero */}
       <section className="px-4 pt-5">
-        <div className="overflow-hidden rounded-3xl bg-navy">
-          <div className="relative h-44 w-full">
-            <Image
-              src="/images/gallery-1.jpg"
-              alt="ACES students collaborating in the engineering lab"
-              fill
-              priority
-              sizes="(max-width: 448px) 100vw, 448px"
-              className="object-cover opacity-90"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" aria-hidden="true" />
-          </div>
-          <div className="px-5 pb-5 pt-1 text-navy-foreground">
-            <p className="text-xs font-semibold uppercase tracking-widest text-secondary">Akwaaba, welcome back</p>
-            <h1 className="mt-1 font-heading text-2xl font-bold leading-tight text-balance">
+        <div className="relative h-72 overflow-hidden rounded-3xl">
+          <Image
+            src="/images/gallery-1.jpg"
+            alt="ACES students collaborating in the engineering lab"
+            fill
+            priority
+            sizes="(max-width: 448px) 100vw, 448px"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-navy/30" aria-hidden="true" />
+          <div className="absolute bottom-0 left-0 right-0 backdrop-blur-md bg-white/15 border-t border-white/25 p-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/90">Akwaaba, welcome back</p>
+            <h1 className="mt-1 font-heading text-2xl font-bold leading-tight text-balance text-white drop-shadow-sm">
               The Land of ACES, now in your pocket
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-navy-foreground/80 text-pretty">
+            <p className="mt-2 text-sm leading-relaxed text-white/85 text-pretty drop-shadow-sm">
               Courses, scholarships, events and community for Computer Engineering students at KNUST.
             </p>
             <Link
@@ -122,7 +120,7 @@ export default function HomePage() {
         </div>
         <ul className="mt-3 flex flex-col gap-3">
   {events.map((event) => (
-    <li key={event.name} className="relative h-24 overflow-hidden rounded-2xl">
+    <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl">
       <Image
         src={event.image}
         alt=""
@@ -131,9 +129,9 @@ export default function HomePage() {
         className="object-cover"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-navy/35" aria-hidden="true" />
+      <div className="absolute inset-0 bg-navy/30" aria-hidden="true" />
 
-      <div className="relative flex items-center gap-4 p-4 backdrop-blur-md bg-white/15 border border-white/25">
+      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-4 p-4 backdrop-blur-md bg-white/15 border-t border-white/25">
         <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/25 backdrop-blur-sm text-white">
           <Calendar className="size-4" aria-hidden="true" />
           <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
@@ -159,7 +157,7 @@ export default function HomePage() {
       return (
         <div
           key={club.name}
-          className="relative overflow-hidden rounded-2xl"
+          className="relative h-40 overflow-hidden rounded-2xl"
         >
           <Image
             src={club.image}
@@ -172,15 +170,17 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-navy/30" aria-hidden="true" />
 
           {/* Glass panel */}
-          <div className="relative flex items-start gap-4 p-4 backdrop-blur-md bg-white/15 border border-white/25">
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/25 backdrop-blur-sm text-white">
-              <Icon className="size-5" aria-hidden="true" />
-            </span>
-            <div>
-              <p className="text-sm font-semibold text-white drop-shadow-sm">ACES {club.name}</p>
-              <p className="mt-1 text-xs leading-relaxed text-white/90 drop-shadow-sm">
-                {club.description}
-              </p>
+          <div className="absolute bottom-0 left-0 right-0 p-4 backdrop-blur-md bg-white/15 border-t border-white/25">
+            <div className="flex items-start gap-3">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/25 backdrop-blur-sm text-white">
+                <Icon className="size-5" aria-hidden="true" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-white drop-shadow-sm">ACES {club.name}</p>
+                <p className="mt-1 text-xs leading-relaxed text-white/90 drop-shadow-sm">
+                  {club.description}
+                </p>
+              </div>
             </div>
           </div>
         </div>
