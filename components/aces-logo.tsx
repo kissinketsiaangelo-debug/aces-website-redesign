@@ -21,10 +21,10 @@ export function AcesLogo({ className, compact = false }: { className?: string; c
       <AcesMark />
       {!compact && (
         <span className="flex flex-col leading-tight">
-          <span className="font-heading text-sm font-bold tracking-tight text-navy">
+          <span className="font-heading text-sm font-bold tracking-tight text-foreground">
             Association of Computer
           </span>
-          <span className="font-heading text-sm font-bold tracking-tight text-navy">
+          <span className="font-heading text-sm font-bold tracking-tight text-foreground">
             Engineering Students
           </span>
         </span>

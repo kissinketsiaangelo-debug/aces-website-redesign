@@ -39,7 +39,7 @@ export function AppHeader({ title }: { title?: string }) {
         {title ? (
           <span className="flex items-center gap-2">
             <AcesMark className="size-7 text-primary" />
-            <span className="font-heading text-base font-bold text-navy">{title}</span>
+            <span className="font-heading text-base font-bold text-foreground">{title}</span>
           </span>
         ) : (
           <Link href="/" aria-label="ACES KNUST home">
@@ -51,7 +51,7 @@ export function AppHeader({ title }: { title?: string }) {
           onClick={() => setOpen(true)}
           aria-label="Open menu"
           aria-expanded={open}
-          className="flex size-10 items-center justify-center rounded-full bg-secondary text-navy transition-colors hover:bg-accent"
+          className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
         >
           <Menu className="size-5" aria-hidden="true" />
         </button>
@@ -86,7 +86,7 @@ export function AppHeader({ title }: { title?: string }) {
                 type="button"
                 onClick={toggle}
                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                className="flex size-10 items-center justify-center rounded-full bg-secondary text-navy transition-colors hover:bg-accent"
+                className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
               >
                 {theme === 'light' ? <Moon className="size-5" aria-hidden="true" /> : <Sun className="size-5" aria-hidden="true" />}
               </button>
@@ -94,7 +94,7 @@ export function AppHeader({ title }: { title?: string }) {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"
-                className="flex size-10 items-center justify-center rounded-full bg-secondary text-navy"
+                className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>

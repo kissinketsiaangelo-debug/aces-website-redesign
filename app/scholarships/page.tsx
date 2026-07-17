@@ -86,7 +86,7 @@ export default function ScholarshipsPage() {
   return (
     <AppShell title="Scholarships">
       <section className="px-4 pt-5">
-        <h1 className="font-heading text-2xl font-bold text-navy text-balance">Scholarships &amp; funding</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Scholarships &amp; funding</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           Verified opportunities for Computer Engineering students, updated by the ACES team.
         </p>
@@ -114,7 +114,7 @@ export default function ScholarshipsPage() {
                       </span>
                       <DeadlineBadge daysLeft={scholarship.daysLeft} />
                     </div>
-                    <h2 className="mt-3 font-heading text-base font-bold text-navy">{scholarship.name}</h2>
+                    <h2 className="mt-3 font-heading text-base font-bold text-foreground">{scholarship.name}</h2>
                     <p className="text-xs text-muted-foreground">{scholarship.provider}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium">
@@ -162,7 +162,7 @@ export default function ScholarshipsPage() {
             height={200}
             className="rounded-3xl"
           />
-          <h2 className="mt-4 font-heading text-lg font-bold text-navy">No scholarships listed yet</h2>
+          <h2 className="mt-4 font-heading text-lg font-bold text-foreground">No scholarships listed yet</h2>
           <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
             We&apos;re scanning for new opportunities every week. Drop your email and we&apos;ll tell you first — no
             spam, promise.

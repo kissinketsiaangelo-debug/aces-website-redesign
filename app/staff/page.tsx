@@ -19,7 +19,7 @@ export default function StaffPage() {
   return (
     <AppShell title="Staff">
       <section className="px-4 pt-5">
-        <h1 className="font-heading text-2xl font-bold text-navy text-balance">Department staff</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Department staff</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           The lecturers and advisors supporting Computer Engineering at KNUST.
         </p>
@@ -41,7 +41,7 @@ export default function StaffPage() {
             </div>
             <a
               href={`mailto:${member.name.replace(/^(Prof|Dr|Mr|Mrs|Ms)\.?\s*/i, '').toLowerCase().replace(/\s+/g, '.')}@knust.edu.gh`}
-              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-navy transition-colors hover:bg-accent"
+              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
               aria-label={`Email ${member.name}`}
             >
               <Mail className="size-4" aria-hidden="true" />

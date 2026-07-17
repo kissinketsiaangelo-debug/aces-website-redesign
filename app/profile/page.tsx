@@ -40,14 +40,14 @@ export default function ProfilePage() {
     <AppShell title="Profile">
       {/* Identity card */}
       <section className="px-4 pt-5">
-        <div className="rounded-3xl bg-navy p-5 text-navy-foreground">
+        <div className="rounded-3xl bg-navy p-5 text-foreground-foreground">
           <div className="flex items-center gap-4">
             <span className="flex size-14 items-center justify-center rounded-full bg-primary font-heading text-lg font-bold text-primary-foreground">
               AD
             </span>
             <div>
               <h1 className="font-heading text-lg font-bold">Abena Dapaah</h1>
-              <p className="text-xs text-navy-foreground/70">Computer Engineering · Year 3</p>
+              <p className="text-xs text-foreground-foreground/70">Computer Engineering · Year 3</p>
               <span className="mt-1.5 inline-block rounded-full bg-primary/25 px-2.5 py-0.5 text-[10px] font-bold text-secondary">
                 ACES Member · 2025/26
               </span>
@@ -60,7 +60,7 @@ export default function ProfilePage() {
                 <div key={stat.label} className="flex flex-col items-center rounded-2xl bg-navy-foreground/10 py-3">
                   <Icon className="size-4 text-secondary" aria-hidden="true" />
                   <span className="mt-1 font-heading text-base font-bold">{stat.value}</span>
-                  <span className="text-[10px] text-navy-foreground/70">{stat.label}</span>
+                  <span className="text-[10px] text-foreground-foreground/70">{stat.label}</span>
                 </div>
               )
             })}
@@ -70,7 +70,7 @@ export default function ProfilePage() {
 
       {/* Shortcuts */}
       <section className="px-4 pt-6" aria-labelledby="shortcuts-heading">
-        <h2 id="shortcuts-heading" className="font-heading text-lg font-bold text-navy">
+        <h2 id="shortcuts-heading" className="font-heading text-lg font-bold text-foreground">
           My stuff
         </h2>
         <ul className="mt-3 flex flex-col gap-2">
@@ -96,7 +96,7 @@ export default function ProfilePage() {
 
       {/* Settings */}
       <section className="px-4 pt-6 pb-8" aria-labelledby="settings-heading">
-        <h2 id="settings-heading" className="font-heading text-lg font-bold text-navy">
+        <h2 id="settings-heading" className="font-heading text-lg font-bold text-foreground">
           Settings
         </h2>
         <ul className="mt-3 flex flex-col gap-2">

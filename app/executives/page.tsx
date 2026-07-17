@@ -20,7 +20,7 @@ export default function ExecutivesPage() {
   return (
     <AppShell title="Executives">
       <section className="px-4 pt-5">
-        <h1 className="font-heading text-2xl font-bold text-navy text-balance">Your 2025/26 executives</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Your 2025/26 executives</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           Elected by you, working for you. Reach any of them through the ACES office.
         </p>

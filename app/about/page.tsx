@@ -41,7 +41,7 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-navy/90 to-transparent" aria-hidden="true" />
           <div className="absolute bottom-0 px-5 pb-4">
             <p className="text-xs font-semibold uppercase tracking-widest text-secondary">Est. at KNUST</p>
-            <h1 className="font-heading text-xl font-bold text-navy-foreground text-balance">
+            <h1 className="font-heading text-xl font-bold text-foreground-foreground text-balance">
               Association of Computer Engineering Students
             </h1>
           </div>
@@ -49,7 +49,7 @@ export default function AboutPage() {
       </section>
 
       <section className="px-4 pt-6">
-        <h2 className="font-heading text-lg font-bold text-navy">Who we are</h2>
+        <h2 className="font-heading text-lg font-bold text-foreground">Who we are</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
           ACES is the official student body for Computer Engineering students at the Kwame Nkrumah University of
           Science and Technology. We connect over 600 students through clubs, events, study resources and career
@@ -58,7 +58,7 @@ export default function AboutPage() {
       </section>
 
       <section className="px-4 pt-6" aria-labelledby="values-heading">
-        <h2 id="values-heading" className="font-heading text-lg font-bold text-navy">
+        <h2 id="values-heading" className="font-heading text-lg font-bold text-foreground">
           What we stand for
         </h2>
         <div className="mt-3 flex flex-col gap-3">
@@ -70,7 +70,7 @@ export default function AboutPage() {
                   <Icon className="size-5" aria-hidden="true" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-semibold text-navy">{value.title}</h3>
+                  <h3 className="text-sm font-semibold text-foreground">{value.title}</h3>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{value.description}</p>
                 </div>
               </div>
@@ -80,9 +80,9 @@ export default function AboutPage() {
       </section>
 
       <section className="px-4 pt-6 pb-8">
-        <div className="rounded-3xl bg-navy p-5 text-navy-foreground">
+        <div className="rounded-3xl bg-navy p-5 text-foreground-foreground">
           <h2 className="font-heading text-lg font-bold">Meet the people behind ACES</h2>
-          <p className="mt-1.5 text-sm leading-relaxed text-navy-foreground/80">
+          <p className="mt-1.5 text-sm leading-relaxed text-foreground-foreground/80">
             Get to know the executives and staff who keep the association running.
           </p>
           <div className="mt-4 flex gap-3">
@@ -95,7 +95,7 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/staff"
-              className="inline-flex items-center gap-1.5 rounded-full bg-navy-foreground/10 px-4 py-2.5 text-xs font-semibold text-navy-foreground"
+              className="inline-flex items-center gap-1.5 rounded-full bg-navy-foreground/10 px-4 py-2.5 text-xs font-semibold text-foreground-foreground"
             >
               Staff
               <ArrowRight className="size-3.5" aria-hidden="true" />

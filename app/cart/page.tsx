@@ -25,7 +25,7 @@ export default function CartPage() {
       <AppShell title="Checkout">
         <div className="flex flex-col items-center justify-center px-6 pt-24 text-center" role="status">
           <AcesMark className="size-16 animate-aces-pulse text-primary" />
-          <p className="mt-5 font-heading text-lg font-bold text-navy">Placing your order...</p>
+          <p className="mt-5 font-heading text-lg font-bold text-foreground">Placing your order...</p>
           <p className="mt-1 text-sm text-muted-foreground">Hold tight, this only takes a moment.</p>
         </div>
       </AppShell>
@@ -39,7 +39,7 @@ export default function CartPage() {
           <span className="flex size-16 items-center justify-center rounded-full bg-success/10 text-success">
             <PartyPopper className="size-8" aria-hidden="true" />
           </span>
-          <h1 className="mt-5 font-heading text-xl font-bold text-navy text-balance">You&apos;re all set!</h1>
+          <h1 className="mt-5 font-heading text-xl font-bold text-foreground text-balance">You&apos;re all set!</h1>
           <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
             Your order is confirmed. Pick it up at the ACES office (Caesar Building, Room 2) — we&apos;ll message you
             when it&apos;s ready.
@@ -63,7 +63,7 @@ export default function CartPage() {
           <span className="flex size-16 items-center justify-center rounded-full bg-secondary text-primary">
             <ShoppingBag className="size-8" aria-hidden="true" />
           </span>
-          <h1 className="mt-5 font-heading text-xl font-bold text-navy">Your bag is feeling light</h1>
+          <h1 className="mt-5 font-heading text-xl font-bold text-foreground">Your bag is feeling light</h1>
           <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
             Nothing in here yet — the hoodie is calling your name though.
           </p>
@@ -78,7 +78,7 @@ export default function CartPage() {
       ) : (
         <>
           <section className="px-4 pt-5" aria-label="Cart items">
-            <h1 className="font-heading text-2xl font-bold text-navy">Your bag</h1>
+            <h1 className="font-heading text-2xl font-bold text-foreground">Your bag</h1>
             <ul className="mt-4 flex flex-col gap-3">
               {items.map((item) => (
                 <li key={item.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
@@ -87,24 +87,24 @@ export default function CartPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{item.name}</p>
-                    <p className="text-sm font-bold text-navy">GHS {item.price * item.qty}</p>
+                    <p className="text-sm font-bold text-foreground">GHS {item.price * item.qty}</p>
                     <div className="mt-1.5 flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => updateQty(item.id, item.qty - 1)}
                         aria-label={`Decrease quantity of ${item.name}`}
-                        className="flex size-7 items-center justify-center rounded-full bg-secondary text-navy"
-                      >
-                        <Minus className="size-3.5" aria-hidden="true" />
-                      </button>
-                      <span className="w-5 text-center text-sm font-semibold" aria-live="polite">
-                        {item.qty}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => updateQty(item.id, item.qty + 1)}
-                        aria-label={`Increase quantity of ${item.name}`}
-                        className="flex size-7 items-center justify-center rounded-full bg-secondary text-navy"
+className="flex size-7 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
+                        >
+                          <Minus className="size-3.5" aria-hidden="true" />
+                        </button>
+                        <span className="w-5 text-center text-sm font-semibold" aria-live="polite">
+                          {item.qty}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => updateQty(item.id, item.qty + 1)}
+                          aria-label={`Increase quantity of ${item.name}`}
+                          className="flex size-7 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
                       >
                         <Plus className="size-3.5" aria-hidden="true" />
                       </button>
@@ -134,8 +134,8 @@ export default function CartPage() {
                 <span className="font-semibold text-success">Free</span>
               </div>
               <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-                <span className="font-heading text-base font-bold text-navy">Total</span>
-                <span className="font-heading text-base font-bold text-navy">GHS {total}</span>
+                <span className="font-heading text-base font-bold text-secondary-foreground">Total</span>
+                <span className="font-heading text-base font-bold text-secondary-foreground">GHS {total}</span>
               </div>
             </div>
             <button

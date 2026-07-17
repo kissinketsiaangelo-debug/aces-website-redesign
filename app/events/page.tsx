@@ -44,7 +44,7 @@ export default function EventsPage() {
   return (
     <AppShell title="Events">
       <section className="px-4 pt-5">
-        <h1 className="font-heading text-2xl font-bold text-navy text-balance">ACES calendar</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground text-balance">ACES calendar</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           Everything happening in the Land of ACES — mark your calendar.
         </p>
