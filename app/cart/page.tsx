@@ -81,17 +81,21 @@ export default function CartPage() {
             <h1 className="font-heading text-2xl font-bold text-navy-text">Your bag</h1>
             <ul className="mt-4 flex flex-col gap-3">
               {items.map((item) => (
-                <li key={item.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                <li key={`${item.id}-${item.selectedSize ?? ''}-${item.selectedColor ?? ''}`} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
                   <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-muted">
                     <Image src={item.image || '/placeholder.svg'} alt={item.name} fill sizes="64px" className="object-cover" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold">{item.name}</p>
+                    <p className="truncate text-sm font-semibold">
+                      {item.name}
+                      {item.selectedColor && <span className="font-normal text-muted-foreground"> — {item.selectedColor}</span>}
+                      {item.selectedSize && <span className="font-normal text-muted-foreground"> — {item.selectedSize}</span>}
+                    </p>
                     <p className="text-sm font-bold text-navy-text">GHS {item.price * item.qty}</p>
                     <div className="mt-1.5 flex items-center gap-2">
                       <button
                         type="button"
-                        onClick={() => updateQty(item.id, item.qty - 1)}
+                        onClick={() => updateQty(item.id, item.qty - 1, item.selectedSize, item.selectedColor)}
                         aria-label={`Decrease quantity of ${item.name}`}
 className="flex size-7 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
                         >
@@ -102,7 +106,7 @@ className="flex size-7 items-center justify-center rounded-full bg-secondary tex
                         </span>
                         <button
                           type="button"
-                          onClick={() => updateQty(item.id, item.qty + 1)}
+                          onClick={() => updateQty(item.id, item.qty + 1, item.selectedSize, item.selectedColor)}
                           aria-label={`Increase quantity of ${item.name}`}
                           className="flex size-7 items-center justify-center rounded-full bg-secondary text-secondary-foreground"
                       >
@@ -112,7 +116,7 @@ className="flex size-7 items-center justify-center rounded-full bg-secondary tex
                   </div>
                   <button
                     type="button"
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item.id, item.selectedSize, item.selectedColor)}
                     aria-label={`Remove ${item.name} from bag`}
                     className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                   >

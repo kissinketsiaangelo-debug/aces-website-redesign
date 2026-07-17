@@ -34,7 +34,11 @@ function loadItems(): WishlistItem[] {
 }
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<WishlistItem[]>(() => loadItems())
+  const [items, setItems] = useState<WishlistItem[]>([])
+
+  useEffect(() => {
+    setItems(loadItems())
+  }, [])
 
   useEffect(() => {
     try {

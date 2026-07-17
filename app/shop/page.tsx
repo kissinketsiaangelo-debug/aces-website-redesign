@@ -5,32 +5,37 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Heart, Plus, ShoppingBag } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
-import { useCart, type Product } from '@/lib/cart-context'
+import { useCart } from '@/lib/cart-context'
 import { useWishlist } from '@/lib/wishlist-context'
 import { cn } from '@/lib/utils'
+import { products } from '@/lib/products'
 
-type ProductWithCategory = Product & { category: 'apparel' | 'accessories' }
+type Category = 'all' | 'apparel' | 'accessories'
 
-const products: ProductWithCategory[] = [
-  { id: 'hoodie', name: 'ACES Navy Hoodie', price: 180, image: '/images/product-hoodie.png', tag: 'Best seller', category: 'apparel' },
-  { id: 'tee', name: 'ACES Classic Tee', price: 90, image: '/images/product-tee.png', category: 'apparel' },
-  { id: 'mug', name: 'ACES Coffee Mug', price: 45, image: '/images/product-mug.png', category: 'accessories' },
-  { id: 'stickers', name: 'Sticker Pack (x8)', price: 25, image: '/images/product-stickers.png', tag: 'New', category: 'accessories' },
-]
+const productCategory: Record<string, Category> = {
+  hoodie: 'apparel',
+  tee: 'apparel',
+  codefest: 'apparel',
+  mug: 'accessories',
+  stickers: 'accessories',
+  notebook: 'accessories',
+}
 
 const categories = [
-  { key: 'all', label: 'All' },
-  { key: 'apparel', label: 'Apparel' },
-  { key: 'accessories', label: 'Accessories' },
+  { key: 'all' as Category, label: 'All' },
+  { key: 'apparel' as Category, label: 'Apparel' },
+  { key: 'accessories' as Category, label: 'Accessories' },
 ]
 
 export default function ShopPage() {
   const { addToCart, count } = useCart()
   const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist()
-  const [activeCategory, setActiveCategory] = useState('all')
+  const [activeCategory, setActiveCategory] = useState<Category>('all')
 
   const filtered =
-    activeCategory === 'all' ? products : products.filter((p) => p.category === activeCategory)
+    activeCategory === 'all'
+      ? products
+      : products.filter((p) => productCategory[p.id] === activeCategory)
 
   return (
     <AppShell title="ACES Shop">
@@ -64,8 +69,11 @@ export default function ShopPage() {
         </div>
       </section>
 
-      {/* Sub-market tabs */}
-      <div role="tablist" aria-label="Filter by product category" className="flex gap-2 overflow-x-auto px-4 pt-4 pb-1 no-scrollbar">
+      <div
+        role="tablist"
+        aria-label="Filter by product category"
+        className="flex gap-2 overflow-x-auto px-4 pt-4 pb-1 no-scrollbar"
+      >
         {categories.map((cat) => (
           <button
             key={cat.key}
@@ -85,44 +93,56 @@ export default function ShopPage() {
 
       <section className="grid grid-cols-2 gap-3 px-4 pt-4 pb-8" aria-label="Products">
         {filtered.map((product) => (
-          <article key={product.id} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
-            <div className="relative aspect-square bg-muted">
-              <Image
-                src={product.image || '/placeholder.svg'}
-                alt={product.name}
-                fill
-                sizes="(max-width: 448px) 50vw, 220px"
-                className="object-cover"
-              />
-              {product.tag && (
-                <span className="absolute left-2 top-2 rounded-full bg-navy px-2.5 py-1 text-[10px] font-bold text-navy-foreground">
-                  {product.tag}
-                </span>
-              )}
-              <button
-                type="button"
-                onClick={() =>
-                  isWishlisted(product.id)
-                    ? removeFromWishlist(product.id)
-                    : addToWishlist({ id: product.id, name: product.name, price: product.price, image: product.image || '/placeholder.svg', addedAt: new Date().toISOString() })
-                }
-                aria-label={isWishlisted(product.id) ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
-                className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
-              >
-                <Heart className={cn('size-4', isWishlisted(product.id) && 'fill-current')} aria-hidden="true" />
-              </button>
-            </div>
+          <article
+            key={product.id}
+            className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+          >
+            <Link href={`/shop/${product.id}`} className="group/image">
+              <div className="relative aspect-square bg-muted overflow-hidden">
+                <Image
+                  src={product.image || '/placeholder.svg'}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 448px) 50vw, 220px"
+                  className="object-cover transition-all duration-500 group-hover/image:scale-110 group-hover/image:rotate-[2deg]"
+                />
+                {product.tag && (
+                  <span className="absolute left-2 top-2 rounded-full bg-navy px-2.5 py-1 text-[10px] font-bold text-navy-foreground transition-transform duration-300 group-hover/image:scale-105">
+                    {product.tag}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    isWishlisted(product.id)
+                      ? removeFromWishlist(product.id)
+                      : addToWishlist({ id: product.id, name: product.name, price: product.price, image: product.image || '/placeholder.svg', addedAt: new Date().toISOString() })
+                  }}
+                  aria-label={isWishlisted(product.id) ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+                  className="absolute right-2 top-2 z-10 flex size-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+                >
+                  <Heart className={cn('size-4', isWishlisted(product.id) && 'fill-current')} aria-hidden="true" />
+                </button>
+              </div>
+            </Link>
             <div className="flex flex-1 flex-col gap-1 p-3">
-              <h2 className="text-sm font-semibold leading-snug">{product.name}</h2>
+              <Link href={`/shop/${product.id}`} className="after:absolute after:inset-0 after:z-0">
+                <h2 className="text-sm font-semibold leading-snug group-hover:text-primary transition-colors duration-300">{product.name}</h2>
+              </Link>
               <div className="mt-auto flex items-center justify-between pt-2">
                 <p className="text-sm font-bold text-navy-text">GHS {product.price}</p>
                 <button
                   type="button"
-                  onClick={() => addToCart(product)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image, tag: product.tag })
+                  }}
                   aria-label={`Add ${product.name} to bag`}
-                  className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform hover:opacity-90 active:scale-95"
+                  className="relative z-10 flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90 active:brightness-90"
                 >
-                  <Plus className="size-4" aria-hidden="true" />
+                  <Plus className="size-4 transition-transform duration-200 group-hover:rotate-90" aria-hidden="true" />
                 </button>
               </div>
             </div>

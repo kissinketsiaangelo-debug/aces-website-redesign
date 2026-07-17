@@ -48,7 +48,12 @@ function clearSession() {
 }
 
 export function AcesAuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AcesUser | null>(getSession)
+  const [user, setUser] = useState<AcesUser | null>(null)
+
+  useEffect(() => {
+    const session = getSession()
+    if (session) setUser(session)
+  }, [])
 
   const register = useCallback(
     (data: { name: string; email: string; password: string }): { ok: true } | { ok: false; error: string } => {
