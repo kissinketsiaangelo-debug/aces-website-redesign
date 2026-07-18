@@ -37,9 +37,14 @@ function saveSet(key: string, data: string[]) {
 }
 
 export function RegistrationProvider({ children }: { children: ReactNode }) {
-  const [registered, setRegistered] = useState<string[]>(() => loadSet('aces_registered_events'))
-  const [clubMemberships, setClubMemberships] = useState<string[]>(() => loadSet('aces_club_memberships'))
+  const [registered, setRegistered] = useState<string[]>([])
+  const [clubMemberships, setClubMemberships] = useState<string[]>([])
   const { addNotification } = useNotifications()
+
+  useEffect(() => {
+    setRegistered(loadSet('aces_registered_events'))
+    setClubMemberships(loadSet('aces_club_memberships'))
+  }, [])
 
   useEffect(() => { saveSet('aces_registered_events', registered) }, [registered])
   useEffect(() => { saveSet('aces_club_memberships', clubMemberships) }, [clubMemberships])
