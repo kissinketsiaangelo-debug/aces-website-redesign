@@ -1,22 +1,22 @@
 'use client'
 
-import { useState, type FormEvent, use, Suspense } from 'react'
+import { useState, type FormEvent, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
-import { useMarketplaceAuth } from '@/lib/marketplace-context'
 import { useAcesAuth } from '@/lib/aces-auth-context'
 
-function LoginForm() {
+function RegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect')
-  const { login: mpLogin } = useMarketplaceAuth()
-  const { login: acesLogin } = useAcesAuth()
+  const redirect = searchParams.get('redirect') || '/events'
+  const { register } = useAcesAuth()
 
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -25,45 +25,45 @@ function LoginForm() {
     e.preventDefault()
     setError('')
 
-    if (!email.trim() || !password.trim()) {
-      setError('Email and password are required.')
+    if (!name.trim() || !email.trim() || !password.trim() || !confirm.trim()) {
+      setError('All fields are required.')
+      return
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError('Enter a valid email address.')
+      return
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.')
+      return
+    }
+    if (password !== confirm) {
+      setError('Passwords do not match.')
       return
     }
 
-    // If redirect is set, log in via ACES auth; otherwise marketplace auth
-    if (redirect) {
-      const result = acesLogin({ email: email.trim(), password })
-      if (!result.ok) {
-        setError(result.error)
-        return
-      }
-      setSuccess(true)
-      setTimeout(() => {
-        router.push(redirect)
-      }, 1000)
-    } else {
-      const result = mpLogin({ email: email.trim(), password })
-      if (!result.ok) {
-        setError(result.error)
-        return
-      }
-      setSuccess(true)
-      setTimeout(() => {
-        router.push('/marketplace')
-      }, 1000)
+    const result = register({ name: name.trim(), email: email.trim(), password })
+    if (!result.ok) {
+      setError(result.error)
+      return
     }
+
+    setSuccess(true)
+    setTimeout(() => {
+      router.push(redirect)
+    }, 1200)
   }
 
   if (success) {
     return (
-      <AppShell title="Logged in">
+      <AppShell title="Account created">
         <section className="flex flex-col items-center justify-center px-6 py-20 text-center">
-          <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
-            <ArrowRight className="size-7 text-primary" aria-hidden="true" />
+          <div className="flex size-16 items-center justify-center rounded-full bg-success/15">
+            <ArrowRight className="size-7 text-success" aria-hidden="true" />
           </div>
-          <h1 className="mt-4 font-heading text-lg font-bold text-foreground">Welcome back!</h1>
+          <h1 className="mt-4 font-heading text-lg font-bold text-foreground">Welcome to ACES!</h1>
           <p className="mt-2 text-sm text-muted-foreground max-w-xs">
-            {redirect ? 'Taking you there…' : 'Redirecting you to the marketplace…'}
+            Your account is ready. Taking you there…
           </p>
         </section>
       </AppShell>
@@ -71,15 +71,30 @@ function LoginForm() {
   }
 
   return (
-    <AppShell title="Log in">
+    <AppShell title="Create account">
       <section className="px-4 pt-5">
-        <h1 className="font-heading text-2xl font-bold text-foreground">Welcome back</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground">Join ACES</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
-          {redirect ? 'Log in to your ACES account.' : 'Log in to your ACES Marketplace account.'}
+          Create an ACES account to register for events and join clubs.
         </p>
       </section>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-4 pt-6 pb-8">
+        <div>
+          <label htmlFor="name" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Full name
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Kwame Asante"
+            autoComplete="name"
+            className="mt-1.5 w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+          />
+        </div>
+
         <div>
           <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Email
@@ -105,8 +120,8 @@ function LoginForm() {
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Your password"
-              autoComplete="current-password"
+              placeholder="At least 6 characters"
+              autoComplete="new-password"
               className="w-full rounded-xl border border-border bg-secondary px-4 py-3 pr-11 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
             />
             <button
@@ -120,14 +135,19 @@ function LoginForm() {
           </div>
         </div>
 
-        <div className="text-right">
-          <button
-            type="button"
-            onClick={() => alert('Password reset coming soon. Reach out to the ACES office for help.')}
-            className="text-xs font-medium text-primary underline"
-          >
-            Forgot password?
-          </button>
+        <div>
+          <label htmlFor="confirm" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Confirm password
+          </label>
+          <input
+            id="confirm"
+            type="password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            placeholder="Repeat your password"
+            autoComplete="new-password"
+            className="mt-1.5 w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+          />
         </div>
 
         {error && (
@@ -140,17 +160,14 @@ function LoginForm() {
           type="submit"
           className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.98]"
         >
-          Log in
+          Create account
           <ArrowRight className="size-4" aria-hidden="true" />
         </button>
 
         <p className="text-center text-xs text-muted-foreground">
-          Don&apos;t have an account?{' '}
-          <Link
-            href={redirect ? `/register-aces?redirect=${encodeURIComponent(redirect)}` : '/register'}
-            className="font-semibold text-primary underline"
-          >
-            {redirect ? 'Create ACES account' : 'Register'}
+          Already have an account?{' '}
+          <Link href={`/login?redirect=${encodeURIComponent(redirect)}`} className="font-semibold text-primary underline">
+            Log in
           </Link>
         </p>
       </form>
@@ -158,10 +175,10 @@ function LoginForm() {
   )
 }
 
-export default function LoginPage() {
+export default function RegisterAcesPage() {
   return (
-    <Suspense fallback={<AppShell title="Log in"><div className="px-4 pt-5" /></AppShell>}>
-      <LoginForm />
+    <Suspense fallback={<AppShell title="Create account"><div className="px-4 pt-5" /></AppShell>}>
+      <RegisterForm />
     </Suspense>
   )
 }
