@@ -20,7 +20,7 @@ const problems = [
     problem: 'Empty pages, zero guidance',
     finding: 'The Courses and Scholarships pages show no content and give students no idea when to come back.',
     solution: 'Friendly empty states with illustrations and "notify me" signup, plus fully designed populated states.',
-    link: { href: '/scholarships', label: 'See the empty state' },
+    link: { href: '/arships', label: 'See the empty state' },
   },
   {
     icon: LayoutGrid,

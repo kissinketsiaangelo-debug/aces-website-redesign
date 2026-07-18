@@ -40,7 +40,7 @@ export default function StaffPage() {
               <p className="text-xs text-muted-foreground">{member.area}</p>
             </div>
             <a
-              href={`mailto:${member.name.replace(/^(Prof|Dr|Mr|Mrs|Ms)\.?\s*/i, '').toLowerCase().replace(/\s+/g, '.')}@knust.edu.gh`}
+              href={`mailto:${member.name.replace(/^(Prof|Dr|Mr|Mrs|Ms)\.?\s*/i, '').toLowerCase().replace(/\.\s*/g, '').replace(/\s+/g, '.')}@knust.edu.gh`}
               className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
               aria-label={`Email ${member.name}`}
             >

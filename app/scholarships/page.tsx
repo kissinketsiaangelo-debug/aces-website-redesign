@@ -87,9 +87,9 @@ export default function ScholarshipsPage() {
     <AppShell title="Scholarships">
       <section className="px-4 pt-5">
         <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">Scholarships &amp; funding</h1>
-        <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
-          Verified opportunities for Computer Engineering students, updated by the ACES team.
-        </p>
+        <p className="mt-1.5 rounded-xl bg-secondary px-3 py-2 text-[11px] font-medium text-muted-foreground">
+  Sample data shown for demo purposes — company names and amounts are illustrative, not actual current offers.
+</p>
       </section>
 
       <div className="px-4 pt-4">

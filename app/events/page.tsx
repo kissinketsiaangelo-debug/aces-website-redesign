@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Calendar, CalendarPlus, MapPin, Clock, UserCheck } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useRegistration } from '@/lib/registration-context'
+import { useAcesAuth } from '@/lib/aces-auth-context'
 import { cn } from '@/lib/utils'
 
 type Event = {
@@ -88,6 +90,8 @@ function getCalendarUrl(event: Event) {
 export default function EventsPage() {
   const [activeCategory, setActiveCategory] = useState('all')
   const { register, isRegistered } = useRegistration()
+  const { isAuthenticated } = useAcesAuth()
+  const router = useRouter()
 
   const filtered = activeCategory === 'all'
     ? events
@@ -182,18 +186,24 @@ export default function EventsPage() {
               </a>
               <button
                 type="button"
-                onClick={() => register(event.name)}
-                disabled={left === 0 && !registered}
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    router.push('/login?redirect=events')
+                    return
+                  }
+                  register(event.name)
+                }}
+                disabled={(left === 0 && !registered) || (!isAuthenticated && registered)}
                 className={cn(
                   'ml-auto inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-bold transition-colors',
                   registered
                     ? 'bg-success/20 text-success'
-                    : left === 0
+                    : left === 0 || (!isAuthenticated && !registered)
                       ? 'bg-muted/30 text-white/50 cursor-not-allowed'
                       : 'bg-white/25 text-white hover:bg-white/35',
                 )}
               >
-                {registered ? 'Registered ✓' : left === 0 ? 'Full' : 'Register — Free'}
+                {registered ? 'Registered ✓' : !isAuthenticated ? 'Log in to register' : left === 0 ? 'Full' : 'Register — Free'}
               </button>
             </div>
           </div>

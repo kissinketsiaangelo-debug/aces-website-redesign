@@ -1,5 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { useRouter } from 'next/navigation'
 import {
   BookOpen,
   GraduationCap,
@@ -12,10 +14,7 @@ import {
   Download,
 } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
-
-export const metadata: Metadata = {
-  title: 'Profile — ACES KNUST',
-}
+import { useMarketplaceAuth } from '@/lib/marketplace-context'
 
 const stats = [
   { label: 'Downloads', value: '14', icon: Download },
@@ -36,9 +35,11 @@ const settings = [
 ]
 
 export default function ProfilePage() {
+  const { logout } = useMarketplaceAuth()
+  const router = useRouter()
+
   return (
     <AppShell title="Profile">
-      {/* Identity card */}
       <section className="px-4 pt-5">
         <div className="rounded-3xl bg-navy p-5 text-navy-foreground">
           <div className="flex items-center gap-4">
@@ -68,7 +69,6 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* Shortcuts */}
       <section className="px-4 pt-6" aria-labelledby="shortcuts-heading">
         <h2 id="shortcuts-heading" className="font-heading text-lg font-bold text-navy-text">
           My stuff
@@ -94,7 +94,6 @@ export default function ProfilePage() {
         </ul>
       </section>
 
-      {/* Settings */}
       <section className="px-4 pt-6 pb-8" aria-labelledby="settings-heading">
         <h2 id="settings-heading" className="font-heading text-lg font-bold text-navy-text">
           Settings
@@ -117,11 +116,17 @@ export default function ProfilePage() {
               </li>
             )
           })}
-          <li className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-sm font-medium text-muted-foreground">
-            <span className="flex size-9 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-              <LogOut className="size-4" aria-hidden="true" />
-            </span>
-            Sign out
+          <li>
+            <button
+              type="button"
+              onClick={() => { logout(); router.push('/') }}
+              className="flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-destructive/5 hover:text-destructive"
+            >
+              <span className="flex size-9 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+                <LogOut className="size-4" aria-hidden="true" />
+              </span>
+              Sign out
+            </button>
           </li>
         </ul>
       </section>

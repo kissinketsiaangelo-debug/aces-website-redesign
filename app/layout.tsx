@@ -8,6 +8,7 @@ import { RecentlyViewedProvider } from '@/lib/recently-viewed-context'
 import { WishlistProvider } from '@/lib/wishlist-context'
 import { SearchProvider } from '@/lib/search-context'
 import { NotificationProvider } from '@/lib/notification-context'
+import { AcesAuthProvider } from '@/lib/aces-auth-context'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SearchOverlay } from '@/components/search-overlay'
 import { ServiceWorkerRegister } from '@/components/service-worker-register'
@@ -44,6 +45,7 @@ export default function RootLayout({
     <html lang="en" className={`bg-background ${dmSans.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider>
+          <AcesAuthProvider>
           <NotificationProvider>
             <CartProvider>
               <MarketplaceProvider>
@@ -60,6 +62,7 @@ export default function RootLayout({
               </MarketplaceProvider>
             </CartProvider>
           </NotificationProvider>
+          </AcesAuthProvider>
           <ServiceWorkerRegister />
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}

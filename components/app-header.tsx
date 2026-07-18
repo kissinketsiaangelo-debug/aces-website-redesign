@@ -3,25 +3,30 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Menu, X, Info, Users, Briefcase, Images, Lightbulb, Calendar, Store, ChevronRight, Sun, Moon, Search, Bell } from 'lucide-react'
+import { Menu, X, Info, Users, Briefcase, Images, Lightbulb, Calendar, GraduationCap, BookOpen, ChevronRight, ChevronDown, Sun, Moon, Search, Bell } from 'lucide-react'
 import { AcesLogo, AcesMark } from '@/components/aces-logo'
 import { useTheme } from '@/components/theme-provider'
 import { useSearch } from '@/lib/search-context'
 import { useNotifications } from '@/lib/notification-context'
 import { cn } from '@/lib/utils'
 
-const menuLinks = [
-  { href: '/about', label: 'About ACES', icon: Info },
-  { href: '/events', label: 'Events', icon: Calendar },
+const primaryLinks = [
+  { href: '/about', label: 'About', icon: Info },
   { href: '/executives', label: 'Executives', icon: Users },
-  { href: '/staff', label: 'Staff', icon: Briefcase },
-  { href: '/marketplace', label: 'Marketplace', icon: Store },
+  { href: '/staff', label: 'Department', icon: Briefcase },
   { href: '/gallery', label: 'Gallery', icon: Images },
+  { href: '/scholarships', label: 'Scholarships', icon: GraduationCap },
+  { href: '/courses', label: 'Courses', icon: BookOpen },
+]
+
+const secondaryLinks = [
+  { href: '/events', label: 'Events', icon: Calendar },
   { href: '/problems', label: 'Why we redesigned', icon: Lightbulb },
 ]
 
 export function AppHeader({ title }: { title?: string }) {
   const [open, setOpen] = useState(false)
+  const [showMore, setShowMore] = useState(false)
   const pathname = usePathname()
   const { theme, toggle } = useTheme()
   const { setOpen: setSearchOpen } = useSearch()
@@ -29,13 +34,12 @@ export function AppHeader({ title }: { title?: string }) {
 
   useEffect(() => {
     setOpen(false)
+    setShowMore(false)
   }, [pathname])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
+    return () => { document.body.style.overflow = '' }
   }, [open])
 
   return (
@@ -128,15 +132,15 @@ export function AppHeader({ title }: { title?: string }) {
             </div>
           </div>
           <nav aria-label="Secondary" className="flex-1 overflow-y-auto px-3 py-4">
-            <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">More from ACES</p>
             <ul className="flex flex-col gap-1">
-              {menuLinks.map((link) => {
+              {primaryLinks.map((link) => {
                 const Icon = link.icon
                 const active = pathname.startsWith(link.href)
                 return (
                   <li key={link.href}>
                     <Link
                       href={link.href}
+                      onClick={() => setOpen(false)}
                       className={cn(
                         'flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-colors',
                         active ? 'bg-secondary text-primary' : 'text-foreground hover:bg-muted',
@@ -152,6 +156,49 @@ export function AppHeader({ title }: { title?: string }) {
                 )
               })}
             </ul>
+
+            {/* More section */}
+            <div className="mt-3">
+              <button
+                type="button"
+                onClick={() => setShowMore(!showMore)}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted"
+              >
+                <span className="flex size-9 items-center justify-center rounded-lg bg-secondary text-muted-foreground">
+                  <Lightbulb className="size-4" aria-hidden="true" />
+                </span>
+                More
+                <ChevronDown
+                  className={cn('ml-auto size-4 transition-transform duration-200', showMore && 'rotate-180')}
+                  aria-hidden="true"
+                />
+              </button>
+              {showMore && (
+                <ul className="ml-3 mt-1 flex flex-col gap-1 border-l-2 border-border pl-3">
+                  {secondaryLinks.map((link) => {
+                    const Icon = link.icon
+                    const active = pathname.startsWith(link.href)
+                    return (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          onClick={() => setOpen(false)}
+                          className={cn(
+                            'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                            active ? 'bg-secondary text-primary' : 'text-foreground hover:bg-muted',
+                          )}
+                        >
+                          <span className="flex size-8 items-center justify-center rounded-lg bg-secondary text-primary">
+                            <Icon className="size-3.5" aria-hidden="true" />
+                          </span>
+                          {link.label}
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
+            </div>
           </nav>
           <div className="border-t border-border px-5 py-4">
             <p className="text-xs leading-relaxed text-muted-foreground">

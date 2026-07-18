@@ -31,8 +31,80 @@ export const categories: Category[] = [
   { key: 'other', label: 'Other', icon: 'Package' },
 ]
 
+const localImages: Record<string, string> = {
+  'campus-jollof-combo': 'campus',
+  'smoothie-bowl': '',
+  'campus-lunch-box': 'campus',
+  'grilled-chicken-wrap': 'download',
+  'fresh-fruit-platter': 'OIP',
+  'coffee-bundle': 'OIP (1)',
+  'energy-bites': 'OIP (2)',
+  'protein-shake-pack': 'OIP (3)',
+  'bubble-tea-kit': 'OIP (4)',
+  'healthy-salad-jar': 'OIP (5)',
+  'custom-crewneck': 'OIP (6)',
+  'denim-jacket': 'OIP (7)',
+  'streetwear-tee': 'OIP (8)',
+  'baseball-cap': 'OIP (9)',
+  'canvas-tote-bag': 'OIP (10)',
+  'sneaker-set': 'OIP (11)',
+  'pullover-hoodie': 'OIP (12)',
+  'bucket-hat': 'OIP (13)',
+  'phone-pouch': 'OIP (14)',
+  'wristband-pack': 'OIP (15)',
+  'wireless-earbuds': 'OIP (16)',
+  'power-bank-20000': 'OIP (17)',
+  'usb-c-hub': 'download (1)',
+  'mechanical-keyboard': 'download (2)',
+  'laptop-stand': 'download (3)',
+  'webcam-1080p': 'download (4)',
+  'smartwatch-band': 'download (5)',
+  'bluetooth-speaker': 'download (6)',
+  'xl-mouse-pad': 'download (7)',
+  'hdmi-cable-pack': 'download (8)',
+  'web-dev-package': 'web',
+  'graphic-design-flyer': 'Graphic Design - Flyer',
+  'photography-session': 'Photography Session',
+  'math-tutoring': 'download (9)',
+  'cv-review': 'cv',
+  'python-crash-course': 'download (10)',
+  'logo-design': 'download (11)',
+  'video-editing': 'video editing',
+  'academic-proofreading': 'download (12)',
+  'social-media-management': 'social media',
+  'shea-butter-cream': 'shea butter',
+  'lip-gloss-set': 'lip',
+  'face-serum': 'vitamin c',
+  'body-scrub': 'sugar body',
+  'beard-oil-kit': 'beard oil kit',
+  'nail-polish-pack': 'nails',
+  'hair-growth-oil': 'hair growth',
+  'perfume-roll-on': 'perfume roll on',
+  'eyeshadow-palette': 'download (13)',
+  'skincare-bundle': 'Skincare',
+  'notebook-set': 'NOTEBOOK',
+  'academic-planner': 'Academic Planner',
+  'sticker-pack': 'Tech sticker',
+  'wall-poster': 'Motivational Wall',
+  'water-bottle': 'Insluted water',
+  'desk-organizer': 'Desk organizer',
+  'keychain-set': 'engraved key',
+  'phone-stand': 'phone satnd',
+  'bookmark-collection': 'boomark',
+  'puzzle-set': 'OIP',
+}
+
 function img(slug: string): string[] {
-  return [`https://picsum.photos/seed/${slug}/400/400`]
+  const base = '/images/marketplace/'
+  const local = localImages[slug]
+  const localUrl = local ? `${base}${local}.webp` : ''
+  if (local === '') {
+    return [`https://picsum.photos/seed/${slug}-1/400/400`, `https://picsum.photos/seed/${slug}-2/400/400`]
+  }
+  const ext = (local === 'Graphic Design - Flyer' || local === 'Motivational Wall' || local === 'web') ? '.jpg' : '.webp'
+  const img1 = `${base}${local}${ext}`
+  const img2 = `https://picsum.photos/seed/${slug}/400/400`
+  return [img1, img2]
 }
 
 const C = 'Campus Kitchen'

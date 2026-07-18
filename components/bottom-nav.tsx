@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, ShoppingBag, Store, BookOpen, User } from 'lucide-react'
+import { Home, ShoppingBag, Store, Calendar, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/lib/cart-context'
 
@@ -10,11 +10,9 @@ const tabs = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/shop', label: 'Shop', icon: ShoppingBag },
   { href: '/marketplace', label: 'Marketplace', icon: Store },
-  { href: '/resources', label: 'Resources', icon: BookOpen },
+  { href: '/events', label: 'Events', icon: Calendar },
   { href: '/profile', label: 'Profile', icon: User },
 ]
-
-const resourcesPaths = ['/resources', '/courses', '/scholarships', '/events']
 
 export function BottomNav() {
   const pathname = usePathname()
@@ -22,7 +20,6 @@ export function BottomNav() {
 
   function isActive(href: string) {
     if (href === '/') return pathname === '/'
-    if (href === '/resources') return resourcesPaths.some((p) => pathname.startsWith(p))
     return pathname.startsWith(href)
   }
 

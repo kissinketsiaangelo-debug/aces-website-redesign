@@ -2,6 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   ArrowRight,
   BookOpen,
@@ -15,9 +17,11 @@ import {
   Quote,
   UserCheck,
   UserPlus,
+  X,
 } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useRegistration } from '@/lib/registration-context'
+import { useAcesAuth } from '@/lib/aces-auth-context'
 import { cn } from '@/lib/utils'
 
 const quickActions = [
@@ -74,16 +78,124 @@ function SeatsBadge({ left }: { left: number }) {
   )
 }
 
+function JoinForm({ club, onClose }: { club: string; onClose: () => void }) {
+  const { joinClub } = useRegistration()
+  const { user } = useAcesAuth()
+  const [year, setYear] = useState('')
+  const [interests, setInterests] = useState('')
+  const [reason, setReason] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    joinClub(club)
+    setSubmitted(true)
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 mx-auto flex w-full max-w-md items-end justify-center">
+      <div className="absolute inset-0 bg-navy/50" onClick={onClose} aria-hidden="true" />
+      <div className="relative max-h-[85vh] w-full overflow-y-auto rounded-t-3xl bg-background px-6 pb-8 pt-6 shadow-2xl">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full bg-secondary text-muted-foreground"
+        >
+          <X className="size-4" aria-hidden="true" />
+        </button>
+
+        {submitted ? (
+          <div className="py-6 text-center">
+            <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-success/15">
+              <UserCheck className="size-7 text-success" aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 font-heading text-lg font-bold text-foreground">Welcome to {club}!</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Thanks for joining. The club executive will reach out soon.
+            </p>
+          </div>
+        ) : (
+          <>
+            <h3 className="font-heading text-lg font-bold text-foreground">Join ACES {club}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Tell us a bit about yourself, {user?.name || ''}.
+            </p>
+            <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-4">
+              <div>
+                <label htmlFor="year" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Current year
+                </label>
+                <select
+                  id="year"
+                  required
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
+                >
+                  <option value="">Select your year</option>
+                  <option value="1">Year 1</option>
+                  <option value="2">Year 2</option>
+                  <option value="3">Year 3</option>
+                  <option value="4">Year 4</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="interests" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Interests
+                </label>
+                <input
+                  id="interests"
+                  type="text"
+                  required
+                  placeholder="e.g. embedded systems, AI, web dev"
+                  value={interests}
+                  onChange={(e) => setInterests(e.target.value)}
+                  className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
+                />
+              </div>
+              <div>
+                <label htmlFor="reason" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Why do you want to join?
+                </label>
+                <textarea
+                  id="reason"
+                  required
+                  rows={3}
+                  placeholder="Tell us what you hope to learn or contribute..."
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  className="mt-1.5 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full rounded-2xl bg-primary py-3 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Submit & join
+              </button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function HomePage() {
   const { register, isRegistered, joinClub, isMember } = useRegistration()
+  const { isAuthenticated } = useAcesAuth()
+  const router = useRouter()
+  const [joinClubName, setJoinClubName] = useState<string | null>(null)
+
   return (
     <AppShell>
       {/* Hero */}
       <section className="px-4 pt-5">
         <div className="relative h-72 overflow-hidden rounded-3xl">
           <Image
-            src="/images/gallery-1.jpg"
-            alt="ACES students collaborating in the engineering lab"
+            src="/images/Form 1.jpg"
+            alt="ACES students collaborating"
             fill
             priority
             sizes="(max-width: 448px) 100vw, 448px"
@@ -146,113 +258,103 @@ export default function HomePage() {
           </Link>
         </div>
         <ul className="mt-3 flex flex-col gap-3">
-  {events.map((event) => {
-    const regd = isRegistered(event.name)
-    const left = Math.max(0, event.capacity - event.registered - (regd ? 1 : 0))
-    return (
-    <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl">
-      <Image
-        src={event.image}
-        alt=""
-        fill
-        sizes="400px"
-        className="object-cover"
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
-
-      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-4">
-        <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
-          <Calendar className="size-4" aria-hidden="true" />
-          <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</p>
-            <SeatsBadge left={left} />
-          </div>
-          <p className="truncate text-xs text-white/90 drop-shadow-sm">{event.detail}</p>
-        </div>
-        <button
-          type="button"
-          onClick={() => register(event.name)}
-          disabled={left === 0 && !regd}
-          className={cn(
-            'shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors',
-            regd
-              ? 'bg-success/20 text-success'
-              : left === 0
-                ? 'bg-muted/30 text-white/50 cursor-not-allowed'
-                : 'bg-white/25 text-white hover:bg-white/35',
-          )}
-        >
-          {regd ? '✓' : left === 0 ? 'Full' : 'Register'}
-        </button>
-      </div>
-    </li>
-    )
-  })}
-</ul>
+          {events.map((event) => {
+            const regd = isRegistered(event.name)
+            const left = Math.max(0, event.capacity - event.registered - (regd ? 1 : 0))
+            return (
+              <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl">
+                <Image src={event.image} alt="" fill sizes="400px" className="object-cover" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
+                <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-4">
+                  <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
+                    <Calendar className="size-4" aria-hidden="true" />
+                    <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</p>
+                      <SeatsBadge left={left} />
+                    </div>
+                    <p className="truncate text-xs text-white/90 drop-shadow-sm">{event.detail}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!isAuthenticated) { router.push('/login?redirect=/'); return }
+                      register(event.name)
+                    }}
+                    disabled={(left === 0 && !regd) || (!isAuthenticated && regd)}
+                    className={cn(
+                      'shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors',
+                      regd
+                        ? 'bg-success/20 text-success'
+                        : !isAuthenticated
+                          ? 'bg-white/25 text-white hover:bg-white/35'
+                          : left === 0
+                            ? 'bg-muted/30 text-white/50 cursor-not-allowed'
+                            : 'bg-white/25 text-white hover:bg-white/35',
+                    )}
+                  >
+                    {regd ? '✓' : !isAuthenticated ? 'Log in' : left === 0 ? 'Full' : 'Register'}
+                  </button>
+                </div>
+              </li>
+            )
+          })}
+        </ul>
       </section>
 
       {/* Clubs */}
-<section className="px-4 pt-7" aria-labelledby="clubs-heading">
-  <h2 id="clubs-heading" className="font-heading text-lg font-bold text-navy-text">
-    Our clubs
-  </h2>
-  <div className="mt-3 flex flex-col gap-3">
-    {clubs.map((club) => {
-      const Icon = club.icon
-      const member = isMember(club.name)
-      const spots = club.capacity - club.members - (member ? 1 : 0)
-      return (
-        <div
-          key={club.name}
-          className="relative h-40 overflow-hidden rounded-2xl"
-        >
-          <Image
-            src={club.image}
-            alt=""
-            fill
-            sizes="400px"
-            className="object-cover"
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
-
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <div className="flex items-start gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
-                <Icon className="size-5" aria-hidden="true" />
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-white drop-shadow-sm">ACES {club.name}</p>
-                <p className="mt-1 text-xs leading-relaxed text-white/90 drop-shadow-sm">
-                  {club.description}
-                </p>
-                <p className="mt-1 text-[10px] text-white/80 drop-shadow-sm">
-                  {club.members} member{club.members !== 1 ? 's' : ''} · {Math.max(0, spots)} spot{spots !== 1 ? 's' : ''} left
-                </p>
+      <section className="px-4 pt-7" aria-labelledby="clubs-heading">
+        <h2 id="clubs-heading" className="font-heading text-lg font-bold text-navy-text">
+          Our clubs
+        </h2>
+        <div className="mt-3 flex flex-col gap-3">
+          {clubs.map((club) => {
+            const Icon = club.icon
+            const member = isMember(club.name)
+            const spots = club.capacity - club.members - (member ? 1 : 0)
+            return (
+              <div key={club.name} className="relative h-40 overflow-hidden rounded-2xl">
+                <Image src={club.image} alt="" fill sizes="400px" className="object-cover" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
+                      <Icon className="size-5" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-semibold text-white drop-shadow-sm">ACES {club.name}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-white/90 drop-shadow-sm">{club.description}</p>
+                      <p className="mt-1 text-[10px] text-white/80 drop-shadow-sm">
+                        {club.members} member{club.members !== 1 ? 's' : ''} · {Math.max(0, spots)} spot{spots !== 1 ? 's' : ''} left
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (member) return
+                        if (!isAuthenticated) { router.push('/login?redirect=/'); return }
+                        setJoinClubName(club.name)
+                      }}
+                      className={cn(
+                        'shrink-0 rounded-full px-3 py-1.5 text-[10px] font-bold transition-colors',
+                        member
+                          ? 'bg-success/20 text-success'
+                          : 'bg-white/25 text-white hover:bg-white/35',
+                      )}
+                    >
+                      {member ? 'Member ✓' : !isAuthenticated ? 'Log in to join' : 'Join'}
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => member ? {} : joinClub(club.name)}
-                className={cn(
-                  'shrink-0 rounded-full px-3 py-1.5 text-[10px] font-bold transition-colors',
-                  member
-                    ? 'bg-success/20 text-success'
-                    : 'bg-white/25 text-white hover:bg-white/35',
-                )}
-              >
-                {member ? 'Member ✓' : 'Join'}
-              </button>
-            </div>
-          </div>
+            )
+          })}
         </div>
-      )
-    })}
-  </div>
-</section>
+      </section>
+
+      {joinClubName && <JoinForm club={joinClubName} onClose={() => setJoinClubName(null)} />}
 
       {/* Testimonial */}
       <section className="px-4 pt-7 pb-6" aria-labelledby="testimonial-heading">

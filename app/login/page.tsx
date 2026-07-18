@@ -1,15 +1,19 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, type FormEvent, use, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useMarketplaceAuth } from '@/lib/marketplace-context'
+import { useAcesAuth } from '@/lib/aces-auth-context'
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
-  const { login } = useMarketplaceAuth()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect')
+  const { login: mpLogin } = useMarketplaceAuth()
+  const { login: acesLogin } = useAcesAuth()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,16 +30,28 @@ export default function LoginPage() {
       return
     }
 
-    const result = login({ email: email.trim(), password })
-    if (!result.ok) {
-      setError(result.error)
-      return
+    // If redirect is set, log in via ACES auth; otherwise marketplace auth
+    if (redirect) {
+      const result = acesLogin({ email: email.trim(), password })
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      setSuccess(true)
+      setTimeout(() => {
+        router.push(redirect)
+      }, 1000)
+    } else {
+      const result = mpLogin({ email: email.trim(), password })
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      setSuccess(true)
+      setTimeout(() => {
+        router.push('/marketplace')
+      }, 1000)
     }
-
-    setSuccess(true)
-    setTimeout(() => {
-      router.push('/marketplace')
-    }, 1000)
   }
 
   if (success) {
@@ -47,7 +63,7 @@ export default function LoginPage() {
           </div>
           <h1 className="mt-4 font-heading text-lg font-bold text-foreground">Welcome back!</h1>
           <p className="mt-2 text-sm text-muted-foreground max-w-xs">
-            Redirecting you to the marketplace…
+            {redirect ? 'Taking you there…' : 'Redirecting you to the marketplace…'}
           </p>
         </section>
       </AppShell>
@@ -59,12 +75,11 @@ export default function LoginPage() {
       <section className="px-4 pt-5">
         <h1 className="font-heading text-2xl font-bold text-foreground">Welcome back</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
-          Log in to your ACES Marketplace account.
+          {redirect ? 'Log in to your ACES account.' : 'Log in to your ACES Marketplace account.'}
         </p>
       </section>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-4 pt-6 pb-8">
-        {/* Email */}
         <div>
           <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Email
@@ -80,7 +95,6 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Password */}
         <div>
           <label htmlFor="password" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Password
@@ -106,7 +120,6 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Forgot password */}
         <div className="text-right">
           <button
             type="button"
@@ -117,14 +130,12 @@ export default function LoginPage() {
           </button>
         </div>
 
-        {/* Error */}
         {error && (
           <p className="rounded-xl bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive" role="alert">
             {error}
           </p>
         )}
 
-        {/* Submit */}
         <button
           type="submit"
           className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.98]"
@@ -141,5 +152,13 @@ export default function LoginPage() {
         </p>
       </form>
     </AppShell>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<AppShell title="Log in"><div className="px-4 pt-5" /></AppShell>}>
+      <LoginForm />
+    </Suspense>
   )
 }

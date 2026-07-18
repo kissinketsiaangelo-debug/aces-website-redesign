@@ -3,16 +3,19 @@
 import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ShoppingCart, Phone, Store, Package } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowLeft, ShoppingCart, Phone, Store, Package, ChevronLeft, ChevronRight } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { getProductBySlug, getProductsByCategory } from '@/lib/marketplace-data'
 import { useCart } from '@/lib/cart-context'
+import { cn } from '@/lib/utils'
 
 export default function ProductDetailPage() {
   const params = useParams()
   const slug = params.slug as string
   const product = getProductBySlug(slug)
   const { addToCart } = useCart()
+  const [imgIndex, setImgIndex] = useState(0)
 
   if (!product) {
     return (
@@ -45,17 +48,51 @@ export default function ProductDetailPage() {
         </Link>
       </section>
 
-      {/* Image */}
+      {/* Image gallery */}
       <section className="px-4 pt-4">
-        <div className="relative aspect-square overflow-hidden rounded-3xl">
+        <div className="relative aspect-square overflow-hidden rounded-3xl bg-muted">
           <Image
-            src={product.images[0]}
+            src={product.images[imgIndex]}
             alt={product.name}
             fill
             sizes="(max-width: 448px) 100vw, 448px"
-            className="object-cover"
+            className="object-cover transition-opacity duration-300"
             priority
           />
+          {product.images.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() => setImgIndex((i) => (i === 0 ? product.images.length - 1 : i - 1))}
+                aria-label="Previous image"
+                className="absolute left-2 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
+              >
+                <ChevronLeft className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setImgIndex((i) => (i === product.images.length - 1 ? 0 : i + 1))}
+                aria-label="Next image"
+                className="absolute right-2 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
+              >
+                <ChevronRight className="size-4" aria-hidden="true" />
+              </button>
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                {product.images.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setImgIndex(i)}
+                    aria-label={`View image ${i + 1}`}
+                    className={cn(
+                      'size-2 rounded-full transition-all',
+                      i === imgIndex ? 'w-5 bg-white' : 'bg-white/50',
+                    )}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
 
@@ -87,7 +124,7 @@ export default function ProductDetailPage() {
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Sold by</p>
           <p className="mt-1 text-sm font-semibold text-foreground">{product.vendor.name}</p>
           <a
-            href={`tel:${product.vendor.phone}`}
+            href={`tel:${product.vendor.phone.replace(/\s+/g, '')}`}
             className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-primary"
           >
             <Phone className="size-3.5" aria-hidden="true" />

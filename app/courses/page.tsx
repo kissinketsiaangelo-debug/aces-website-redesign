@@ -28,12 +28,18 @@ const courses: Course[] = [
   { code: 'COE 476', title: 'Artificial Intelligence', year: 4, semester: 'Sem 2', materials: 13, size: '45 MB' },
 ]
 
-const filters = [
+const yearFilters = [
   { label: 'All years', value: 0 },
   { label: 'Year 1', value: 1 },
   { label: 'Year 2', value: 2 },
   { label: 'Year 3', value: 3 },
   { label: 'Year 4', value: 4 },
+]
+
+const semesterFilters = [
+  { label: 'All semesters', value: '' },
+  { label: 'Sem 1', value: 'Sem 1' },
+  { label: 'Sem 2', value: 'Sem 2' },
 ]
 
 const DOWNLOADS_KEY = 'aces_downloaded_courses'
@@ -144,9 +150,10 @@ function CourseCard({ course }: { course: Course }) {
 
 export default function CoursesPage() {
   const [year, setYear] = useState(0)
+  const [semester, setSemester] = useState('')
   const [demoState, setDemoState] = useState<'populated' | 'empty'>('populated')
 
-  const visible = demoState === 'empty' ? [] : courses.filter((c) => year === 0 || c.year === year)
+  const visible = demoState === 'empty' ? [] : courses.filter((c) => (year === 0 || c.year === year) && (!semester || c.semester === semester))
 
   return (
     <AppShell title="Courses">
@@ -162,23 +169,42 @@ export default function CoursesPage() {
       </div>
 
       {/* Filter tabs */}
-      <div className="sticky top-[61px] z-30 bg-background/95 px-4 py-3 backdrop-blur">
-        <div role="tablist" aria-label="Filter courses by year" className="flex gap-2 overflow-x-auto pb-0.5">
-          {filters.map((filter) => (
+      <div className="sticky top-[61px] z-30 bg-background/95 px-4 pt-3 backdrop-blur">
+        <div role="tablist" aria-label="Filter courses by year" className="flex gap-2 overflow-x-auto pb-2">
+          {yearFilters.map((f) => (
             <button
-              key={filter.value}
+              key={f.value}
               type="button"
               role="tab"
-              aria-selected={year === filter.value}
-              onClick={() => setYear(filter.value)}
+              aria-selected={year === f.value}
+              onClick={() => setYear(f.value)}
               className={cn(
                 'shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-colors',
-                year === filter.value
+                year === f.value
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-secondary text-secondary-foreground hover:bg-accent',
               )}
             >
-              {filter.label}
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <div role="tablist" aria-label="Filter by semester" className="flex gap-2 overflow-x-auto pb-2">
+          {semesterFilters.map((f) => (
+            <button
+              key={f.value}
+              type="button"
+              role="tab"
+              aria-selected={semester === f.value}
+              onClick={() => setSemester(f.value)}
+              className={cn(
+                'shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-colors',
+                semester === f.value
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary text-secondary-foreground hover:bg-accent',
+              )}
+            >
+              {f.label}
             </button>
           ))}
         </div>
