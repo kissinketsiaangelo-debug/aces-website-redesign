@@ -31,80 +31,73 @@ export const categories: Category[] = [
   { key: 'other', label: 'Other', icon: 'Package' },
 ]
 
+const jpgFiles = new Set([
+  'Graphic Design - Flyer',
+  'Motivational Wall',
+  'Web Development Package',
+])
+
 const localImages: Record<string, string> = {
-  'campus-jollof-combo': 'campus',
-  'smoothie-bowl': '',
-  'campus-lunch-box': 'campus',
-  'grilled-chicken-wrap': 'download',
-  'fresh-fruit-platter': 'OIP',
-  'coffee-bundle': 'OIP (1)',
-  'energy-bites': 'OIP (2)',
-  'protein-shake-pack': 'OIP (3)',
-  'bubble-tea-kit': 'OIP (4)',
-  'healthy-salad-jar': 'OIP (5)',
-  'custom-crewneck': 'OIP (6)',
-  'denim-jacket': 'OIP (7)',
-  'streetwear-tee': 'OIP (8)',
-  'baseball-cap': 'OIP (9)',
-  'canvas-tote-bag': 'OIP (10)',
-  'sneaker-set': 'OIP (11)',
-  'pullover-hoodie': 'OIP (12)',
-  'bucket-hat': 'OIP (13)',
-  'phone-pouch': 'OIP (14)',
-  'wristband-pack': 'OIP (15)',
-  'wireless-earbuds': 'OIP (16)',
-  'power-bank-20000': 'OIP (17)',
-  'usb-c-hub': 'download (1)',
-  'mechanical-keyboard': 'download (2)',
-  'laptop-stand': 'download (3)',
-  'webcam-1080p': 'download (4)',
-  'smartwatch-band': 'download (5)',
-  'bluetooth-speaker': 'download (6)',
-  'xl-mouse-pad': 'download (7)',
-  'hdmi-cable-pack': 'download (8)',
-  'web-dev-package': 'web',
+  'campus-jollof-combo': 'Campus Jollof Combo',
+  'smoothie-bowl': 'Smoothie Bowl',
+  'campus-lunch-box': 'Campus Lunch Box',
+  'fresh-fruit-platter': 'Fresh Fruit Platter',
+  'protein-shake-pack': 'Protein Shake Pack',
+  'bubble-tea-kit': 'Bubble Tea Kit',
+  'healthy-salad-jar': 'Healthy Salad Jar',
+  'custom-crewneck': 'Custom Crewneck Sweatshirt',
+  'denim-jacket': 'Denim Jacket',
+  'baseball-cap': 'Baseball Cap',
+  'wristband-pack': 'Wristband Pack',
+  'wireless-earbuds': 'Wireless Earbuds',
+  'power-bank-20000': 'Power Bank 20000mAh',
+  'usb-c-hub': 'USB-C Hub 7-in 1',
+  'mechanical-keyboard': 'Mechanical Keyboard',
+  'laptop-stand': 'Adjustable Laptop Stand',
+  'webcam-1080p': '1080p Webcam',
+  'smartwatch-band': 'Smartwatch Band',
+  'bluetooth-speaker': 'Portal Bluethooth Speaker',
+  'xl-mouse-pad': 'Gaming Mouse Pad XL',
+  'hdmi-cable-pack': 'HDMI Cable',
+  'web-dev-package': 'Web Development Package',
   'graphic-design-flyer': 'Graphic Design - Flyer',
   'photography-session': 'Photography Session',
-  'math-tutoring': 'download (9)',
   'cv-review': 'cv',
-  'python-crash-course': 'download (10)',
-  'logo-design': 'download (11)',
-  'video-editing': 'video editing',
-  'academic-proofreading': 'download (12)',
-  'social-media-management': 'social media',
-  'shea-butter-cream': 'shea butter',
-  'lip-gloss-set': 'lip',
+  'python-crash-course': 'Python Crash Course',
+  'logo-design': 'Logo Design',
+  'video-editing': 'Video Editing',
+  'academic-proofreading': 'Academic Proofreading',
+  'social-media-management': 'Social Media Management',
+  'shea-butter-cream': 'Shea Butter Cream',
+  'lip-gloss-set': 'Lip Gloss Set',
   'face-serum': 'vitamin c',
   'body-scrub': 'sugar body',
-  'beard-oil-kit': 'beard oil kit',
-  'nail-polish-pack': 'nails',
-  'hair-growth-oil': 'hair growth',
+  'beard-oil-kit': 'Bread Oil Kit',
+  'nail-polish-pack': 'Nail Polish Pack',
+  'hair-growth-oil': 'Hair Growth Oil',
   'perfume-roll-on': 'perfume roll on',
-  'eyeshadow-palette': 'download (13)',
+  'eyeshadow-palette': 'Eyeshadow Palette',
   'skincare-bundle': 'Skincare',
-  'notebook-set': 'NOTEBOOK',
+  'notebook-set': 'Notebook Set',
   'academic-planner': 'Academic Planner',
-  'sticker-pack': 'Tech sticker',
+  'sticker-pack': 'Tech Sticker Pack',
   'wall-poster': 'Motivational Wall',
   'water-bottle': 'Insluted water',
   'desk-organizer': 'Desk organizer',
   'keychain-set': 'engraved key',
   'phone-stand': 'phone satnd',
-  'bookmark-collection': 'boomark',
-  'puzzle-set': 'OIP',
+  'bookmark-collection': 'Bookmark Collection',
+  'puzzle-set': 'Campus Puzzle Set',
 }
 
 function img(slug: string): string[] {
   const base = '/images/marketplace/'
   const local = localImages[slug]
-  const localUrl = local ? `${base}${local}.webp` : ''
-  if (local === '') {
+  if (!local) {
     return [`https://picsum.photos/seed/${slug}-1/400/400`, `https://picsum.photos/seed/${slug}-2/400/400`]
   }
-  const ext = (local === 'Graphic Design - Flyer' || local === 'Motivational Wall' || local === 'web') ? '.jpg' : '.webp'
-  const img1 = `${base}${local}${ext}`
-  const img2 = `https://picsum.photos/seed/${slug}/400/400`
-  return [img1, img2]
+  const ext = jpgFiles.has(local) ? '.jpg' : '.webp'
+  return [`${base}${local}${ext}`, `https://picsum.photos/seed/${slug}/400/400`]
 }
 
 const C = 'Campus Kitchen'
