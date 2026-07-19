@@ -13,12 +13,7 @@ import { products } from '@/lib/products'
 type Category = 'all' | 'apparel' | 'accessories'
 
 const productCategory: Record<string, Category> = {
-  hoodie: 'apparel',
-  tee: 'apparel',
   codefest: 'apparel',
-  mug: 'accessories',
-  stickers: 'accessories',
-  notebook: 'accessories',
 }
 
 const categories = [
