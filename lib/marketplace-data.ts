@@ -49,6 +49,7 @@ const jpgFiles = new Set([
   'Graphic Design - Flyer',
   'Motivational Wall',
   'Web Development Package',
+  'Coffee Bundle', // add if it saved as jpg
 ])
 
 const localImages: Record<string, string> = {
@@ -132,7 +133,7 @@ export const products: Product[] = [
   { id: 'f1', slug: 'campus-jollof-combo', name: 'Campus Jollof Combo', description: 'Classic Ghanaian jollof rice with grilled chicken, plantain, and a side of fresh salad. Perfect for lunch on the go.', price: 35, images: img('campus-jollof'), category: 'food-beverages', vendor: { name: C, phone: '054 123 4567', email: 'campus.kitchen@aces.edu' }, createdAt: '2026-01-15' },
   { id: 'f2', slug: 'smoothie-bowl', name: 'Smoothie Bowl', description: 'Blended tropical fruits topped with granola, chia seeds, and honey. A refreshing and healthy breakfast option.', price: 20, images: img('smoothie-bowl'), category: 'food-beverages', vendor: { name: C, phone: '054 123 4567', email: 'campus.kitchen@aces.edu' }, createdAt: '2026-01-18' },
   { id: 'f3', slug: 'protein-shake-pack', name: 'Protein Shake Pack', description: 'Pack of 5 premium whey protein shakes in assorted flavours — chocolate, vanilla, and strawberry.', price: 60, images: img('protein-shake'), category: 'food-beverages', vendor: { name: F, phone: '055 987 6543', email: 'freshbite@aces.edu' }, createdAt: '2026-02-01' },
-  { id: 'f4', slug: 'grilled-chicken-wrap', name: 'Grilled Chicken Wrap', description: 'Spiced grilled chicken breast with lettuce, tomatoes, and ranch dressing wrapped in a warm tortilla.', price: 25, images: img('chicken-wrap'), category: 'food-beverages', vendor: { name: F, phone: '055 987 6543', email: 'freshbite@aces.edu' }, createdAt: '2026-02-05' },
+  { id: 'f4', slug: 'Grilled Chicken Wrap', name: 'Grilled Chicken Wrap', description: 'Spiced grilled chicken breast with lettuce, tomatoes, and ranch dressing wrapped in a warm tortilla.', price: 25, images: img('chicken-wrap'), category: 'food-beverages', vendor: { name: F, phone: '055 987 6543', email: 'freshbite@aces.edu' }, createdAt: '2026-02-05' },
   { id: 'f5', slug: 'fresh-fruit-platter', name: 'Fresh Fruit Platter', description: 'Seasonal fresh fruits — watermelon, pineapple, mango, oranges, and grapes. Great for group study sessions.', price: 30, images: img('fruit-platter'), category: 'food-beverages', vendor: { name: C, phone: '054 123 4567', email: 'campus.kitchen@aces.edu' }, createdAt: '2026-02-10' },
   { id: 'f6', slug: 'coffee-bundle', name: 'Coffee Bundle', description: 'Bag of freshly roasted Ghanaian coffee beans plus a reusable stainless steel tumbler. Fuel your code sessions.', price: 45, images: img('coffee-bundle'), category: 'food-beverages', vendor: { name: C, phone: '054 123 4567', email: 'campus.kitchen@aces.edu' }, createdAt: '2026-02-14' },
   { id: 'f7', slug: 'energy-bites', name: 'Energy Bites', description: 'Homemade oat-and-peanut-butter energy balls with dark chocolate chips. Pack of 12.', price: 15, images: img('energy-bites'), category: 'food-beverages', vendor: { name: F, phone: '055 987 6543', email: 'freshbite@aces.edu' }, createdAt: '2026-02-20' },
