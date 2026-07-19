@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { PartyPopper, X } from 'lucide-react'
 import { AppHeader } from '@/components/app-header'
+import { AppFooter } from '@/components/app-footer'
 import { BottomNav } from '@/components/bottom-nav'
 import { useCart } from '@/lib/cart-context'
 
@@ -43,6 +44,7 @@ export function AppShell({
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-background shadow-[0_0_40px_rgba(11,31,58,0.08)]">
       <AppHeader title={title} />
       <main className="flex-1 pb-24">{children}</main>
+      <AppFooter />
       <CartToast />
       <BottomNav />
     </div>

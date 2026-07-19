@@ -21,9 +21,9 @@ export type RichProduct = {
 
 export const products: RichProduct[] = [
   {
-    id: 'codefest',
-    name: "CodeFest '26 Premium T-Shirt",
-    price: 120,
+    id: 'codefest-tech-polo',
+    name: 'CODEFEST-TECH-POLO',
+    price: 60,
     image: '/images/product-codefest-2.jpeg',
     images: ['/images/product-codefest-2.jpeg', '/images/product-codefest-1.jpeg'],
     tag: 'Limited',

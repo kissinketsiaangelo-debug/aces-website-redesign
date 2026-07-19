@@ -36,10 +36,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [toast, setToast] = useState<string | null>(null)
   const { addNotification } = useNotifications()
 
-  // Restore prototype cart state so a page refresh doesn't break the demo flow
   useEffect(() => {
     try {
-      const saved = window.sessionStorage.getItem('aces-cart')
+      const saved = window.localStorage.getItem('aces-cart')
       if (saved) setItems(JSON.parse(saved) as CartItem[])
     } catch {
       // ignore corrupt state
@@ -48,7 +47,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
-      window.sessionStorage.setItem('aces-cart', JSON.stringify(items))
+      window.localStorage.setItem('aces-cart', JSON.stringify(items))
     } catch {
       // storage unavailable — in-memory cart still works
     }
