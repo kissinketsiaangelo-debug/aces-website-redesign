@@ -7,39 +7,26 @@ export type Category = {
   photos: { src: string; caption: string }[]
 }
 
+const allPhotos = [
+  { src: '/images/Acesshirt.jpg', caption: 'ACES Shirt' },
+  { src: '/images/codefest.jpg', caption: 'CodeFest' },
+  { src: '/images/homeImage.png', caption: 'ACES Community' },
+  { src: '/images/Jersey.jpg', caption: 'ACES Jersey' },
+  { src: '/images/Nocte.jpg', caption: 'Nocte' },
+  { src: '/images/official.jpg', caption: 'Official Group Photo' },
+  { src: '/images/Trip.jpg', caption: 'ACES Trip' },
+  { src: '/images/About.jpg', caption: 'About ACES' },
+  { src: '/images/aces-group-photo.png', caption: 'ACES Group Photo' },
+]
+
 export const categories: Category[] = [
   {
-    slug: 'events',
-    name: 'Events',
-    description: 'CodeFest, ACES Dinner, Career Fair, Freshmen Orientation and more.',
-    cover: '/images/gallery-1.jpg',
-    count: 15,
-    photos: Array.from({ length: 15 }, (_, i) => ({
-      src: `/images/gallery-${i + 1}.jpg`,
-      caption: 'ACES Moment',
-    })),
-  },
-  {
-    slug: 'workshops-clubs',
-    name: 'Workshops & Clubs',
-    description: 'Arduino, Robotics, Coding Bootcamps and hands-on lab sessions.',
-    cover: '/images/gallery-16.jpg',
-    count: 12,
-    photos: Array.from({ length: 12 }, (_, i) => ({
-      src: `/images/gallery-${i + 16}.jpg`,
-      caption: 'ACES Moment',
-    })),
-  },
-  {
-    slug: 'social-community',
-    name: 'Social & Community',
-    description: 'Outreach, parties, team-building and general gatherings.',
-    cover: '/images/gallery-28.jpg',
-    count: 16,
-    photos: Array.from({ length: 16 }, (_, i) => ({
-      src: `/images/gallery-${i + 28}.jpg`,
-      caption: 'ACES Moment',
-    })),
+    slug: 'aces-moments',
+    name: 'ACES Moments',
+    description: 'Memorable moments from ACES events, trips, and community gatherings.',
+    cover: '/images/Acesshirt.jpg',
+    count: allPhotos.length,
+    photos: allPhotos,
   },
 ]
 

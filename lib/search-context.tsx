@@ -35,7 +35,7 @@ const searchableItems: SearchItem[] = [
   { id: 'event-arduino', title: 'Arduino Workshop', description: 'Hands-on session on embedded systems and sensor interfacing.', category: 'Events', url: '/events', image: '/images/arduino-workshop.jpg' },
   { id: 'event-career-fair', title: 'Career Fair', description: 'Meet industry partners — internships, graduate roles and mentorship.', category: 'Events', url: '/events', image: '/images/career-fair.jpg' },
   { id: 'event-bootcamp', title: 'Coding Bootcamp', description: 'Weekend crash course on web development with modern frameworks.', category: 'Events', url: '/events', image: '/images/coding-bootcamp.jpg' },
-  { id: 'event-hangout', title: 'ACES Hangout', description: 'Games, music and good vibes — a break from the books.', category: 'Events', url: '/events', image: '/images/gallery-12.jpg' },
+  { id: 'event-hangout', title: 'ACES Hangout', description: 'Games, music and good vibes — a break from the books.', category: 'Events', url: '/events', image: '/images/Nocte.jpg' },
   { id: 'event-orientation', title: 'Freshmen Orientation', description: 'Welcome new ACES members — meet executives and learn the ropes.', category: 'Events', url: '/events', image: '/images/orientation.jpg' },
   // Courses
   { id: 'course-coe152', title: 'COE 152 — Basic Electronics', description: 'Year 1, Sem 2 — 8 files (24 MB)', category: 'Courses', url: '/courses' },

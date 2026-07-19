@@ -72,7 +72,7 @@ export default function ExecutivesPage() {
       <section className="px-4 pt-5">
         <div className="relative h-48 overflow-hidden rounded-3xl">
           <Image
-            src="/images/gallery-6.jpg"
+            src="/images/About.jpg"
             alt="ACES executive team"
             fill
             sizes="(max-width: 448px) 100vw, 448px"

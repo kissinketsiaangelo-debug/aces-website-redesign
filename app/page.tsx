@@ -189,10 +189,10 @@ export default function HomePage() {
   const [joinClubName, setJoinClubName] = useState<string | null>(null)
 
   const galleryImages = [
-    { src: '/images/Form 1.jpg', alt: 'ACES students' },
-    { src: '/images/gallery-codefest.png', alt: 'CodeFest' },
-    { src: '/images/gallery-dinner.png', alt: 'ACES Dinner' },
-    { src: '/images/gallery-hangout.png', alt: 'ACES Hangout' },
+    { src: '/images/Acesshirt.jpg', alt: 'ACES Shirt' },
+    { src: '/images/Jersey.jpg', alt: 'ACES Jersey' },
+    { src: '/images/Trip.jpg', alt: 'ACES Trip' },
+    { src: '/images/codefest.jpg', alt: 'CodeFest' },
   ]
 
   return (
@@ -219,7 +219,7 @@ export default function HomePage() {
       <section className="px-4 pt-5">
         <div className="relative h-72 overflow-hidden rounded-3xl">
           <Image
-            src="/images/Form 1.jpg"
+            src="/images/homeImage.png"
             alt="ACES students collaborating"
             fill
             priority
