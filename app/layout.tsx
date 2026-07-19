@@ -49,16 +49,16 @@ export default function RootLayout({
           <NotificationProvider>
             <CartProvider>
               <MarketplaceProvider>
-                <RecentlyViewedProvider>
-                  <RegistrationProvider>
-                    <WishlistProvider>
-                      <SearchProvider>
-                        {children}
-                        <SearchOverlay />
-                      </SearchProvider>
-                    </WishlistProvider>
-                  </RegistrationProvider>
-                </RecentlyViewedProvider>
+              <RecentlyViewedProvider>
+                <RegistrationProvider>
+                  <WishlistProvider>
+                    <SearchProvider>
+                      {children}
+                      <SearchOverlay />
+                    </SearchProvider>
+                  </WishlistProvider>
+                </RegistrationProvider>
+              </RecentlyViewedProvider>
               </MarketplaceProvider>
             </CartProvider>
           </NotificationProvider>

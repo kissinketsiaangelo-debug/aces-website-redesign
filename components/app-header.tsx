@@ -28,7 +28,7 @@ export function AppHeader({ title }: { title?: string }) {
   const [open, setOpen] = useState(false)
   const [showMore, setShowMore] = useState(false)
   const pathname = usePathname()
-  const { theme, toggle } = useTheme()
+  const { theme, mounted, toggle } = useTheme()
   const { setOpen: setSearchOpen } = useSearch()
   const { unreadCount } = useNotifications()
 
@@ -116,10 +116,10 @@ export function AppHeader({ title }: { title?: string }) {
               <button
                 type="button"
                 onClick={toggle}
-                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                aria-label={mounted ? `Switch to ${theme === 'light' ? 'dark' : 'light'} mode` : 'Toggle theme'}
                 className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
               >
-                {theme === 'light' ? <Moon className="size-5" aria-hidden="true" /> : <Sun className="size-5" aria-hidden="true" />}
+                {mounted ? (theme === 'light' ? <Moon className="size-5" aria-hidden="true" /> : <Sun className="size-5" aria-hidden="true" />) : <div className="size-5" />}
               </button>
               <button
                 type="button"

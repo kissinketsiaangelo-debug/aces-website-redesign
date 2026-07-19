@@ -5,15 +5,36 @@ import Link from 'next/link'
 import { Package, Plus, Edit3, Trash2, Store, ArrowLeft, X, Check } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useMarketplaceAuth } from '@/lib/marketplace-context'
-import { products, categories } from '@/lib/marketplace-data'
 import { cn } from '@/lib/utils'
+
+type Product = {
+  id: string
+  slug: string
+  name: string
+  description: string
+  price: number
+  images: string[]
+  category: string
+  vendor: { name: string; phone: string; email: string }
+  createdAt: string
+}
+
+const categories = [
+  { key: 'food', label: 'Food & Drinks' },
+  { key: 'fashion', label: 'Fashion' },
+  { key: 'tech', label: 'Tech' },
+  { key: 'services', label: 'Services' },
+  { key: 'beauty', label: 'Health & Beauty' },
+  { key: 'home', label: 'Home & Living' },
+  { key: 'academic', label: 'Academic' },
+  { key: 'entertainment', label: 'Entertainment' },
+  { key: 'other', label: 'Other' },
+]
 
 export default function VendorDashboardPage() {
   const { user, isAuthenticated, isVendor, logout } = useMarketplaceAuth()
 
-  const [vendorProducts, setVendorProducts] = useState(
-    products.filter((p) => p.vendor.name === user?.name),
-  )
+  const [vendorProducts, setVendorProducts] = useState<Product[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [deleteId, setDeleteId] = useState<string | null>(null)
