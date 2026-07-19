@@ -15,6 +15,7 @@ export default function CategoryPage() {
   const category = getCategory(slug)
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [touchStart, setTouchStart] = useState(0)
 
   const openLightbox = useCallback((index: number) => setLightboxIndex(index), [])
   const closeLightbox = useCallback(() => setLightboxIndex(null), [])
@@ -39,6 +40,17 @@ export default function CategoryPage() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [lightboxIndex, closeLightbox, goNext, goPrev])
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX)
+  }, [])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const diff = touchStart - e.changedTouches[0].clientX
+    if (Math.abs(diff) < 50) return
+    if (diff > 0) goNext()
+    else goPrev()
+  }, [touchStart, goNext, goPrev])
 
   if (!category) {
     return (
@@ -99,6 +111,8 @@ export default function CategoryPage() {
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
           onClick={closeLightbox}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           role="dialog"
           aria-modal="true"
           aria-label={`Photo ${lightboxIndex + 1} of ${category.photos.length}`}

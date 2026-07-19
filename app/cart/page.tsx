@@ -8,16 +8,70 @@ import { AppShell } from '@/components/app-shell'
 import { AcesMark } from '@/components/aces-logo'
 import { useCart } from '@/lib/cart-context'
 
+function generateOrderId() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  let id = 'ACE-'
+  for (let i = 0; i < 8; i++) id += chars[Math.floor(Math.random() * chars.length)]
+  return id
+}
+
 export default function CartPage() {
   const { items, updateQty, removeFromCart, clearCart, total } = useCart()
-  const [status, setStatus] = useState<'cart' | 'processing' | 'done'>('cart')
+  const [status, setStatus] = useState<'cart' | 'address' | 'processing' | 'done'>('cart')
+  const [orderId, setOrderId] = useState('')
+  const [address, setAddress] = useState({ name: '', phone: '', studentId: '', notes: '' })
 
-  function handleCheckout() {
+  function handleAddressSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setOrderId(generateOrderId())
     setStatus('processing')
     setTimeout(() => {
       setStatus('done')
       clearCart()
     }, 1800)
+  }
+
+  if (status === 'address') {
+    return (
+      <AppShell title="Checkout">
+        <section className="px-4 pt-5">
+          <button
+            type="button"
+            onClick={() => setStatus('cart')}
+            className="mb-3 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
+          >
+            ← Back to bag
+          </button>
+          <h1 className="font-heading text-xl font-bold text-navy-text">Delivery details</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Pick up at the ACES office — tell us who you are.</p>
+          <form onSubmit={handleAddressSubmit} className="mt-5 flex flex-col gap-4">
+            <div>
+              <label htmlFor="name" className="text-xs font-semibold text-muted-foreground">Full name</label>
+              <input id="name" required value={address.name} onChange={(e) => setAddress({ ...address, name: e.target.value })} placeholder="Your name" className="mt-1.5 w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm outline-none focus:border-primary" />
+            </div>
+            <div>
+              <label htmlFor="phone" className="text-xs font-semibold text-muted-foreground">Phone number</label>
+              <input id="phone" required type="tel" value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} placeholder="+233 50 000 0000" className="mt-1.5 w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm outline-none focus:border-primary" />
+            </div>
+            <div>
+              <label htmlFor="studentId" className="text-xs font-semibold text-muted-foreground">Student ID</label>
+              <input id="studentId" required value={address.studentId} onChange={(e) => setAddress({ ...address, studentId: e.target.value })} placeholder="e.g. 2123456789" className="mt-1.5 w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm outline-none focus:border-primary" />
+            </div>
+            <div>
+              <label htmlFor="notes" className="text-xs font-semibold text-muted-foreground">Notes (optional)</label>
+              <textarea id="notes" rows={2} value={address.notes} onChange={(e) => setAddress({ ...address, notes: e.target.value })} placeholder="Anything we should know?" className="mt-1.5 w-full resize-none rounded-xl border border-border bg-secondary px-4 py-3 text-sm outline-none focus:border-primary" />
+            </div>
+            <div className="rounded-xl bg-secondary/60 p-3 text-sm">
+              <div className="flex justify-between"><span className="text-muted-foreground">Total</span><span className="font-bold">GHS {total}</span></div>
+              <div className="flex justify-between mt-1"><span className="text-muted-foreground">Pickup</span><span className="text-success font-semibold">Free</span></div>
+            </div>
+            <button type="submit" className="w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity">
+              Place order · GHS {total}
+            </button>
+          </form>
+        </section>
+      </AppShell>
+    )
   }
 
   if (status === 'processing') {
@@ -40,9 +94,13 @@ export default function CartPage() {
             <PartyPopper className="size-8" aria-hidden="true" />
           </span>
           <h1 className="mt-5 font-heading text-xl font-bold text-navy-text text-balance">You&apos;re all set!</h1>
-          <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+          <div className="mt-3 rounded-xl bg-secondary px-4 py-3 text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Order number</p>
+            <p className="mt-0.5 font-heading text-lg font-bold tracking-wider text-navy-text">{orderId}</p>
+          </div>
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
             Your order is confirmed. Pick it up at the ACES office (Caesar Building, Room 2) — we&apos;ll message you
-            when it&apos;s ready.
+            when it&apos;s ready. Save your order number for pickup.
           </p>
           <Link
             href="/shop"
@@ -144,7 +202,7 @@ className="flex size-7 items-center justify-center rounded-full bg-secondary tex
             </div>
             <button
               type="button"
-              onClick={handleCheckout}
+              onClick={() => setStatus('address')}
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
               Checkout · GHS {total}

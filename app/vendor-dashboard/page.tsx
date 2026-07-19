@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
 import Link from 'next/link'
 import { Package, Plus, Edit3, Trash2, Store, ArrowLeft, X, Check } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
@@ -17,6 +17,14 @@ export default function VendorDashboardPage() {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [saved, setSaved] = useState(false)
+
+  useEffect(() => {
+    if (saved) {
+      const t = setTimeout(() => setSaved(false), 2500)
+      return () => clearTimeout(t)
+    }
+  }, [saved])
 
   const emptyForm = { name: '', description: '', price: '', category: 'other', image: '' }
   const [form, setForm] = useState(emptyForm)
@@ -44,7 +52,7 @@ export default function VendorDashboardPage() {
     }
 
     const slug = form.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-    const image = form.image.trim() || `https://picsum.photos/seed/vendor-${Date.now()}/400/400`
+    const image = form.image.trim() || '/placeholder.svg'
 
     if (editingId) {
       setVendorProducts((prev) =>
@@ -70,6 +78,7 @@ export default function VendorDashboardPage() {
     }
 
     resetForm()
+    setSaved(true)
   }
 
   function startEdit(id: string) {
@@ -316,6 +325,13 @@ export default function VendorDashboardPage() {
           </ul>
         )}
       </section>
+
+      {saved && (
+        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-xl bg-success px-4 py-3 text-sm font-semibold text-white shadow-xl">
+          <Check className="mr-2 inline size-4" aria-hidden="true" />
+          Product saved successfully
+        </div>
+      )}
     </AppShell>
   )
 }

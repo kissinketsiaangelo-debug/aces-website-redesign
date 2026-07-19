@@ -188,8 +188,33 @@ export default function HomePage() {
   const router = useRouter()
   const [joinClubName, setJoinClubName] = useState<string | null>(null)
 
+  const galleryImages = [
+    { src: '/images/Form 1.jpg', alt: 'ACES students' },
+    { src: '/images/gallery-codefest.png', alt: 'CodeFest' },
+    { src: '/images/gallery-dinner.png', alt: 'ACES Dinner' },
+    { src: '/images/gallery-hangout.png', alt: 'ACES Hangout' },
+  ]
+
   return (
     <AppShell>
+      {/* CODEFEST Banner */}
+      <section className="px-4 pt-4">
+        <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-background border border-primary/20 p-3">
+          <span className="text-lg" aria-hidden="true">🔥</span>
+          <p className="flex-1 text-xs font-semibold text-navy">
+            CODEFEST is here! Register now for the challenges
+          </p>
+          <a
+            href="https://forms.gle/p5789Kabjyah6wq59"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 rounded-full bg-primary px-3 py-1.5 text-[10px] font-bold text-primary-foreground"
+          >
+            Register Now →
+          </a>
+        </div>
+      </section>
+
       {/* Hero */}
       <section className="px-4 pt-5">
         <div className="relative h-72 overflow-hidden rounded-3xl">
@@ -233,7 +258,7 @@ export default function HomePage() {
               <Link
                 key={action.href}
                 href={action.href}
-                className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-secondary/40"
+                className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
               >
                 <span className="flex size-10 items-center justify-center rounded-xl bg-secondary text-primary">
                   <Icon className="size-5" aria-hidden="true" />
@@ -355,6 +380,26 @@ export default function HomePage() {
       </section>
 
       {joinClubName && <JoinForm club={joinClubName} onClose={() => setJoinClubName(null)} />}
+
+      {/* Gallery */}
+      <section className="px-4 pt-7" aria-labelledby="gallery-heading">
+        <div className="flex items-center justify-between">
+          <h2 id="gallery-heading" className="font-heading text-lg font-bold text-navy-text">
+            Our Gallery
+          </h2>
+          <Link href="/gallery" className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+            See more
+            <ArrowRight className="size-3" aria-hidden="true" />
+          </Link>
+        </div>
+        <div className="mt-3 flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+          {galleryImages.map((img, i) => (
+            <div key={i} className="relative h-36 w-56 shrink-0 overflow-hidden rounded-2xl">
+              <Image src={img.src} alt={img.alt} fill sizes="224px" className="object-cover" />
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Testimonial */}
       <section className="px-4 pt-7 pb-6" aria-labelledby="testimonial-heading">

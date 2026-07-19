@@ -322,7 +322,7 @@ export default function ProductDetailPage() {
                   <Link
                     key={related.id}
                     href={`/shop/${related.id}`}
-                    className="flex w-36 shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-primary/40"
+                    className="group/rel flex w-36 shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
                   >
                     <div className="relative aspect-square bg-muted">
                       <Image

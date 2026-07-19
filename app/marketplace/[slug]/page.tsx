@@ -4,18 +4,20 @@ import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { ArrowLeft, ShoppingCart, Phone, Store, Package, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, ShoppingCart, Phone, Store, Package, Minus, Plus } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { getProductBySlug, getProductsByCategory } from '@/lib/marketplace-data'
 import { useCart } from '@/lib/cart-context'
-import { cn } from '@/lib/utils'
 
 export default function ProductDetailPage() {
   const params = useParams()
   const slug = params.slug as string
   const product = getProductBySlug(slug)
   const { addToCart } = useCart()
-  const [imgIndex, setImgIndex] = useState(0)
+  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const [selectedColor, setSelectedColor] = useState<string | null>(null)
+  const [qty, setQty] = useState(1)
+  const [selectedImage, setSelectedImage] = useState(0)
 
   if (!product) {
     return (
@@ -31,13 +33,30 @@ export default function ProductDetailPage() {
     )
   }
 
+  const activeColor = product.colors
+    ? product.colors.find((c) => c.name === selectedColor) ?? null
+    : null
+  const activeImages = activeColor ? activeColor.images : product.images
+  const stock = product.stock ?? 99
+  const soldOut = stock === 0
+  const canAddToCart = !soldOut && (!product.sizing || selectedSize !== null) && (!product.colors || selectedColor !== null)
+
+  const handleAddToCart = () => {
+    if (product.sizing && !selectedSize) return
+    if (product.colors && !selectedColor) return
+    addToCart(
+      { id: product.id, name: product.name, price: product.price, image: activeImages[0] },
+      selectedSize ?? undefined,
+      selectedColor ?? undefined,
+    )
+  }
+
   const related = getProductsByCategory(product.category)
     .filter((p) => p.id !== product.id)
     .slice(0, 4)
 
   return (
     <AppShell title={product.name}>
-      {/* Back link */}
       <section className="px-4 pt-5">
         <Link
           href="/marketplace"
@@ -48,55 +67,35 @@ export default function ProductDetailPage() {
         </Link>
       </section>
 
-      {/* Image gallery */}
       <section className="px-4 pt-4">
         <div className="relative aspect-square overflow-hidden rounded-3xl bg-muted">
           <Image
-            src={product.images[imgIndex]}
+            src={activeImages[selectedImage]}
             alt={product.name}
             fill
             sizes="(max-width: 448px) 100vw, 448px"
             className="object-cover transition-opacity duration-300"
             priority
           />
-          {product.images.length > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={() => setImgIndex((i) => (i === 0 ? product.images.length - 1 : i - 1))}
-                aria-label="Previous image"
-                className="absolute left-2 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
-              >
-                <ChevronLeft className="size-4" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setImgIndex((i) => (i === product.images.length - 1 ? 0 : i + 1))}
-                aria-label="Next image"
-                className="absolute right-2 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
-              >
-                <ChevronRight className="size-4" aria-hidden="true" />
-              </button>
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                {product.images.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setImgIndex(i)}
-                    aria-label={`View image ${i + 1}`}
-                    className={cn(
-                      'size-2 rounded-full transition-all',
-                      i === imgIndex ? 'w-5 bg-white' : 'bg-white/50',
-                    )}
-                  />
-                ))}
-              </div>
-            </>
-          )}
         </div>
+        {activeImages.length > 1 && (
+          <div className="mt-3 flex gap-2">
+            {activeImages.map((img, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setSelectedImage(i)}
+                className={`relative size-14 shrink-0 overflow-hidden rounded-xl border-2 transition-colors ${
+                  i === selectedImage ? 'border-primary' : 'border-border hover:border-primary/50'
+                }`}
+              >
+                <Image src={img} alt="" fill sizes="56px" className="object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Product info */}
       <section className="px-4 pt-5">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -118,7 +117,96 @@ export default function ProductDetailPage() {
         </p>
       </section>
 
-      {/* Vendor contact */}
+      {product.colors && (
+        <section className="px-4 pt-5">
+          <p className="text-sm font-semibold text-foreground">
+            Colour <span className="text-muted-foreground font-normal">— {selectedColor || 'Select a colour'}</span>
+          </p>
+          <div className="mt-2 flex flex-wrap gap-3">
+            {product.colors.map((color) => (
+              <button
+                key={color.name}
+                type="button"
+                onClick={() => {
+                  setSelectedColor(color.name)
+                  setSelectedImage(0)
+                }}
+                className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 ${
+                  selectedColor === color.name
+                    ? 'border-primary bg-primary/5 text-primary shadow-sm shadow-primary/20 scale-105'
+                    : 'border-border bg-card text-foreground hover:border-primary/50 hover:shadow-md'
+                }`}
+              >
+                <span
+                  className="size-5 shrink-0 rounded-full border border-border transition-transform duration-300"
+                  style={{ backgroundColor: color.hex }}
+                  aria-hidden="true"
+                />
+                {color.name}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {product.sizing && (
+        <section className="px-4 pt-5">
+          <p className="text-sm font-semibold text-foreground">
+            Size <span className="text-muted-foreground font-normal">— {selectedSize || 'Select a size'}</span>
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {product.sizing.map((size) => (
+              <button
+                key={size.label}
+                type="button"
+                onClick={() => size.inStock && setSelectedSize(size.label)}
+                disabled={!size.inStock}
+                className={`flex h-10 min-w-[3rem] items-center justify-center rounded-xl border px-4 text-sm font-medium transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 ${
+                  selectedSize === size.label
+                    ? 'border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/20 scale-105'
+                    : size.inStock
+                      ? 'border-border bg-card text-foreground hover:border-primary/50 hover:shadow-md'
+                      : 'border-border bg-muted text-muted-foreground cursor-not-allowed'
+                }`}
+              >
+                {size.label}
+                {!size.inStock && <span className="sr-only">(out of stock)</span>}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="px-4 pt-5">
+        <p className="text-sm font-semibold text-foreground">Quantity</p>
+        <div className="mt-2 flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setQty(Math.max(1, qty - 1))}
+            disabled={soldOut}
+            aria-label="Decrease quantity"
+            className="flex size-9 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-all duration-200 hover:bg-accent hover:scale-105 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
+          >
+            <Minus className="size-4 transition-transform duration-200" aria-hidden="true" />
+          </button>
+          <span className="w-8 text-center text-base font-semibold" aria-live="polite">
+            {qty}
+          </span>
+          <button
+            type="button"
+            onClick={() => setQty(Math.min(stock, qty + 1))}
+            disabled={soldOut}
+            aria-label="Increase quantity"
+            className="flex size-9 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-all duration-200 hover:bg-accent hover:scale-105 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100"
+          >
+            <Plus className="size-4" aria-hidden="true" />
+          </button>
+          <span className="ml-1 text-xs text-muted-foreground">
+            {soldOut ? 'Out of stock' : `${stock} in stock`}
+          </span>
+        </div>
+      </section>
+
       <section className="px-4 pt-5">
         <div className="rounded-2xl border border-border bg-card p-4">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Sold by</p>
@@ -133,26 +221,24 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
-      {/* Add to cart */}
       <section className="px-4 pt-5 pb-8">
         <button
           type="button"
-          onClick={() =>
-            addToCart({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              image: product.images[0],
-            })
-          }
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.98]"
+          onClick={handleAddToCart}
+          disabled={!canAddToCart}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:scale-100"
         >
           <ShoppingCart className="size-5" aria-hidden="true" />
-          Add to cart — GH₵ {product.price}
+          {soldOut
+            ? 'Out of stock'
+            : product.colors && !selectedColor
+              ? 'Select a colour'
+              : product.sizing && !selectedSize
+                ? 'Select a size'
+                : `Add to cart — GH₵ ${product.price * qty}`}
         </button>
       </section>
 
-      {/* Related products */}
       {related.length > 0 && (
         <section className="px-4 pb-8" aria-labelledby="related-heading">
           <h2 id="related-heading" className="font-heading text-base font-bold text-foreground">
@@ -163,7 +249,7 @@ export default function ProductDetailPage() {
               <Link
                 key={rel.id}
                 href={`/marketplace/${rel.slug}`}
-                className="w-40 shrink-0 overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-md"
+                className="group/rel w-40 shrink-0 overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
               >
                 <div className="relative aspect-square">
                   <Image
