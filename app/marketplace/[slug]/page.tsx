@@ -13,31 +13,26 @@ type Product = {
   name: string
   description: string
   price: string
-  images: string[]
+  image: string
+  additional_images: string[]
   category: string
+  is_available: boolean
   created_at: string
-  business: {
-    id: number
-    name: string
-    slug: string
-    phone: string
-    email: string
-  }
+  business_name: string
+  business_slug: string
+  owner_name: string
+  whatsapp_number: string
 }
 
 const API = 'https://aces-backend-pgtot.ondigitalocean.app/api/student-businesses/products/global/'
-const R2 = 'https://pub-5928f18259724e989634e3f638f5914f.r2.dev/'
 
 function productImage(p: Product): string {
-  if (p.images?.length) {
-    const src = p.images[0]
-    if (src.startsWith('http')) return src
-    return `${R2}${src}`
-  }
+  if (p.image && p.image.startsWith('http')) return p.image
   return '/placeholder.svg'
 }
 
-function waUrl(phone: string, text: string): string {
+function waUrl(phone: string | undefined | null, text: string): string {
+  if (!phone) return '#'
   return `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`
 }
 
@@ -71,11 +66,13 @@ export default function BusinessPage() {
   }, [selected])
 
   const businessProducts = useMemo(
-    () => products.filter((p) => p.business.slug === slug),
+    () => products.filter((p) => p.business_slug === slug),
     [products, slug],
   )
 
-  const business = businessProducts.length > 0 ? businessProducts[0].business : null
+  const business = businessProducts.length > 0
+    ? { name: businessProducts[0].business_name, slug: businessProducts[0].business_slug, phone: businessProducts[0].whatsapp_number }
+    : null
 
   if (loading) {
     return (
@@ -267,7 +264,7 @@ export default function BusinessPage() {
               <div className="px-5 pt-5">
                 <a
                   href={waUrl(
-                    selected.business.phone,
+                    selected.whatsapp_number,
                     `Hi! I'm interested in buying *${selected.name}* (GH₵ ${selected.price}) from your store on ACES Marketplace.`,
                   )}
                   target="_blank"
@@ -280,12 +277,12 @@ export default function BusinessPage() {
                 <p className="mt-2 text-center text-[10px] text-muted-foreground">
                   Seller:{' '}
                   <a
-                    href={waUrl(selected.business.phone, '')}
+                    href={waUrl(selected.whatsapp_number, '')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium text-primary underline"
                   >
-                    {selected.business.phone}
+                    {selected.whatsapp_number}
                   </a>
                 </p>
               </div>

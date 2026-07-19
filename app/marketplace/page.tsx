@@ -13,44 +13,36 @@ type Product = {
   name: string
   description: string
   price: string
-  images: string[]
+  image: string
+  additional_images: string[]
   category: string
+  is_available: boolean
   created_at: string
-  business: {
-    id: number
-    name: string
-    slug: string
-    phone: string
-    email: string
-  }
+  business_name: string
+  business_slug: string
+  owner_name: string
+  whatsapp_number: string
 }
 
 const CATEGORIES = [
   { key: 'all', label: 'All', emoji: '🔥' },
-  { key: 'Food & Drinks', label: 'Food & Drinks', emoji: '🍔' },
-  { key: 'Fashion & Accessories', label: 'Fashion', emoji: '👕' },
-  { key: 'Tech & Gadgets', label: 'Tech', emoji: '💻' },
-  { key: 'Services', label: 'Services', emoji: '🔧' },
-  { key: 'Health & Beauty', label: 'Health & Beauty', emoji: '✨' },
-  { key: 'Home & Living', label: 'Home & Living', emoji: '🏠' },
-  { key: 'Academic', label: 'Academic', emoji: '📚' },
-  { key: 'Entertainment', label: 'Entertainment', emoji: '🎮' },
+  { key: 'Food & Beverages', label: 'Food & Beverages', emoji: '🍔' },
+  { key: 'Fashion & Apparel', label: 'Fashion & Apparel', emoji: '👕' },
+  { key: 'Technology & Electronics', label: 'Technology & Electronics', emoji: '💻' },
+  { key: 'Services (Design, Tutoring, etc)', label: 'Services', emoji: '🔧' },
+  { key: 'Beauty & Cosmetics', label: 'Beauty & Cosmetics', emoji: '✨' },
   { key: 'Other', label: 'Other', emoji: '📦' },
 ]
 
 const API = 'https://aces-backend-pgtot.ondigitalocean.app/api/student-businesses/products/global/'
-const R2 = 'https://pub-5928f18259724e989634e3f638f5914f.r2.dev/'
 
 function productImage(p: Product): string {
-  if (p.images?.length) {
-    const src = p.images[0]
-    if (src.startsWith('http')) return src
-    return `${R2}${src}`
-  }
+  if (p.image && p.image.startsWith('http')) return p.image
   return '/placeholder.svg'
 }
 
-function waUrl(phone: string, text: string): string {
+function waUrl(phone: string | undefined | null, text: string): string {
+  if (!phone) return '#'
   return `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`
 }
 
@@ -90,7 +82,7 @@ export default function MarketplacePage() {
       list = list.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.business.name.toLowerCase().includes(q) ||
+          p.business_name.toLowerCase().includes(q) ||
           p.description.toLowerCase().includes(q),
       )
     }
@@ -216,7 +208,7 @@ export default function MarketplacePage() {
               <div className="p-2.5">
                 <p className="truncate text-xs font-semibold text-foreground">{product.name}</p>
                 <p className="mt-0.5 text-xs font-bold text-primary">GH₵ {product.price}</p>
-                <p className="mt-0.5 truncate text-[10px] text-muted-foreground">{product.business.name}</p>
+                <p className="mt-0.5 truncate text-[10px] text-muted-foreground">{product.business_name}</p>
               </div>
             </button>
           ))}
@@ -278,19 +270,19 @@ export default function MarketplacePage() {
                 </p>
 
                 <Link
-                  href={`/marketplace/${selected.business.slug}`}
+                  href={`/marketplace/${selected.business_slug}`}
                   onClick={() => setSelected(null)}
                   className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-primary transition-colors hover:text-primary/80"
                 >
                   <Store className="size-3.5" aria-hidden="true" />
-                  {selected.business.name}
+                  {selected.business_name}
                 </Link>
               </div>
 
               <div className="px-5 pt-5">
                 <a
                   href={waUrl(
-                    selected.business.phone,
+                    selected.whatsapp_number,
                     `Hi! I'm interested in buying *${selected.name}* (GH₵ ${selected.price}) from your store on ACES Marketplace.`,
                   )}
                   target="_blank"
@@ -304,12 +296,12 @@ export default function MarketplacePage() {
                 <p className="mt-2 text-center text-[10px] text-muted-foreground">
                   Seller:{' '}
                   <a
-                    href={waUrl(selected.business.phone, '')}
+                    href={waUrl(selected.whatsapp_number, '')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium text-primary underline"
                   >
-                    {selected.business.phone}
+                    {selected.whatsapp_number}
                   </a>
                 </p>
               </div>
