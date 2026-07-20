@@ -15,11 +15,7 @@ type Order = {
   total: number
 }
 
-const orders: Order[] = [
-  { id: 'ACE-2026-001', name: 'ACES Navy Hoodie', status: 'ready', date: 'Jul 15', items: ['ACES Navy Hoodie (M) × 1'], total: 180 },
-  { id: 'ACE-2026-002', name: 'CodeFest T-Shirt', status: 'processing', date: 'Jul 18', items: ["CodeFest '26 T-Shirt (L, Black) × 2"], total: 240 },
-  { id: 'ACE-2026-003', name: 'ACES Coffee Mug', status: 'completed', date: 'Jul 10', items: ['ACES Coffee Mug × 1'], total: 45 },
-]
+const orders: Order[] = []
 
 const statusConfig: Record<OrderStatus, { label: string; color: string; step: number }> = {
   pending: { label: 'Pending', color: 'bg-warning', step: 0 },

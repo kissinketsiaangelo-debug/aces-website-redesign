@@ -205,14 +205,16 @@ export default function HomePage() {
           <p className="flex-1 text-xs font-semibold text-navy">
             CODEFEST is here! Register now for the challenges
           </p>
-          <a
-            href="https://forms.gle/p5789Kabjyah6wq59"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => {
+              if (!isAuthenticated) { router.push('/login?redirect=/'); return }
+              register('CodeFest 2026')
+            }}
             className="shrink-0 rounded-full bg-primary px-3 py-1.5 text-[10px] font-bold text-primary-foreground"
           >
             Register Now →
-          </a>
+          </button>
         </div>
       </section>
 
@@ -269,6 +271,26 @@ export default function HomePage() {
               </Link>
             )
           })}
+        </div>
+      </section>
+
+      {/* Our Gallery */}
+      <section className="px-4 pt-7" aria-labelledby="gallery-heading">
+        <div className="flex items-center justify-between">
+          <h2 id="gallery-heading" className="font-heading text-lg font-bold text-navy-text">
+            Our Gallery
+          </h2>
+          <Link href="/gallery" className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+            See more
+            <ArrowRight className="size-3" aria-hidden="true" />
+          </Link>
+        </div>
+        <div className="mt-3 flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+          {galleryImages.map((img, i) => (
+            <div key={i} className="relative h-36 w-56 shrink-0 overflow-hidden rounded-2xl">
+              <Image src={img.src} alt={img.alt} fill sizes="224px" className="object-cover" />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -392,26 +414,6 @@ export default function HomePage() {
       </section>
 
       {joinClubName && <JoinForm club={joinClubName} onClose={() => setJoinClubName(null)} />}
-
-      {/* Gallery */}
-      <section className="px-4 pt-7" aria-labelledby="gallery-heading">
-        <div className="flex items-center justify-between">
-          <h2 id="gallery-heading" className="font-heading text-lg font-bold text-navy-text">
-            Our Gallery
-          </h2>
-          <Link href="/gallery" className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
-            See more
-            <ArrowRight className="size-3" aria-hidden="true" />
-          </Link>
-        </div>
-        <div className="mt-3 flex gap-3 overflow-x-auto pb-2 scrollbar-none">
-          {galleryImages.map((img, i) => (
-            <div key={i} className="relative h-36 w-56 shrink-0 overflow-hidden rounded-2xl">
-              <Image src={img.src} alt={img.alt} fill sizes="224px" className="object-cover" />
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* Testimonial */}
       <section className="px-4 pt-7 pb-6" aria-labelledby="testimonial-heading">
