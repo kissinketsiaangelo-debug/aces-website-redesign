@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { useNotifications } from '@/lib/notification-context'
 import { Download, FileText, Check, WifiOff, Search, ExternalLink, BookOpen, GraduationCap, Layers } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { cn } from '@/lib/utils'
@@ -155,11 +156,28 @@ export default function CoursesPage() {
   const [year, setYear] = useState(0)
   const [semester, setSemester] = useState('')
   const [search, setSearch] = useState('')
+  const [notified, setNotified] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return localStorage.getItem('aces_notify_slides') === 'true'
+  })
+  const { addNotification } = useNotifications()
 
   const uniqueYears = [...new Set(courses.map((c) => c.year))].sort()
   const uniqueSemesters = [...new Set(courses.map((c) => c.semester))].sort()
 
   const q = search.toLowerCase().trim()
+
+  const onNotify = useCallback(() => {
+    try {
+      localStorage.setItem('aces_notify_slides', 'true')
+    } catch { /* noop */ }
+    setNotified(true)
+    addNotification({
+      title: 'Slides notification enabled',
+      body: "We'll let you know when new lecture slides are uploaded.",
+      icon: '📚',
+    })
+  }, [addNotification])
   const visible = courses.filter((c) => {
     if (year !== 0 && c.year !== year) return false
     if (semester && c.semester !== semester) return false
@@ -297,9 +315,19 @@ export default function CoursesPage() {
         ) : (
           <div className="flex flex-col items-center py-16 text-center">
             <BookOpen className="size-10 text-muted-foreground/40" aria-hidden="true" />
-            <p className="mt-3 text-sm font-medium text-foreground">No courses match your search</p>
+            <p className="mt-3 text-sm font-medium text-foreground">No lecture slides yet.</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              Try a different search term or filter.
+              They'll appear once uploaded.{' '}
+              {notified ? (
+                <span className="font-medium text-green-600">✓ Notified</span>
+              ) : (
+                <button
+                  onClick={onNotify}
+                  className="font-medium text-primary hover:underline"
+                >
+                  Notify Me
+                </button>
+              )}
             </p>
           </div>
         )}
