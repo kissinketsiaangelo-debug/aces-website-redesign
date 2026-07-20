@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
@@ -12,15 +13,25 @@ import {
   HelpCircle,
   LogOut,
   Download,
+  UserPlus,
+  LogIn,
 } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
-import { useMarketplaceAuth } from '@/lib/marketplace-context'
+import { useAcesAuth } from '@/lib/aces-auth-context'
+import { useRegistration } from '@/lib/registration-context'
+import { useNotifications } from '@/lib/notification-context'
 
-const stats = [
-  { label: 'Downloads', value: '14', icon: Download },
-  { label: 'Orders', value: '2', icon: ShoppingBag },
-  { label: 'Alerts on', value: '3', icon: Bell },
-]
+const DOWNLOADS_KEY = 'aces_downloaded_courses'
+
+function getDownloadCount(): number {
+  if (typeof window === 'undefined') return 0
+  try {
+    const raw = localStorage.getItem(DOWNLOADS_KEY)
+    return raw ? JSON.parse(raw).length : 0
+  } catch {
+    return 0
+  }
+}
 
 const shortcuts = [
   { href: '/courses', label: 'My course materials', icon: BookOpen },
@@ -35,8 +46,57 @@ const settings = [
 ]
 
 export default function ProfilePage() {
-  const { logout } = useMarketplaceAuth()
+  const { user, isAuthenticated, logout } = useAcesAuth()
+  const { registeredCount, clubCount } = useRegistration()
+  const { unreadCount } = useNotifications()
   const router = useRouter()
+  const [downloads, setDownloads] = useState(0)
+
+  useEffect(() => {
+    setDownloads(getDownloadCount())
+    const handler = () => setDownloads(getDownloadCount())
+    window.addEventListener('storage', handler)
+    return () => window.removeEventListener('storage', handler)
+  }, [])
+
+  if (!isAuthenticated) {
+    return (
+      <AppShell title="Profile">
+        <section className="flex flex-col items-center px-6 pt-12 pb-10 text-center">
+          <span className="flex size-20 items-center justify-center rounded-full bg-secondary text-muted-foreground">
+            <UserPlus className="size-10" aria-hidden="true" />
+          </span>
+          <h1 className="mt-6 font-heading text-xl font-bold text-navy-text">Log in to see your stats</h1>
+          <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+            Sign in to view your downloads, event registrations, club memberships and more.
+          </p>
+          <div className="mt-8 flex w-full max-w-xs flex-col gap-3">
+            <Link
+              href="/login"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              <LogIn className="size-4" aria-hidden="true" />
+              Log in
+            </Link>
+            <Link
+              href="/register"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card py-3.5 text-sm font-bold text-foreground transition-colors hover:bg-secondary"
+            >
+              <UserPlus className="size-4" aria-hidden="true" />
+              Create account
+            </Link>
+          </div>
+        </section>
+      </AppShell>
+    )
+  }
+
+  const initials = user!.name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
 
   return (
     <AppShell title="Profile">
@@ -44,27 +104,32 @@ export default function ProfilePage() {
         <div className="rounded-3xl bg-navy p-5 text-navy-foreground">
           <div className="flex items-center gap-4">
             <span className="flex size-14 items-center justify-center rounded-full bg-primary font-heading text-lg font-bold text-primary-foreground">
-              AD
+              {initials}
             </span>
             <div>
-              <h1 className="font-heading text-lg font-bold">Abena Dapaah</h1>
-              <p className="text-xs text-navy-foreground/70">Computer Engineering · Year 3</p>
+              <h1 className="font-heading text-lg font-bold">{user!.name}</h1>
+              <p className="text-xs text-navy-foreground/70">{user!.email}</p>
               <span className="mt-1.5 inline-block rounded-full bg-primary/25 px-2.5 py-0.5 text-[10px] font-bold text-secondary">
-                ACES Member · 2025/26
+                ACES Member
               </span>
             </div>
           </div>
           <div className="mt-4 grid grid-cols-3 gap-2">
-            {stats.map((stat) => {
-              const Icon = stat.icon
-              return (
-                <div key={stat.label} className="flex flex-col items-center rounded-2xl bg-navy-foreground/10 py-3">
-                  <Icon className="size-4 text-secondary" aria-hidden="true" />
-                  <span className="mt-1 font-heading text-base font-bold">{stat.value}</span>
-                  <span className="text-[10px] text-navy-foreground/70">{stat.label}</span>
-                </div>
-              )
-            })}
+            <div className="flex flex-col items-center rounded-2xl bg-navy-foreground/10 py-3">
+              <Download className="size-4 text-secondary" aria-hidden="true" />
+              <span className="mt-1 font-heading text-base font-bold">{downloads}</span>
+              <span className="text-[10px] text-navy-foreground/70">Downloads</span>
+            </div>
+            <div className="flex flex-col items-center rounded-2xl bg-navy-foreground/10 py-3">
+              <Bell className="size-4 text-secondary" aria-hidden="true" />
+              <span className="mt-1 font-heading text-base font-bold">{unreadCount}</span>
+              <span className="text-[10px] text-navy-foreground/70">Unread</span>
+            </div>
+            <div className="flex flex-col items-center rounded-2xl bg-navy-foreground/10 py-3">
+              <GraduationCap className="size-4 text-secondary" aria-hidden="true" />
+              <span className="mt-1 font-heading text-base font-bold">{registeredCount + clubCount}</span>
+              <span className="text-[10px] text-navy-foreground/70">Activities</span>
+            </div>
           </div>
         </div>
       </section>
