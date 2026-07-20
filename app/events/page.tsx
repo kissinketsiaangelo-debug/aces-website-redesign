@@ -22,17 +22,19 @@ type Event = {
   capacity: number
   registered: number
   dateObj: Date
+  pinned?: boolean
+  regLink?: string
 }
 
 function buildEvents(): Event[] {
   return [
-    { name: 'CodeFest 2026', date: 'Feb 21', month: 'FEB', day: '21', detail: 'Coding challenges, workshops and networking — a full day of tech.', time: '8:00 AM – 5:00 PM', location: 'Engineering Auditorium', category: 'academic', image: '/images/event-codefest.jpg', capacity: 120, registered: 98, dateObj: new Date(2026, 1, 21) },
-    { name: 'Robotics Meeting', date: 'Mar 03', month: 'MAR', day: '03', detail: 'Collaborate, build bots and automate solutions with the Robotics Club.', time: '3:00 PM – 6:00 PM', location: 'Robotics Lab', category: 'club', image: '/images/event-robotics-meeting.jpg', capacity: 40, registered: 12, dateObj: new Date(2026, 2, 3) },
+    { name: 'CodeFest 2026', date: 'Feb 21', month: 'FEB', day: '21', detail: 'Coding challenges, workshops and networking — a full day of tech.', time: '8:00 AM – 5:00 PM', location: 'Engineering Auditorium', category: 'academic', image: '/images/event-codefest.jpg', capacity: 120, registered: 98, dateObj: new Date(2026, 1, 21), pinned: true },
+    { name: 'Robotics Meeting', date: 'Mar 03', month: 'MAR', day: '03', detail: 'Collaborate, build bots and automate solutions with the Robotics Club.', time: '3:00 PM – 6:00 PM', location: 'Robotics Lab', category: 'club', image: '/images/event-robotics-meeting.jpg', capacity: 40, registered: 12, dateObj: new Date(2026, 2, 3), pinned: true },
     { name: 'ACES Dinner 2026', date: 'Apr 18', month: 'APR', day: '18', detail: 'A night of fun, food and fellowship — awards and networking included.', time: '6:00 PM – 10:00 PM', location: 'Great Hall', category: 'social', image: '/images/event-dinner.jpg', capacity: 200, registered: 145, dateObj: new Date(2026, 3, 18) },
-    { name: 'Arduino Workshop', date: 'May 10', month: 'MAY', day: '10', detail: 'Hands-on session on embedded systems and sensor interfacing.', time: '10:00 AM – 2:00 PM', location: 'CEB Lab 3', category: 'club', image: '/images/arduino-workshop.jpg', capacity: 30, registered: 28, dateObj: new Date(2026, 4, 10) },
-    { name: 'Career Fair', date: 'Jun 05', month: 'JUN', day: '05', detail: 'Meet industry partners — internships, graduate roles and mentorship.', time: '9:00 AM – 4:00 PM', location: 'Engineering Foyer', category: 'academic', image: '/images/career-fair.jpg', capacity: 150, registered: 72, dateObj: new Date(2026, 5, 5) },
-    { name: 'Coding Bootcamp', date: 'Jul 12', month: 'JUL', day: '12', detail: 'Weekend crash course on web development with modern frameworks.', time: '9:00 AM – 3:00 PM', location: 'CS Department', category: 'academic', image: '/images/coding-bootcamp.jpg', capacity: 50, registered: 35, dateObj: new Date(2026, 6, 12) },
-    { name: 'ACES Hangout', date: 'Aug 22', month: 'AUG', day: '22', detail: 'Games, music and good vibes — a break from the books.', time: '2:00 PM – 7:00 PM', location: 'Unity Garden', category: 'social', image: '/images/Nocte.jpg', capacity: 100, registered: 44, dateObj: new Date(2026, 7, 22) },
+    { name: 'Arduino Workshop', date: 'May 10', month: 'MAY', day: '10', detail: 'Hands-on session on embedded systems and sensor interfacing.', time: '10:00 AM – 2:00 PM', location: 'CEB Lab 3', category: 'club', image: '/images/arduino-workshop.jpg', capacity: 30, registered: 28, dateObj: new Date(2026, 4, 10), pinned: true },
+    { name: 'Career Fair', date: 'Jul 28', month: 'JUL', day: '28', detail: 'Meet industry partners — internships, graduate roles and mentorship across three days (28th, 29th & 30th July).', time: '9:00 am – 4:00 pm', location: 'Colleges, KNUST Great hall and within colleges', category: 'academic', image: '/images/career-fair.jpg', capacity: 500, registered: 120, dateObj: new Date(2026, 6, 28), pinned: true, regLink: 'https://forms.gle/4J9d7qq1298kEjTWA' },
+    { name: 'Coding Bootcamp', date: 'Jul 12', month: 'JUL', day: '12', detail: 'Weekend crash course on web development with modern frameworks.', time: '9:00 AM – 3:00 PM', location: 'CS Department', category: 'academic', image: '/images/coding-bootcamp.jpg', capacity: 50, registered: 35, dateObj: new Date(2026, 6, 12), pinned: true },
+    { name: 'ACES Hangout', date: 'Aug 22', month: 'AUG', day: '22', detail: 'Games, music and good vibes — a break from the books.', time: '2:00 PM – 7:00 PM', location: 'Unity Garden', category: 'social', image: '/images/hangout.jpg', capacity: 100, registered: 44, dateObj: new Date(2026, 7, 22) },
     { name: 'Freshmen Orientation', date: 'Sep 15', month: 'SEP', day: '15', detail: 'Welcome new ACES members — meet executives and learn the ropes.', time: '10:00 AM – 1:00 PM', location: 'LT 1', category: 'social', image: '/images/orientation.jpg', capacity: 80, registered: 61, dateObj: new Date(2026, 8, 15) },
   ]
 }
@@ -130,8 +132,8 @@ export default function EventsPage() {
   const now = new Date()
 
   const byPeriod = period === 'upcoming'
-    ? events.filter((e) => e.dateObj >= now)
-    : events.filter((e) => e.dateObj < now)
+    ? events.filter((e) => e.dateObj >= now || e.pinned)
+    : events.filter((e) => e.dateObj < now && !e.pinned)
 
   const filtered = activeCategory === 'all'
     ? byPeriod
@@ -244,6 +246,16 @@ export default function EventsPage() {
                         <CalendarPlus className="size-3" aria-hidden="true" />
                         Calendar
                       </a>
+                      {period === 'upcoming' && event.regLink && (
+                        <a
+                          href={event.regLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 rounded-full bg-white/25 px-3 py-1 text-[10px] font-bold text-white transition-colors hover:bg-white/35"
+                        >
+                          Register Now
+                        </a>
+                      )}
                       {period === 'upcoming' && (
                         <button
                           type="button"

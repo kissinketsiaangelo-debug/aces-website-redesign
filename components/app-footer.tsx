@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Phone, Mail, Globe } from 'lucide-react'
+import { Phone, Mail } from 'lucide-react'
 
 export function AppFooter() {
   return (
@@ -53,6 +53,7 @@ export function AppFooter() {
                 { href: '/staff', label: 'Staff' },
                 { href: '/gallery', label: 'Gallery' },
                 { href: '/events', label: 'Events' },
+                { href: '/contact', label: 'Contact Us' },
               ].map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-xs text-navy-foreground/70 transition-colors hover:text-navy-foreground">

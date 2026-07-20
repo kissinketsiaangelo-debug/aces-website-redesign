@@ -59,9 +59,10 @@ const clubs = [
 ]
 
 const events = [
+  { name: 'Career Fair', date: 'Jul 28', image: '/images/career-fair.jpg', detail: 'Meet industry partners across three days — register now!', capacity: 500, registered: 120, regLink: 'https://forms.gle/4J9d7qq1298kEjTWA' },
   { name: 'CodeFest 2026', date: 'Feb 21', image: '/images/event-codefest.jpg', detail: 'Coding challenges, workshops and networking.', capacity: 120, registered: 98 },
   { name: 'Robotics Meeting', date: 'Mar 03', image: '/images/event-robotics-meeting.jpg', detail: 'Collaborate, build bots and automate solutions.', capacity: 40, registered: 12 },
-  { name: 'ACES Dinner 2026', date: 'Apr 18', image: '/images/event-dinner.jpg', detail: 'A night of fun, food and fellowship.', capacity: 200, registered: 145 },
+  { name: 'ACES Hangout', date: 'Aug 22', image: '/images/hangout.jpg', detail: 'Games, music and good vibes — a break from the books.', capacity: 100, registered: 44 },
 ]
 
 function SeatsBadge({ left }: { left: number }) {
@@ -302,26 +303,37 @@ export default function HomePage() {
                     </div>
                     <p className="truncate text-xs text-white/90 drop-shadow-sm">{event.detail}</p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (!isAuthenticated) { router.push('/login?redirect=/'); return }
-                      register(event.name)
-                    }}
-                    disabled={(left === 0 && !regd) || (!isAuthenticated && regd)}
-                    className={cn(
-                      'shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors',
-                      regd
-                        ? 'bg-success/20 text-success'
-                        : !isAuthenticated
-                          ? 'bg-white/25 text-white hover:bg-white/35'
-                          : left === 0
-                            ? 'bg-muted/30 text-white/50 cursor-not-allowed'
-                            : 'bg-white/25 text-white hover:bg-white/35',
-                    )}
-                  >
-                    {regd ? '✓' : !isAuthenticated ? 'Log in' : left === 0 ? 'Full' : 'Register'}
-                  </button>
+                  {'regLink' in event ? (
+                    <a
+                      href={event.regLink as string}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold text-primary-foreground transition-opacity hover:opacity-90"
+                    >
+                      Register Now
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!isAuthenticated) { router.push('/login?redirect=/'); return }
+                        register(event.name)
+                      }}
+                      disabled={(left === 0 && !regd) || (!isAuthenticated && regd)}
+                      className={cn(
+                        'shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors',
+                        regd
+                          ? 'bg-success/20 text-success'
+                          : !isAuthenticated
+                            ? 'bg-white/25 text-white hover:bg-white/35'
+                            : left === 0
+                              ? 'bg-muted/30 text-white/50 cursor-not-allowed'
+                              : 'bg-white/25 text-white hover:bg-white/35',
+                      )}
+                    >
+                      {regd ? '✓' : !isAuthenticated ? 'Log in' : left === 0 ? 'Full' : 'Register'}
+                    </button>
+                  )}
                 </div>
               </li>
             )
