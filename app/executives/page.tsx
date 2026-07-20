@@ -8,7 +8,7 @@ import { ExecutiveModal, type ExecutiveData } from '@/components/executives/exec
 
 type ExecInfo = ExecutiveData
 
-function exe(name: string, role: string, year: string, dept: string, email: string, linkedin: string): ExecInfo {
+function exe(name: string, role: string, year: string, dept: string, email: string, linkedin: string, photo?: string): ExecInfo {
   const initials = name
     .split(' ')
     .map((w) => w[0])
@@ -17,7 +17,7 @@ function exe(name: string, role: string, year: string, dept: string, email: stri
     initials,
     name,
     role,
-    photo: `https://picsum.photos/seed/${name.replace(/\s+/g, '-').toLowerCase()}/200/200`,
+    photo: photo || `https://picsum.photos/seed/${name.replace(/\s+/g, '-').toLowerCase()}/200/200`,
     year,
     department: dept,
     email,
@@ -27,14 +27,13 @@ function exe(name: string, role: string, year: string, dept: string, email: stri
 
 const executivesByYear: Record<string, ExecInfo[]> = {
   '2025/26': [
-    exe('Kwame Mensah', 'President', 'Year 4', 'Computer Engineering', 'k.mensah@aces.edu', 'https://linkedin.com/in/kwamemensah'),
-    exe('Ama Owusu', 'Vice President', 'Year 3', 'Computer Engineering', 'a.owusu@aces.edu', 'https://linkedin.com/in/amaowusu'),
-    exe('Yaw Boateng', 'General Secretary', 'Year 3', 'Computer Engineering', 'y.boateng@aces.edu', 'https://linkedin.com/in/yawboateng'),
-    exe('Akosua Asante', 'Financial Secretary', 'Year 4', 'Computer Engineering', 'a.asante@aces.edu', 'https://linkedin.com/in/akosuaasante'),
-    exe('Kofi Adjei', 'Organizing Secretary', 'Year 3', 'Computer Engineering', 'k.adjei@aces.edu', 'https://linkedin.com/in/kofiadjei'),
-    exe('Efua Darko', 'PRO', 'Year 4', 'Computer Engineering', 'e.darko@aces.edu', 'https://linkedin.com/in/efuadarko'),
-    exe('Nana Osei', "Women's Commissioner", 'Year 3', 'Computer Engineering', 'n.osei@aces.edu', 'https://linkedin.com/in/nanaosei'),
-    exe('Kojo Appiah', 'Sports Secretary', 'Year 2', 'Computer Engineering', 'k.appiah@aces.edu', 'https://linkedin.com/in/kojoappiah'),
+    exe('Hanz Ofosuhene Sintim', 'President', 'Year 3', 'Computer Engineering', '', '', '/images/executives/2025-26/president.png'),
+    exe('Lawrinda Kwaah Obo', 'Vice President', 'Year 3', 'Computer Engineering', '', '', '/images/executives/2025-26/vice-president.png'),
+    exe('Kwame Boadi Bamfo', 'General Secretary', 'Year 3', 'Computer Engineering', '', '', '/images/executives/2025-26/general-secretary.png'),
+    exe('Albert Godsmann Agor', 'Financial Secretary', 'Year 3', 'Computer Engineering', '', '', '/images/executives/2025-26/financial-secretary.png'),
+    exe('Roddy Frimpong', 'Organizing Secretary', 'Year 3', 'Computer Engineering', '', '', '/images/executives/2025-26/organizing-secretary.png'),
+    exe('Jedidiah Koomson', 'PRO', 'Year 3', 'Computer Engineering', '', '', '/images/executives/2025-26/pro.png'),
+    exe('Jeslove Serwaa Bekoe', "Women's Commissioner", 'Year 3', 'Computer Engineering', '', '', '/images/executives/2025-26/womens-commissioner.png'),
   ],
   '2024/25': [
     exe('Joseph Baidoo', 'President', 'Year 4', 'Computer Engineering', 'j.baidoo@aces.edu', 'https://linkedin.com/in/josephbaidoo'),
@@ -44,7 +43,6 @@ const executivesByYear: Record<string, ExecInfo[]> = {
     exe('Emmanuel Owusu', 'Organizing Secretary', 'Year 3', 'Computer Engineering', 'e.owusu@aces.edu', 'https://linkedin.com/in/emmanuelowusu'),
     exe('Rita Tetteh', 'PRO', 'Year 3', 'Computer Engineering', 'r.tetteh@aces.edu', 'https://linkedin.com/in/ritatetteh'),
     exe('Sarah Boakye', "Women's Commissioner", 'Year 4', 'Computer Engineering', 's.boakye@aces.edu', 'https://linkedin.com/in/sarahboakye'),
-    exe('Isaac Kumi', 'Sports Secretary', 'Year 2', 'Computer Engineering', 'i.kumi@aces.edu', 'https://linkedin.com/in/isaackumi'),
   ],
   '2023/24': [
     exe('Francis Ofori', 'President', 'Year 4', 'Computer Engineering', 'f.ofori@aces.edu', 'https://linkedin.com/in/francisofori'),
@@ -54,7 +52,6 @@ const executivesByYear: Record<string, ExecInfo[]> = {
     exe('Samuel Mensah', 'Organizing Secretary', 'Year 3', 'Computer Engineering', 's.mensah@aces.edu', 'https://linkedin.com/in/samuelmensah'),
     exe('Comfort Asare', 'PRO', 'Year 3', 'Computer Engineering', 'c.asare@aces.edu', 'https://linkedin.com/in/comfortasare'),
     exe('Vera Darko', "Women's Commissioner", 'Year 4', 'Computer Engineering', 'v.darko@aces.edu', 'https://linkedin.com/in/veradarko'),
-    exe('Patrick Owusu', 'Sports Secretary', 'Year 2', 'Computer Engineering', 'p.owusu@aces.edu', 'https://linkedin.com/in/patrickowusu'),
   ],
 }
 
