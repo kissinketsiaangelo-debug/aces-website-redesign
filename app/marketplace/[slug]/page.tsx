@@ -77,7 +77,7 @@ export default function BusinessPage() {
   if (loading) {
     return (
       <AppShell title="Business">
-        <div className="px-4 pt-5">
+        <div className="px-4 pt-5 lg:px-8">
           <Link
             href="/marketplace"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
@@ -86,7 +86,7 @@ export default function BusinessPage() {
             Marketplace
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3 px-4 pt-4 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 px-4 pt-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4 lg:px-8">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="animate-pulse">
               <div className="aspect-square rounded-2xl bg-muted" />
@@ -139,7 +139,7 @@ export default function BusinessPage() {
 
   return (
     <AppShell title={business.name}>
-      <div className="px-4 pt-5">
+      <div className="px-4 pt-5 lg:px-8">
         <Link
           href="/marketplace"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
@@ -149,7 +149,7 @@ export default function BusinessPage() {
         </Link>
       </div>
 
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4 lg:px-8">
         <div className="rounded-3xl border border-border bg-card p-5">
           <div className="flex items-center gap-3">
             <span className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -180,7 +180,7 @@ export default function BusinessPage() {
       </div>
 
       {businessProducts.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 px-4 pt-4 pb-8 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 px-4 pt-4 pb-8 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4 lg:px-8">
           {businessProducts.map((product, i) => (
             <button
               key={product.id}
