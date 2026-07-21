@@ -309,13 +309,13 @@ export default function HomePage() {
             <ArrowRight className="size-3" aria-hidden="true" />
           </Link>
         </div>
-        <ul className="mt-3 flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-4">
+        <ul className="mt-3 flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-4">
           {events.map((event) => {
             const regd = isRegistered(event.name)
             const left = Math.max(0, event.capacity - event.registered - (regd ? 1 : 0))
             const hasRegLink = 'regLink' in event
             return (
-              <li key={event.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+              <li key={event.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 lg:max-w-sm">
                 <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                   <Image src={event.image} alt="" fill sizes="400px" className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-[2deg]" aria-hidden="true" />
                   <span className="absolute left-2 top-2 rounded-full bg-black/30 px-2 py-1 text-[10px] font-bold text-white backdrop-blur-sm">
@@ -376,7 +376,7 @@ export default function HomePage() {
             const member = isMember(club.name)
             const spots = club.capacity - club.members - (member ? 1 : 0)
             return (
-              <div key={club.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+              <div key={club.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 lg:max-w-sm">
                 <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                   <Image src={club.image} alt="" fill sizes="400px" className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-[2deg]" aria-hidden="true" />
                   {member && (

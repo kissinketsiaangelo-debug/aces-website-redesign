@@ -67,13 +67,13 @@ export default function ExecutivesPage() {
     <AppShell title="Executives">
       {/* Hero image */}
       <section className="px-4 pt-5 lg:px-8">
-        <div className="relative h-48 overflow-hidden rounded-3xl">
+        <div className="relative h-48 lg:h-80 overflow-hidden rounded-3xl">
           <Image
             src="/images/About.jpg"
             alt="ACES executive team"
             fill
             sizes="(max-width: 448px) 100vw, 448px"
-            className="object-cover"
+            className="object-cover object-[center_20%]"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />

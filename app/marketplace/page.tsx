@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Search, X, Store, Phone, Package } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { cn } from '@/lib/utils'
@@ -23,6 +24,15 @@ type Product = {
   business_slug: string
   owner_name: string
   whatsapp_number: string
+}
+
+const categoryEmoji: Record<string, string> = {
+  'Food & Beverages': '🍔',
+  'Fashion & Apparel': '👕',
+  'Technology & Electronics': '💻',
+  'Services (Design, Tutoring, etc)': '🔧',
+  'Beauty & Cosmetics': '✨',
+  'Other': '📦',
 }
 
 const CATEGORIES = [
@@ -48,6 +58,7 @@ function waUrl(phone: string | undefined | null, text: string): string {
 }
 
 export default function MarketplacePage() {
+  const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -102,7 +113,7 @@ export default function MarketplacePage() {
             Discover products &amp; services from fellow KNUST students.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-3 px-4 pt-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4 lg:px-8">
+        <div className="grid grid-cols-2 gap-3 px-4 pt-4 sm:grid-cols-3 lg:grid-cols-2 lg:gap-6 lg:px-8">
           {Array.from({ length: 6 }).map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
@@ -184,30 +195,57 @@ export default function MarketplacePage() {
       </div>
 
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 px-4 pt-3 pb-8 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4 lg:px-8">
+        <div className="grid grid-cols-2 gap-3 px-4 pt-3 pb-8 sm:grid-cols-3 lg:grid-cols-2 lg:gap-6 lg:px-8">
           {filtered.map((product, i) => (
-            <button
+            <article
               key={product.id}
-              type="button"
-              onClick={() => setSelected(product)}
-              className="group/card overflow-hidden rounded-2xl border border-border bg-card text-left transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
             >
-              <div className="relative aspect-square overflow-hidden bg-muted">
-                <Image
-                  src={productImage(product)}
-                  alt={product.name}
-                  fill
-                  sizes="(max-width: 448px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-300 group-hover/card:scale-105"
-                  priority={i < 4}
-                />
-              </div>
-              <div className="p-2.5">
-                <p className="truncate text-xs font-semibold text-foreground">{product.name}</p>
-                <p className="mt-0.5 text-xs font-bold text-primary">GH₵ {product.price}</p>
-                <p className="mt-0.5 truncate text-[10px] text-muted-foreground">{product.business_name}</p>
-              </div>
-            </button>
+              <button
+                type="button"
+                onClick={() => setSelected(product)}
+                className="w-full text-left"
+              >
+                <div className="relative h-44 overflow-hidden bg-muted">
+                  <Image
+                    src={productImage(product)}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 448px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-300 group-hover/card:scale-105"
+                    priority={i < 4}
+                  />
+                  <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-foreground shadow-sm">
+                    {categoryEmoji[product.category] || '📦'} {product.category}
+                  </span>
+                </div>
+                <div className="p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-sm font-semibold leading-snug line-clamp-2 text-foreground">{product.name}</h3>
+                    <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-bold text-primary">
+                      GH₵ {product.price}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground line-clamp-2">{product.description}</p>
+                  <div className="my-3 border-t border-border" />
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                      <Store className="size-3.5" aria-hidden="true" />
+                      {product.business_name}
+                    </span>
+                    <span
+                      role="link"
+                      tabIndex={0}
+                      onClick={(e) => { e.stopPropagation(); router.push(`/marketplace/${product.business_slug}`) }}
+                      onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); router.push(`/marketplace/${product.business_slug}`) } }}
+                      className="cursor-pointer text-[11px] font-semibold text-primary hover:underline"
+                    >
+                      View Store →
+                    </span>
+                  </div>
+                </div>
+              </button>
+            </article>
           ))}
         </div>
       ) : (

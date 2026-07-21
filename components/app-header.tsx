@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Menu, X, Info, Users, Briefcase, Images, Lightbulb, Calendar, GraduationCap, BookOpen, ChevronRight, ChevronDown, Sun, Moon, Search, Bell } from 'lucide-react'
+import { Menu, X, Home, Info, Users, Briefcase, Images, Lightbulb, Calendar, GraduationCap, BookOpen, ShoppingBag, Store, ChevronRight, ChevronDown, Sun, Moon, Search, Bell } from 'lucide-react'
 import { AcesLogo, AcesMark } from '@/components/aces-logo'
 import { useTheme } from '@/components/theme-provider'
 import { useSearch } from '@/lib/search-context'
@@ -11,7 +11,10 @@ import { useNotifications } from '@/lib/notification-context'
 import { cn } from '@/lib/utils'
 
 const primaryLinks = [
+  { href: '/', label: 'Home', icon: Home },
   { href: '/about', label: 'About', icon: Info },
+  { href: '/shop', label: 'Shop', icon: ShoppingBag },
+  { href: '/marketplace', label: 'Marketplace', icon: Store },
   { href: '/executives', label: 'Executives', icon: Users },
   { href: '/staff', label: 'Staff', icon: Briefcase },
   { href: '/gallery', label: 'Gallery', icon: Images },

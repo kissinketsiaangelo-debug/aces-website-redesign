@@ -42,7 +42,7 @@ export default function AboutPage() {
   return (
     <AppShell title="About ACES">
       <section className="px-4 pt-5 lg:px-8">
-        <div className="relative h-44 overflow-hidden rounded-3xl">
+        <div className="relative h-44 lg:h-64 overflow-hidden rounded-3xl">
           <Image
             src="/images/aces-group-photo.png"
             alt="ACES group photo"
