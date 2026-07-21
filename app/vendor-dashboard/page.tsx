@@ -269,7 +269,7 @@ export default function VendorDashboardPage() {
 
             <button
               type="submit"
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-bold text-primary-foreground transition-all duration-200 hover:bg-primary/90 active:scale-[0.97]"
             >
               <Check className="size-4" aria-hidden="true" />
               {editingId ? 'Save changes' : 'Add product'}

@@ -59,7 +59,7 @@ function RegisterForm() {
       <AppShell title="Account created">
         <section className="flex flex-col items-center justify-center px-6 py-20 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-success/15">
-            <ArrowRight className="size-7 text-success" aria-hidden="true" />
+            <ArrowRight className="size-7 text-success animate-check-bounce" aria-hidden="true" />
           </div>
           <h1 className="mt-4 font-heading text-lg font-bold text-foreground">Welcome to ACES!</h1>
           <p className="mt-2 text-sm text-muted-foreground max-w-xs">
@@ -158,7 +158,7 @@ function RegisterForm() {
 
         <button
           type="submit"
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 active:scale-[0.98]"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-all duration-200 hover:bg-primary/90 active:scale-[0.97]"
         >
           Create account
           <ArrowRight className="size-4" aria-hidden="true" />

@@ -203,7 +203,7 @@ export default function EventsPage() {
           const registered = isRegistered(event.name)
           const left = Math.max(0, event.capacity - event.registered - (registered ? 1 : 0))
           return (
-            <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl">
+            <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl border border-transparent transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
               <Image
                 src={event.image}
                 alt=""
@@ -276,7 +276,7 @@ export default function EventsPage() {
                                 : 'bg-white/25 text-white hover:bg-white/35',
                           )}
                         >
-                          {registered ? 'Registered ✓' : !isAuthenticated ? 'Log in to register' : left === 0 ? 'Full' : 'Register — Free'}
+                          {registered ? <span className="inline-flex items-center gap-1">Registered <span className="animate-check-bounce inline-block">✓</span></span> : !isAuthenticated ? 'Log in to register' : left === 0 ? 'Full' : 'Register — Free'}
                         </button>
                       )}
                     </div>

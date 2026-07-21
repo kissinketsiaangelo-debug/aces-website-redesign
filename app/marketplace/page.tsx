@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Search, X, Store, Phone, Package } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { cn } from '@/lib/utils'
+import { ProductCardSkeleton } from '@/components/skeleton'
 import { AnimatePresence, motion } from 'framer-motion'
 
 type Product = {
@@ -103,11 +104,7 @@ export default function MarketplacePage() {
         </div>
         <div className="grid grid-cols-2 gap-3 px-4 pt-4 sm:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="animate-pulse">
-              <div className="aspect-square rounded-2xl bg-muted" />
-              <div className="mt-2 h-4 w-3/4 rounded bg-muted" />
-              <div className="mt-1 h-3 w-1/2 rounded bg-muted" />
-            </div>
+            <ProductCardSkeleton key={i} />
           ))}
         </div>
       </AppShell>
@@ -124,7 +121,7 @@ export default function MarketplacePage() {
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="mt-6 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+            className="mt-6 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all duration-200 hover:bg-primary/90 active:scale-[0.97]"
           >
             Try again
           </button>

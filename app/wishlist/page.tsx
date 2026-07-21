@@ -72,7 +72,7 @@ export default function WishlistPage() {
                     removeFromWishlist(item.id)
                   }}
                   aria-label={`Add ${item.name} to cart`}
-                  className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+                  className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-all duration-200 hover:bg-primary/90 active:scale-[0.97]"
                 >
                   <ShoppingBag className="size-4" aria-hidden="true" />
                 </button>

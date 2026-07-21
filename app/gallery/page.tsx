@@ -19,7 +19,7 @@ export default function GalleryPage() {
           <Link
             key={cat.slug}
             href={`/gallery/${cat.slug}`}
-            className="group relative h-48 overflow-hidden rounded-3xl"
+            className="group relative h-48 overflow-hidden rounded-3xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5"
           >
             <Image
               src={cat.cover}

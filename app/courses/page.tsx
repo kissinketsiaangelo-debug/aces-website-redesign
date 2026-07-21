@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useNotifications } from '@/lib/notification-context'
+import { ListSkeleton } from '@/components/skeleton'
 import { Download, FileText, Check, WifiOff, Search, ExternalLink, BookOpen, GraduationCap, Layers } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { cn } from '@/lib/utils'
@@ -160,7 +161,13 @@ export default function CoursesPage() {
     if (typeof window === 'undefined') return false
     return localStorage.getItem('aces_notify_slides') === 'true'
   })
+  const [loading, setLoading] = useState(true)
   const { addNotification } = useNotifications()
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 400)
+    return () => clearTimeout(timer)
+  }, [])
 
   const uniqueYears = [...new Set(courses.map((c) => c.year))].sort()
   const uniqueSemesters = [...new Set(courses.map((c) => c.semester))].sort()
@@ -294,7 +301,11 @@ export default function CoursesPage() {
 
       {/* Course list */}
       <section className="px-4 pt-2 pb-8">
-        {Object.keys(grouped).length > 0 ? (
+        {loading ? (
+          <div className="mt-4 flex flex-col gap-3">
+            <ListSkeleton count={5} />
+          </div>
+        ) : Object.keys(grouped).length > 0 ? (
           Object.entries(grouped).map(([key, group]) => {
             const first = group[0]
             const sectionTitle = `${yearLabels[first.year] || `Year ${first.year}`} · ${semesterLabels[first.semester] || first.semester}`

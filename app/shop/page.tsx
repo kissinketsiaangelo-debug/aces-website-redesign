@@ -2,7 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Heart, ShoppingBag } from 'lucide-react'
+import { useState } from 'react'
+import { Heart, ShoppingBag, Check } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useCart } from '@/lib/cart-context'
 import { useWishlist } from '@/lib/wishlist-context'
@@ -12,6 +13,7 @@ import { products } from '@/lib/products'
 export default function ShopPage() {
   const { addToCart, count } = useCart()
   const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist()
+  const [clickedId, setClickedId] = useState<string | null>(null)
 
   return (
     <AppShell title="ACES Shop">
@@ -91,11 +93,17 @@ export default function ShopPage() {
                   onClick={(e) => {
                     e.preventDefault()
                     addToCart({ id: product.id, name: product.name, price: product.price, image: product.image, tag: product.tag })
+                    setClickedId(product.id)
+                    setTimeout(() => setClickedId(null), 1500)
                   }}
                   aria-label={`Add ${product.name} to bag`}
                   className="z-10 flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90"
                 >
-                  <ShoppingBag className="size-4" aria-hidden="true" />
+                  {clickedId === product.id ? (
+                    <Check className="size-4 animate-check-bounce" aria-hidden="true" />
+                  ) : (
+                    <ShoppingBag className="size-4" aria-hidden="true" />
+                  )}
                 </button>
               </div>
             </div>

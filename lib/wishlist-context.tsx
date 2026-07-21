@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useNotifications } from '@/lib/notification-context'
 
 export type WishlistItem = {
   id: string
@@ -48,9 +49,20 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     }
   }, [items])
 
+  const { addNotification } = useNotifications()
+
   const addToWishlist = useCallback((item: WishlistItem) => {
-    setItems((prev) => (prev.find((i) => i.id === item.id) ? prev : [...prev, item]))
-  }, [])
+    setItems((prev) => {
+      if (prev.find((i) => i.id === item.id)) return prev
+      addNotification({
+        title: 'Saved to wishlist',
+        body: item.name,
+        icon: 'heart',
+        link: '/wishlist',
+      })
+      return [...prev, item]
+    })
+  }, [addNotification])
 
   const removeFromWishlist = useCallback((id: string) => {
     setItems((prev) => prev.filter((i) => i.id !== id))

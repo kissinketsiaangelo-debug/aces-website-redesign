@@ -42,7 +42,7 @@ export function NotifyMeForm({ topic }: { topic: string }) {
       />
       <button
         type="submit"
-        className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
       >
         <Bell className="size-4" aria-hidden="true" />
         Notify me when {topic} arrive

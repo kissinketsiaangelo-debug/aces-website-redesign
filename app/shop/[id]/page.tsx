@@ -21,6 +21,7 @@ export default function ProductDetailPage() {
   const [qty, setQty] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [showCheck, setShowCheck] = useState(false)
 
   if (!product) {
     return (
@@ -52,6 +53,8 @@ export default function ProductDetailPage() {
       selectedSize ?? undefined,
       selectedColor ?? undefined,
     )
+    setShowCheck(true)
+    setTimeout(() => setShowCheck(false), 1500)
   }
 
   const soldOut = product.stock === 0
@@ -269,6 +272,11 @@ export default function ProductDetailPage() {
         >
           {soldOut ? (
             <>Out of stock</>
+          ) : showCheck ? (
+            <span className="animate-check-bounce inline-flex items-center gap-2">
+              <Check className="size-4" aria-hidden="true" />
+              Added!
+            </span>
           ) : (
             <>
               <ShoppingBag className="size-4" aria-hidden="true" />

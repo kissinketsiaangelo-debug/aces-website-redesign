@@ -139,7 +139,7 @@ export default function ExecutivesPage() {
           {executives.map((exec, i) => (
             <div
               key={exec.name}
-              className="flex flex-col items-center rounded-2xl border border-border bg-card p-4 text-center"
+              className="flex flex-col items-center rounded-2xl border border-border bg-card p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
             >
               {/* Photo */}
               <div className="relative size-16 overflow-hidden rounded-full border-2 border-border">
@@ -160,7 +160,7 @@ export default function ExecutivesPage() {
               <button
                 type="button"
                 onClick={() => setProfile(exec)}
-                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-secondary px-4 py-2 text-[11px] font-semibold text-foreground transition-colors hover:bg-accent active:scale-95"
+                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-secondary px-4 py-2 text-[11px] font-semibold text-foreground transition-all duration-200 hover:bg-accent active:scale-[0.97]"
               >
                 <Eye className="size-3.5" aria-hidden="true" />
                 View Profile

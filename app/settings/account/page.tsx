@@ -110,7 +110,7 @@ export default function AccountSettingsPage() {
 
         <button
           type="submit"
-          className="flex items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+          className="flex items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-bold text-primary-foreground transition-all duration-200 hover:bg-primary/90 active:scale-[0.97]"
         >
           <Save className="size-4" aria-hidden="true" />
           {saved ? 'Saved!' : 'Save changes'}

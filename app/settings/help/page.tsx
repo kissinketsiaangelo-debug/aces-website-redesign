@@ -150,7 +150,7 @@ export default function HelpPage() {
           <button
             type="submit"
             disabled={!feedback.trim() || sent}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-primary py-3 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-primary py-3 text-sm font-bold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97] disabled:opacity-50"
           >
             {sent ? 'Sent! Thanks for the feedback' : 'Send feedback'}
           </button>

@@ -109,7 +109,7 @@ function JoinForm({ club, onClose }: { club: string; onClose: () => void }) {
         {submitted ? (
           <div className="py-6 text-center">
             <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-success/15">
-              <UserCheck className="size-7 text-success" aria-hidden="true" />
+              <UserCheck className="size-7 text-success animate-check-bounce" aria-hidden="true" />
             </span>
             <h3 className="mt-4 font-heading text-lg font-bold text-foreground">Welcome to {club}!</h3>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -171,7 +171,7 @@ function JoinForm({ club, onClose }: { club: string; onClose: () => void }) {
               </div>
               <button
                 type="submit"
-                className="w-full rounded-2xl bg-primary py-3 text-sm font-bold text-primary-foreground transition-opacity hover:opacity-90"
+                className="w-full rounded-2xl bg-primary py-3 text-sm font-bold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
               >
                 Submit & join
               </button>
@@ -211,7 +211,7 @@ export default function HomePage() {
               if (!isAuthenticated) { router.push('/login?redirect=/'); return }
               register('CodeFest 2026')
             }}
-            className="shrink-0 rounded-full bg-primary px-3 py-1.5 text-[10px] font-bold text-primary-foreground"
+            className="shrink-0 rounded-full bg-primary px-3 py-1.5 text-[10px] font-bold text-primary-foreground transition-all duration-200 active:scale-[0.97]"
           >
             Register Now →
           </button>
@@ -310,7 +310,7 @@ export default function HomePage() {
             const regd = isRegistered(event.name)
             const left = Math.max(0, event.capacity - event.registered - (regd ? 1 : 0))
             return (
-              <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl">
+              <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl border border-transparent transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
                 <Image src={event.image} alt="" fill sizes="400px" className="object-cover" aria-hidden="true" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
                 <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-4">
@@ -330,7 +330,7 @@ export default function HomePage() {
                       href={event.regLink as string}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="shrink-0 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold text-primary-foreground transition-opacity hover:opacity-90"
+                      className="shrink-0 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
                     >
                       Register Now
                     </a>
@@ -353,7 +353,7 @@ export default function HomePage() {
                               : 'bg-white/25 text-white hover:bg-white/35',
                       )}
                     >
-                      {regd ? '✓' : !isAuthenticated ? 'Log in' : left === 0 ? 'Full' : 'Register'}
+                      {regd ? <span className="animate-check-bounce inline-block">✓</span> : !isAuthenticated ? 'Log in' : left === 0 ? 'Full' : 'Register'}
                     </button>
                   )}
                 </div>
@@ -374,7 +374,7 @@ export default function HomePage() {
             const member = isMember(club.name)
             const spots = club.capacity - club.members - (member ? 1 : 0)
             return (
-              <div key={club.name} className="relative h-40 overflow-hidden rounded-2xl">
+              <div key={club.name} className="relative h-40 overflow-hidden rounded-2xl border border-transparent transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
                 <Image src={club.image} alt="" fill sizes="400px" className="object-cover" aria-hidden="true" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -403,7 +403,7 @@ export default function HomePage() {
                           : 'bg-white/25 text-white hover:bg-white/35',
                       )}
                     >
-                      {member ? 'Member ✓' : !isAuthenticated ? 'Log in to join' : 'Join'}
+                      {member ? <span className="inline-flex items-center gap-1">Member <span className="animate-check-bounce inline-block">✓</span></span> : !isAuthenticated ? 'Log in to join' : 'Join'}
                     </button>
                   </div>
                 </div>

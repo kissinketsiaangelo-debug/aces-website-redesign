@@ -222,7 +222,7 @@ export default function CartPage() {
             </div>
             <button
               type="submit"
-              className="w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+              className="w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
             >
               Place order · GHS {grandTotal}
             </button>
@@ -431,7 +431,7 @@ export default function CartPage() {
                   <button
                     type="button"
                     onClick={applyCoupon}
-                    className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
+                    className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
                   >
                     Apply
                   </button>
@@ -475,7 +475,7 @@ export default function CartPage() {
             <button
               type="button"
               onClick={() => setStatus('address')}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
             >
               Checkout · GHS {grandTotal}
               <ArrowRight className="size-4" aria-hidden="true" />
