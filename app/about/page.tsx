@@ -41,7 +41,7 @@ export default function AboutPage() {
 
   return (
     <AppShell title="About ACES">
-      <section className="px-4 pt-5">
+      <section className="px-4 pt-5 lg:px-8">
         <div className="relative h-44 overflow-hidden rounded-3xl">
           <Image
             src="/images/aces-group-photo.png"
@@ -60,7 +60,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-4 pt-6">
+      <section className="px-4 pt-6 lg:px-8">
         <h2 className="font-heading text-lg font-bold text-navy-text">Who we are</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground text-pretty">
           ACES is the official student body representing all Computer Engineering students at KNUST. As a vibrant
@@ -75,8 +75,8 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="px-4 pt-6">
-        <div role="tablist" aria-label="About tabs" className="flex gap-2 overflow-x-auto no-scrollbar">
+      <section className="px-4 pt-6 lg:px-8">
+        <div role="tablist" aria-label="About tabs" className="flex gap-2 overflow-x-auto no-scrollbar lg:flex-wrap lg:overflow-x-visible">
           {tabs.map((tab, i) => (
             <button
               key={tab}
@@ -135,11 +135,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-4 pt-6" aria-labelledby="objectives-heading">
+      <section className="px-4 pt-6 lg:px-8" aria-labelledby="objectives-heading">
         <h2 id="objectives-heading" className="font-heading text-lg font-bold text-navy-text">
           Our Objectives
         </h2>
-        <div className="mt-3 flex flex-col gap-3">
+        <div className="mt-3 flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-3">
           {objectives.map((obj) => {
             const Icon = obj.icon
             return (
@@ -157,7 +157,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-4 pt-6">
+      <section className="px-4 pt-6 lg:px-8">
         <div className="rounded-2xl border border-border bg-card p-4">
           <div className="flex items-center gap-3">
             <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
@@ -175,7 +175,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-4 pt-6 pb-8">
+      <section className="px-4 pt-6 pb-8 lg:px-8">
         <div className="rounded-3xl bg-navy p-5 text-navy-foreground">
           <h2 className="font-heading text-lg font-bold">Meet the people behind ACES</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-navy-foreground/80">

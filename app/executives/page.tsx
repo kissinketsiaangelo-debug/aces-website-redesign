@@ -66,7 +66,7 @@ export default function ExecutivesPage() {
   return (
     <AppShell title="Executives">
       {/* Hero image */}
-      <section className="px-4 pt-5">
+      <section className="px-4 pt-5 lg:px-8">
         <div className="relative h-48 overflow-hidden rounded-3xl">
           <Image
             src="/images/About.jpg"
@@ -87,7 +87,7 @@ export default function ExecutivesPage() {
       </section>
 
       {/* Intro text */}
-      <section className="px-4 pt-6">
+      <section className="px-4 pt-6 lg:px-8">
         <p className="text-sm leading-relaxed text-muted-foreground text-pretty">
           We are a student-led association that aims to provide an environment where students can grow and
           develop their skills. It is with great honor and enthusiasm that we, the executives leading the
@@ -96,7 +96,7 @@ export default function ExecutivesPage() {
       </section>
 
       {/* Year selector */}
-      <section className="px-4 pt-6">
+      <section className="px-4 pt-6 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Academic year</p>
         <div className="relative mt-2 inline-block">
           <button
@@ -130,12 +130,12 @@ export default function ExecutivesPage() {
       </section>
 
       {/* Executives grid */}
-      <section className="px-4 pt-6 pb-8">
+      <section className="px-4 pt-6 pb-8 lg:px-8">
         <h2 className="font-heading text-lg font-bold text-foreground">Your {selectedYear} executives</h2>
         <p className="mt-1 text-xs text-muted-foreground">
           Elected by you, working for you. Tap &ldquo;View Profile&rdquo; to reach out.
         </p>
-        <div className="mt-4 grid grid-cols-2 gap-3">
+        <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
           {executives.map((exec, i) => (
             <div
               key={exec.name}
