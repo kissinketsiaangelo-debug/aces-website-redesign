@@ -142,14 +142,14 @@ export default function EventsPage() {
 
   return (
     <AppShell title="Events">
-      <section className="px-4 pt-5">
+      <section className="px-4 pt-5 lg:px-8">
         <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">ACES calendar</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           Everything happening in the Land of ACES — mark your calendar.
         </p>
       </section>
 
-      <div className="flex gap-2 px-4 pt-4 pb-1" role="tablist" aria-label="Time period">
+      <div className="flex gap-2 px-4 pt-4 pb-1 lg:px-8" role="tablist" aria-label="Time period">
         {(['upcoming', 'past'] as TimePeriod[]).map((p) => (
           <button
             key={p}
@@ -169,7 +169,7 @@ export default function EventsPage() {
         ))}
       </div>
 
-      <div role="tablist" aria-label="Filter events by category" className="flex gap-2 overflow-x-auto no-scrollbar px-4 pt-2 pb-1">
+      <div role="tablist" aria-label="Filter events by category" className="flex gap-2 overflow-x-auto no-scrollbar px-4 pt-2 pb-1 lg:px-8">
         {categories.map((cat) => (
           <button
             key={cat.key}
@@ -190,16 +190,16 @@ export default function EventsPage() {
       </div>
 
       {filtered.length > 0 ? (
-        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground">
+        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground lg:px-8">
           {filtered.length} event{filtered.length !== 1 ? 's' : ''} {period === 'upcoming' ? 'coming up' : 'in the past'}
         </p>
       ) : (
-        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground">
+        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground lg:px-8">
           No {activeCategory} events {period === 'upcoming' ? 'scheduled' : 'found'} — check back soon.
         </p>
       )}
 
-      <ul className="flex flex-col gap-3 px-4 pt-3 pb-8">
+      <ul className="flex flex-col gap-3 px-4 pt-3 pb-8 lg:grid lg:grid-cols-2 lg:gap-4 lg:px-8">
         {filtered.map((event) => {
           const registered = isRegistered(event.name)
           const left = Math.max(0, event.capacity - event.registered - (registered ? 1 : 0))
