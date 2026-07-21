@@ -17,9 +17,9 @@ export default function ShopPage() {
 
   return (
     <AppShell title="ACES Shop">
-      <section className="flex items-start justify-between gap-3 px-4 pt-5">
+      <section className="flex items-start justify-between gap-3 px-4 pt-5 lg:px-8 lg:pt-8">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">Rep the Land of ACES</h1>
+          <h1 className="font-heading text-2xl font-bold text-navy-text text-balance lg:text-3xl">Rep the Land of ACES</h1>
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
             Official CodeFest merchandise. Pick up on campus — no delivery fees.
           </p>
@@ -47,7 +47,7 @@ export default function ShopPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-2 gap-3 px-4 pt-4 pb-8" aria-label="Products">
+      <section className="grid grid-cols-2 gap-3 px-4 pt-4 pb-8 lg:grid-cols-4 lg:gap-4 lg:px-8" aria-label="Products">
         {products.map((product) => (
           <article
             key={product.id}
