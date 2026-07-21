@@ -4,7 +4,7 @@ import Link from 'next/link'
 export function AppFooter() {
   return (
     <footer className="mt-auto border-t border-border bg-navy text-navy-foreground">
-      <div className="mx-auto flex max-w-md flex-col gap-5 px-4 py-6 lg:max-w-6xl lg:px-8 lg:py-10">
+      <div className="mx-auto flex max-w-md flex-col gap-5 px-4 py-6">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/images/logo-white.png" alt="ACES Logo" width={40} height={40} className="size-8 object-contain" />
           <span className="text-xs font-bold leading-snug">Association of Computer Engineering Students</span>

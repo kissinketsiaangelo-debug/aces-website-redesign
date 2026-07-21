@@ -104,7 +104,7 @@ export default function MarketplacePage() {
   if (loading) {
     return (
       <AppShell title="Marketplace">
-        <div className="px-4 pt-5 lg:px-8">
+        <div className="px-4 pt-5">
           <div className="flex items-center gap-2">
             <Store className="size-5 text-primary" aria-hidden="true" />
             <h1 className="font-heading text-2xl font-bold text-foreground">Marketplace</h1>
@@ -113,7 +113,7 @@ export default function MarketplacePage() {
             Discover products &amp; services from fellow KNUST students.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-3 px-4 pt-4 sm:grid-cols-3 lg:grid-cols-2 lg:gap-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-3 px-4 pt-4 sm:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
@@ -143,7 +143,7 @@ export default function MarketplacePage() {
 
   return (
     <AppShell title="Marketplace">
-      <div className="px-4 pt-5 lg:px-8">
+      <div className="px-4 pt-5">
         <div className="flex items-center gap-2">
           <Store className="size-5 text-primary" aria-hidden="true" />
           <h1 className="font-heading text-2xl font-bold text-foreground">Marketplace</h1>
@@ -153,7 +153,7 @@ export default function MarketplacePage() {
         </p>
       </div>
 
-      <div className="px-4 pt-4 lg:px-8">
+      <div className="px-4 pt-4">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
           <input
@@ -166,7 +166,7 @@ export default function MarketplacePage() {
         </div>
       </div>
 
-      <div className="overflow-x-auto no-scrollbar px-4 pt-4 lg:px-8">
+      <div className="overflow-x-auto no-scrollbar px-4 pt-4">
         <div className="flex gap-2" role="tablist" aria-label="Filter by category">
           {CATEGORIES.map((cat) => (
             <button
@@ -188,14 +188,14 @@ export default function MarketplacePage() {
         </div>
       </div>
 
-      <div className="px-4 pt-4 lg:px-8">
+      <div className="px-4 pt-4">
         <p className="text-xs font-medium text-muted-foreground">
           {filtered.length} product{filtered.length !== 1 ? 's' : ''}
         </p>
       </div>
 
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 px-4 pt-3 pb-8 sm:grid-cols-3 lg:grid-cols-2 lg:gap-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-3 px-4 pt-3 pb-8 sm:grid-cols-3">
           {filtered.map((product, i) => (
             <article
               key={product.id}

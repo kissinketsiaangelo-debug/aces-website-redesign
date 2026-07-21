@@ -18,14 +18,14 @@ const staff = [
 export default function StaffPage() {
   return (
     <AppShell title="Staff">
-      <section className="px-4 pt-5 lg:px-8">
+      <section className="px-4 pt-5">
         <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">Department staff</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           The lecturers and advisors supporting Computer Engineering at KNUST.
         </p>
       </section>
 
-      <ul className="flex flex-col gap-3 px-4 pt-5 pb-8 lg:grid lg:grid-cols-2 lg:gap-4 lg:px-8" aria-label="Staff members">
+      <ul className="flex flex-col gap-3 px-4 pt-5 pb-8" aria-label="Staff members">
         {staff.map((member) => (
           <li key={member.name} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
             <span

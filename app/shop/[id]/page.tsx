@@ -62,7 +62,7 @@ export default function ProductDetailPage() {
 
   return (
     <AppShell>
-      <div className="flex items-center justify-between px-4 pt-4 lg:px-8">
+      <div className="flex items-center justify-between px-4 pt-4">
         <button
           type="button"
           onClick={() => router.back()}
@@ -85,8 +85,7 @@ export default function ProductDetailPage() {
         </Link>
       </div>
 
-      <div className="lg:flex lg:gap-8 lg:items-start lg:px-8">
-      <div className="mt-3 px-4 lg:mt-0 lg:w-[45%] lg:shrink-0 lg:sticky lg:top-24 lg:px-0">
+      <div className="mt-3 px-4">
         <div className="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar rounded-2xl">
           {activeImages.map((img, i) => (
             <button
@@ -173,7 +172,7 @@ export default function ProductDetailPage() {
         )}
       </div>
 
-      <div className="px-4 pt-5 lg:flex-1 lg:px-0">
+      <div className="px-4 pt-5">
         <h1 className="font-heading text-xl font-bold text-navy">{product.name}</h1>
         <p className="mt-1 text-2xl font-bold text-primary">GHS {product.price}</p>
 
@@ -324,14 +323,12 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </div>
-    </div>
-
         {products.filter((p) => p.id !== product.id).length > 0 && (
-          <section className="mt-8 pb-8 lg:px-8" aria-labelledby="related-heading">
-            <h2 id="related-heading" className="px-4 font-heading text-lg font-bold text-navy lg:px-0">
+          <section className="mt-8 pb-8" aria-labelledby="related-heading">
+            <h2 id="related-heading" className="px-4 font-heading text-lg font-bold text-navy">
               You might also like
             </h2>
-            <div className="mt-3 flex gap-3 overflow-x-auto px-4 pb-2 scrollbar-none lg:grid lg:grid-cols-4 lg:gap-3 lg:overflow-x-visible lg:px-0">
+            <div className="mt-3 flex gap-3 overflow-x-auto px-4 pb-2 scrollbar-none">
               {products
                 .filter((p) => p.id !== product.id)
                 .map((related) => (

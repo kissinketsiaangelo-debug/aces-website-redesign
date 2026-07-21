@@ -142,14 +142,14 @@ export default function EventsPage() {
 
   return (
     <AppShell title="Events">
-      <section className="px-4 pt-5 lg:px-8">
+      <section className="px-4 pt-5">
         <h1 className="font-heading text-2xl font-bold text-navy-text text-balance">ACES calendar</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           Everything happening in the Land of ACES — mark your calendar.
         </p>
       </section>
 
-      <div className="flex gap-2 px-4 pt-4 pb-1 lg:px-8" role="tablist" aria-label="Time period">
+      <div className="flex gap-2 px-4 pt-4 pb-1" role="tablist" aria-label="Time period">
         {(['upcoming', 'past'] as TimePeriod[]).map((p) => (
           <button
             key={p}
@@ -169,7 +169,7 @@ export default function EventsPage() {
         ))}
       </div>
 
-      <div role="tablist" aria-label="Filter events by category" className="flex gap-2 overflow-x-auto no-scrollbar px-4 pt-2 pb-1 lg:px-8">
+      <div role="tablist" aria-label="Filter events by category" className="flex gap-2 overflow-x-auto no-scrollbar px-4 pt-2 pb-1">
         {categories.map((cat) => (
           <button
             key={cat.key}
@@ -190,21 +190,21 @@ export default function EventsPage() {
       </div>
 
       {filtered.length > 0 ? (
-        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground lg:px-8">
+        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground">
           {filtered.length} event{filtered.length !== 1 ? 's' : ''} {period === 'upcoming' ? 'coming up' : 'in the past'}
         </p>
       ) : (
-        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground lg:px-8">
+        <p className="px-4 pt-4 text-xs font-medium text-muted-foreground">
           No {activeCategory} events {period === 'upcoming' ? 'scheduled' : 'found'} — check back soon.
         </p>
       )}
 
-      <ul className="flex flex-col gap-3 px-4 pt-3 pb-8 lg:grid lg:grid-cols-3 lg:gap-4 lg:px-8">
+      <ul className="flex flex-col gap-3 px-4 pt-3 pb-8">
         {filtered.map((event) => {
           const registered = isRegistered(event.name)
           const left = Math.max(0, event.capacity - event.registered - (registered ? 1 : 0))
           return (
-            <li key={event.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 lg:max-w-sm">
+            <li key={event.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
               <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                 <Image
                   src={event.image}

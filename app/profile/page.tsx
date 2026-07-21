@@ -62,7 +62,7 @@ export default function ProfilePage() {
   if (!isAuthenticated) {
     return (
       <AppShell title="Profile">
-         <section className="flex flex-col items-center px-6 pt-12 pb-10 text-center lg:px-8">
+         <section className="flex flex-col items-center px-6 pt-12 pb-10 text-center">
           <span className="flex size-20 items-center justify-center rounded-full bg-secondary text-muted-foreground">
             <UserPlus className="size-10" aria-hidden="true" />
           </span>
@@ -100,7 +100,7 @@ export default function ProfilePage() {
 
   return (
     <AppShell title="Profile">
-      <section className="px-4 pt-5 lg:px-8">
+      <section className="px-4 pt-5">
         <div className="rounded-3xl bg-navy p-5 text-navy-foreground">
           <div className="flex items-center gap-4">
             <span className="flex size-14 items-center justify-center rounded-full bg-primary font-heading text-lg font-bold text-primary-foreground">
@@ -134,7 +134,7 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <section className="px-4 pt-6 lg:px-8" aria-labelledby="shortcuts-heading">
+      <section className="px-4 pt-6" aria-labelledby="shortcuts-heading">
         <h2 id="shortcuts-heading" className="font-heading text-lg font-bold text-navy-text">
           My stuff
         </h2>
@@ -159,7 +159,7 @@ export default function ProfilePage() {
         </ul>
       </section>
 
-      <section className="px-4 pt-6 pb-8 lg:px-8" aria-labelledby="settings-heading">
+      <section className="px-4 pt-6 pb-8" aria-labelledby="settings-heading">
         <h2 id="settings-heading" className="font-heading text-lg font-bold text-navy-text">
           Settings
         </h2>

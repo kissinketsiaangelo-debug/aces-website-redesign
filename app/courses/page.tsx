@@ -202,7 +202,7 @@ export default function CoursesPage() {
   return (
     <AppShell title="Courses">
       {/* Gradient banner */}
-      <section className="mx-4 mt-5 overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-blue-800 p-5 text-white lg:mx-8">
+      <section className="mx-4 mt-5 overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-blue-800 p-5 text-white">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-xs">
             <h1 className="font-heading text-xl font-bold">Computer Engineering</h1>
@@ -224,7 +224,7 @@ export default function CoursesPage() {
       </section>
 
       {/* Search */}
-      <section className="px-4 pt-4 lg:px-8">
+      <section className="px-4 pt-4">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
           <input
@@ -238,8 +238,8 @@ export default function CoursesPage() {
       </section>
 
       {/* Year tabs */}
-      <section className="sticky top-[61px] z-30 bg-background/95 px-4 pt-4 backdrop-blur lg:px-8">
-        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2 lg:flex-wrap lg:overflow-x-visible" role="tablist" aria-label="Filter by year">
+      <section className="sticky top-[61px] z-30 bg-background/95 px-4 pt-4 backdrop-blur">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2" role="tablist" aria-label="Filter by year">
           <button
             type="button"
             role="tab"
@@ -268,7 +268,7 @@ export default function CoursesPage() {
             </button>
           ))}
         </div>
-        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-3 lg:flex-wrap lg:overflow-x-visible" role="tablist" aria-label="Filter by semester">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-3" role="tablist" aria-label="Filter by semester">
           <button
             type="button"
             role="tab"
@@ -300,7 +300,7 @@ export default function CoursesPage() {
       </section>
 
       {/* Course list */}
-      <section className="px-4 pt-2 pb-8 lg:px-8">
+      <section className="px-4 pt-2 pb-8">
         {loading ? (
           <div className="mt-4 flex flex-col gap-3">
             <ListSkeleton count={5} />
@@ -315,7 +315,7 @@ export default function CoursesPage() {
                   <h2 className="font-heading text-base font-bold text-foreground">{sectionTitle}</h2>
                   <span className="text-xs text-muted-foreground">{group.length} course{group.length !== 1 ? 's' : ''}</span>
                 </div>
-                <ul className="mt-3 flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-4">
+                <ul className="mt-3 flex flex-col gap-3">
                   {group.map((course) => (
                     <CourseCard key={course.code} course={course} />
                   ))}

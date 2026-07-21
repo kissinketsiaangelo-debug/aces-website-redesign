@@ -47,7 +47,7 @@ export function AppHeader({ title }: { title?: string }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 mx-auto flex w-full max-w-md items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/85 lg:max-w-6xl lg:px-8 lg:py-4">
+      <header className="sticky top-0 z-40 mx-auto flex w-full max-w-md items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/85">
         {title ? (
           <span className="flex items-center gap-2">
             <AcesMark className="size-7 text-primary" />
@@ -58,55 +58,6 @@ export function AppHeader({ title }: { title?: string }) {
             <AcesLogo />
           </Link>
         )}
-        {/* Desktop nav */}
-        <nav aria-label="Main" className="hidden lg:flex lg:items-center lg:gap-1">
-          {primaryLinks.map((link) => {
-            const Icon = link.icon
-            const active = pathname.startsWith(link.href)
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors',
-                  active ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
-                )}
-              >
-                <Icon className="size-3.5" aria-hidden="true" />
-                {link.label}
-              </Link>
-            )
-          })}
-          {/* More dropdown for secondary links */}
-          <div className="relative group">
-            <button
-              type="button"
-              className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-            >
-              <ChevronDown className="size-3.5" aria-hidden="true" />
-              More
-            </button>
-            <div className="absolute right-0 top-full mt-1 w-48 rounded-xl border border-border bg-background p-1 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-              {secondaryLinks.map((link) => {
-                const Icon = link.icon
-                const active = pathname.startsWith(link.href)
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      'flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors',
-                      active ? 'bg-secondary text-primary' : 'text-foreground hover:bg-muted',
-                    )}
-                  >
-                    <Icon className="size-3.5" aria-hidden="true" />
-                    {link.label}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-        </nav>
         <div className="flex items-center gap-1.5">
           <button
             type="button"
@@ -130,18 +81,10 @@ export function AppHeader({ title }: { title?: string }) {
           </Link>
           <button
             type="button"
-            onClick={toggle}
-            aria-label={mounted ? `Switch to ${theme === 'light' ? 'dark' : 'light'} mode` : 'Toggle theme'}
-            className="hidden lg:flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary"
-          >
-            {mounted ? (theme === 'light' ? <Moon className="size-5" aria-hidden="true" /> : <Sun className="size-5" aria-hidden="true" />) : <div className="size-5" />}
-          </button>
-          <button
-            type="button"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
             aria-expanded={open}
-            className="flex lg:hidden size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
+            className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-accent"
           >
             <Menu className="size-5" aria-hidden="true" />
           </button>

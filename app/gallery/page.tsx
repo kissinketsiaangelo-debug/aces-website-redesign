@@ -7,14 +7,14 @@ import { categories } from '@/app/gallery/data'
 export default function GalleryPage() {
   return (
     <AppShell title="Gallery">
-      <section className="px-4 pt-5 lg:px-8">
+      <section className="px-4 pt-5">
         <h1 className="font-heading text-2xl font-bold text-foreground text-balance">Moments from ACES</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground text-pretty">
           Browse through photos organised by category — tap any album to explore.
         </p>
       </section>
 
-      <section className="flex flex-col gap-4 px-4 pt-5 pb-8 lg:grid lg:grid-cols-2 lg:gap-4 lg:px-8">
+      <section className="flex flex-col gap-4 px-4 pt-5 pb-8">
         {categories.map((cat) => (
           <Link
             key={cat.slug}

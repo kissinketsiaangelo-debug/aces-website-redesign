@@ -100,7 +100,7 @@
     @apply border-border outline-ring/50;
   }
   html {
-    @apply bg-background;
+    @apply bg-[#f0f2f5];
   }
   body {
     @apply bg-background text-foreground font-sans;
