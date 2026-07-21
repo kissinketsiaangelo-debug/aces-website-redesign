@@ -8,9 +8,12 @@ import {
   ArrowRight,
   BookOpen,
   Calendar,
+  CalendarPlus,
+  Check,
   Cpu,
   Code2,
   Bot,
+  ExternalLink,
   GraduationCap,
   ShoppingBag,
   Images,
@@ -65,12 +68,13 @@ const events = [
   { name: 'ACES Hangout', date: 'Aug 22', image: '/images/hangout.jpg', detail: 'Games, music and good vibes — a break from the books.', capacity: 100, registered: 44 },
 ]
 
-function SeatsBadge({ left }: { left: number }) {
+function SeatsBadge({ left, className }: { left: number; className?: string }) {
   return (
     <span
       className={cn(
         'inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold',
         left <= 5 ? 'bg-destructive/15 text-destructive' : left <= 15 ? 'bg-warning/15 text-warning' : 'bg-success/15 text-success',
+        className,
       )}
     >
       <UserCheck className="size-2.5" aria-hidden="true" />
@@ -309,53 +313,52 @@ export default function HomePage() {
           {events.map((event) => {
             const regd = isRegistered(event.name)
             const left = Math.max(0, event.capacity - event.registered - (regd ? 1 : 0))
+            const hasRegLink = 'regLink' in event
             return (
-              <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl border border-transparent transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                <Image src={event.image} alt="" fill sizes="400px" className="object-cover" aria-hidden="true" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
-                <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-4">
-                  <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
-                    <Calendar className="size-4" aria-hidden="true" />
-                    <span className="mt-0.5 text-[10px] font-bold">{event.date}</span>
+              <li key={event.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                  <Image src={event.image} alt="" fill sizes="400px" className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-[2deg]" aria-hidden="true" />
+                  <span className="absolute left-2 top-2 rounded-full bg-black/30 px-2 py-1 text-[10px] font-bold text-white backdrop-blur-sm">
+                    {event.date}
                   </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</p>
-                      <SeatsBadge left={left} />
-                    </div>
-                    <p className="truncate text-xs text-white/90 drop-shadow-sm">{event.detail}</p>
+                  <span className="absolute right-2 top-2">
+                    <SeatsBadge left={left} className="bg-black/40 backdrop-blur-sm text-white!" />
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col gap-1 p-3">
+                  <h2 className="text-sm font-semibold leading-snug text-foreground">{event.name}</h2>
+                  <p className="text-xs text-muted-foreground line-clamp-2">{event.detail}</p>
+                  <div className="mt-auto flex items-center justify-between pt-2">
+                    <p className="text-xs text-muted-foreground">{event.date}</p>
+                    {hasRegLink ? (
+                      <a
+                        href={(event as any).regLink as string}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Register for ${event.name}`}
+                        className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90"
+                      >
+                        <ExternalLink className="size-3.5" aria-hidden="true" />
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!isAuthenticated) { router.push('/login?redirect=/'); return }
+                          register(event.name)
+                        }}
+                        disabled={(left === 0 && !regd) || (!isAuthenticated && regd)}
+                        aria-label={regd ? 'Registered' : `Register for ${event.name}`}
+                        className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        {regd ? (
+                          <Check className="size-3.5 animate-check-bounce" aria-hidden="true" />
+                        ) : (
+                          <UserCheck className="size-3.5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
                   </div>
-                  {'regLink' in event ? (
-                    <a
-                      href={event.regLink as string}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold text-primary-foreground transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
-                    >
-                      Register Now
-                    </a>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (!isAuthenticated) { router.push('/login?redirect=/'); return }
-                        register(event.name)
-                      }}
-                      disabled={(left === 0 && !regd) || (!isAuthenticated && regd)}
-                      className={cn(
-                        'shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors',
-                        regd
-                          ? 'bg-success/20 text-success'
-                          : !isAuthenticated
-                            ? 'bg-white/25 text-white hover:bg-white/35'
-                            : left === 0
-                              ? 'bg-muted/30 text-white/50 cursor-not-allowed'
-                              : 'bg-white/25 text-white hover:bg-white/35',
-                      )}
-                    >
-                      {regd ? <span className="animate-check-bounce inline-block">✓</span> : !isAuthenticated ? 'Log in' : left === 0 ? 'Full' : 'Register'}
-                    </button>
-                  )}
                 </div>
               </li>
             )
@@ -370,25 +373,25 @@ export default function HomePage() {
         </h2>
         <div className="mt-3 flex flex-col gap-3">
           {clubs.map((club) => {
-            const Icon = club.icon
             const member = isMember(club.name)
             const spots = club.capacity - club.members - (member ? 1 : 0)
             return (
-              <div key={club.name} className="relative h-40 overflow-hidden rounded-2xl border border-transparent transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                <Image src={club.image} alt="" fill sizes="400px" className="object-cover" aria-hidden="true" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div className="flex items-start gap-3">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
-                      <Icon className="size-5" aria-hidden="true" />
+              <div key={club.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                  <Image src={club.image} alt="" fill sizes="400px" className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-[2deg]" aria-hidden="true" />
+                  {member && (
+                    <span className="absolute right-2 top-2 rounded-full bg-success/20 px-2 py-0.5 text-[10px] font-bold text-success backdrop-blur-sm">
+                      Member ✓
                     </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-white drop-shadow-sm">ACES {club.name}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-white/90 drop-shadow-sm">{club.description}</p>
-                      <p className="mt-1 text-[10px] text-white/80 drop-shadow-sm">
-                        {club.members} member{club.members !== 1 ? 's' : ''} · {Math.max(0, spots)} spot{spots !== 1 ? 's' : ''} left
-                      </p>
-                    </div>
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col gap-1 p-3">
+                  <h2 className="text-sm font-semibold leading-snug text-foreground">ACES {club.name}</h2>
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{club.description}</p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {club.members} member{club.members !== 1 ? 's' : ''} · {Math.max(0, spots)} spot{spots !== 1 ? 's' : ''} left
+                  </p>
+                  <div className="mt-auto flex items-center justify-end pt-2">
                     <button
                       type="button"
                       onClick={() => {
@@ -396,14 +399,15 @@ export default function HomePage() {
                         if (!isAuthenticated) { router.push('/login?redirect=/'); return }
                         setJoinClubName(club.name)
                       }}
-                      className={cn(
-                        'shrink-0 rounded-full px-3 py-1.5 text-[10px] font-bold transition-colors',
-                        member
-                          ? 'bg-success/20 text-success'
-                          : 'bg-white/25 text-white hover:bg-white/35',
-                      )}
+                      disabled={member}
+                      aria-label={member ? 'Member' : `Join ${club.name}`}
+                      className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      {member ? <span className="inline-flex items-center gap-1">Member <span className="animate-check-bounce inline-block">✓</span></span> : !isAuthenticated ? 'Log in to join' : 'Join'}
+                      {member ? (
+                        <Check className="size-3.5 animate-check-bounce" aria-hidden="true" />
+                      ) : (
+                        <UserPlus className="size-3.5" aria-hidden="true" />
+                      )}
                     </button>
                   </div>
                 </div>

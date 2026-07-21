@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Calendar, CalendarPlus, MapPin, Clock, UserCheck, Timer } from 'lucide-react'
+import { Calendar, CalendarPlus, MapPin, Clock, UserCheck, Timer, Check, ExternalLink } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { useRegistration } from '@/lib/registration-context'
 import { useAcesAuth } from '@/lib/aces-auth-context'
@@ -48,12 +48,13 @@ const categories = [
 
 type TimePeriod = 'upcoming' | 'past'
 
-function SeatsBadge({ left }: { left: number }) {
+function SeatsBadge({ left, className }: { left: number; className?: string }) {
   return (
     <span
       className={cn(
         'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold',
         left <= 5 ? 'bg-destructive/15 text-destructive' : left <= 15 ? 'bg-warning/15 text-warning' : 'bg-success/15 text-success',
+        className,
       )}
     >
       <UserCheck className="size-3" aria-hidden="true" />
@@ -82,7 +83,7 @@ function Countdown({ target }: { target: Date }) {
   if (!remaining) return null
 
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-1 text-[10px] font-semibold text-white/80">
+    <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-1 text-[10px] font-semibold text-muted-foreground">
       <Timer className="size-3" aria-hidden="true" />
       {remaining}
     </span>
@@ -203,83 +204,81 @@ export default function EventsPage() {
           const registered = isRegistered(event.name)
           const left = Math.max(0, event.capacity - event.registered - (registered ? 1 : 0))
           return (
-            <li key={event.name} className="relative h-44 overflow-hidden rounded-2xl border border-transparent transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-              <Image
-                src={event.image}
-                alt=""
-                fill
-                sizes="400px"
-                className="object-cover"
-                aria-hidden="true"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <div className="flex items-start gap-3">
-                  <span className="flex size-11 shrink-0 flex-col items-center justify-center rounded-xl bg-white/30 text-white drop-shadow-sm">
-                    <Calendar className="size-3.5" aria-hidden="true" />
-                    <span className="mt-0.5 text-[8px] font-bold tracking-wider">{event.month}</span>
-                    <span className="-mt-0.5 text-xs font-bold leading-none">{event.day}</span>
+            <li key={event.name} className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                <Image
+                  src={event.image}
+                  alt=""
+                  fill
+                  sizes="400px"
+                  className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-[2deg]"
+                  aria-hidden="true"
+                />
+                <span className="absolute left-2 top-2 flex size-10 shrink-0 flex-col items-center justify-center rounded-xl bg-black/30 text-white backdrop-blur-sm">
+                  <span className="text-[8px] font-bold tracking-wider">{event.month}</span>
+                  <span className="-mt-0.5 text-xs font-bold leading-none">{event.day}</span>
+                </span>
+                {period === 'upcoming' && (
+                  <span className="absolute right-2 top-2">
+                    <SeatsBadge left={left} className="bg-black/40 backdrop-blur-sm text-white!" />
                   </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <h2 className="text-sm font-semibold text-white drop-shadow-sm">{event.name}</h2>
-                      {period === 'upcoming' && <SeatsBadge left={left} />}
-                    </div>
-                    <p className="mt-0.5 text-xs leading-snug text-white/90 drop-shadow-sm line-clamp-2">{event.detail}</p>
-                    <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
-                      <span className="inline-flex items-center gap-1 text-[10px] text-white/85">
-                        <Clock className="size-3" aria-hidden="true" />
-                        {event.time}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] text-white/85">
-                        <MapPin className="size-3" aria-hidden="true" />
-                        {event.location}
-                      </span>
-                      {period === 'upcoming' && <Countdown target={event.dateObj} />}
+                )}
+              </div>
+              <div className="flex flex-1 flex-col gap-1 p-3">
+                <h2 className="text-sm font-semibold leading-snug text-foreground">{event.name}</h2>
+                <p className="text-xs text-muted-foreground line-clamp-2">{event.detail}</p>
+                <div className="mt-auto flex items-center gap-1 pt-2">
+                  <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                    <Clock className="size-3" aria-hidden="true" />
+                    {event.time}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                    <MapPin className="size-3" aria-hidden="true" />
+                    {event.location}
+                  </span>
+                  {period === 'upcoming' && <Countdown target={event.dateObj} />}
+                  <div className="ml-auto flex items-center gap-1.5">
+                    <a
+                      href={getCalendarUrl(event)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Add ${event.name} to calendar`}
+                      className="flex size-8 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90"
+                    >
+                      <CalendarPlus className="size-3.5" aria-hidden="true" />
+                    </a>
+                    {period === 'upcoming' && event.regLink && (
                       <a
-                        href={getCalendarUrl(event)}
+                        href={event.regLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`Add ${event.name} to calendar`}
-                        className="inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-1 text-[10px] font-semibold text-white/80 transition-colors hover:bg-white/25"
+                        aria-label={`Register for ${event.name}`}
+                        className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90"
                       >
-                        <CalendarPlus className="size-3" aria-hidden="true" />
-                        Calendar
+                        <ExternalLink className="size-3.5" aria-hidden="true" />
                       </a>
-                      {period === 'upcoming' && event.regLink && (
-                        <a
-                          href={event.regLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 rounded-full bg-white/25 px-3 py-1 text-[10px] font-bold text-white transition-colors hover:bg-white/35"
-                        >
-                          Register Now
-                        </a>
-                      )}
-                      {period === 'upcoming' && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (!isAuthenticated) {
-                              router.push('/login?redirect=events')
-                              return
-                            }
-                            register(event.name)
-                          }}
-                          disabled={(left === 0 && !registered) || (!isAuthenticated && registered)}
-                          className={cn(
-                            'ml-auto inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-bold transition-colors',
-                            registered
-                              ? 'bg-success/20 text-success'
-                              : left === 0 || (!isAuthenticated && !registered)
-                                ? 'bg-muted/30 text-white/50 cursor-not-allowed'
-                                : 'bg-white/25 text-white hover:bg-white/35',
-                          )}
-                        >
-                          {registered ? <span className="inline-flex items-center gap-1">Registered <span className="animate-check-bounce inline-block">✓</span></span> : !isAuthenticated ? 'Log in to register' : left === 0 ? 'Full' : 'Register — Free'}
-                        </button>
-                      )}
-                    </div>
+                    )}
+                    {period === 'upcoming' && !event.regLink && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!isAuthenticated) {
+                            router.push('/login?redirect=events')
+                            return
+                          }
+                          register(event.name)
+                        }}
+                        disabled={(left === 0 && !registered) || (!isAuthenticated && registered)}
+                        aria-label={registered ? 'Registered' : `Register for ${event.name}`}
+                        className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all duration-200 hover:opacity-90 hover:scale-110 active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        {registered ? (
+                          <Check className="size-3.5 animate-check-bounce" aria-hidden="true" />
+                        ) : (
+                          <UserCheck className="size-3.5" aria-hidden="true" />
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
