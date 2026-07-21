@@ -76,7 +76,7 @@ export default function ResourcesPage() {
             <History className="size-4 text-muted-foreground" aria-hidden="true" />
             Recently viewed
           </h2>
-          <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
+          <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar pb-1">
             {items.map((item) => (
               <Link
                 key={item.href}

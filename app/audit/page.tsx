@@ -95,7 +95,7 @@ export default function AuditPage() {
         </p>
       </section>
 
-      <div className="flex gap-2 overflow-x-auto px-4 pt-4 pb-2">
+      <div className="flex gap-2 overflow-x-auto no-scrollbar px-4 pt-4 pb-2">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground"

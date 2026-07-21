@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 import { AppShell } from '@/components/app-shell'
 import { getCategory } from '@/app/gallery/data'
 
@@ -15,6 +15,7 @@ export default function CategoryPage() {
   const category = getCategory(slug)
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [isPlaying, setIsPlaying] = useState(true)
   const [touchStart, setTouchStart] = useState(0)
 
   const openLightbox = useCallback((index: number) => setLightboxIndex(index), [])
@@ -40,6 +41,14 @@ export default function CategoryPage() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [lightboxIndex, closeLightbox, goNext, goPrev])
+
+  useEffect(() => {
+    if (lightboxIndex === null || !isPlaying || !category) return
+    const timer = setInterval(() => {
+      setLightboxIndex((prev) => (prev !== null ? (prev + 1) % category.photos.length : 0))
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [lightboxIndex, isPlaying, category])
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setTouchStart(e.touches[0].clientX)
@@ -125,6 +134,16 @@ export default function CategoryPage() {
             aria-label="Close"
           >
             <X className="size-5" aria-hidden="true" />
+          </button>
+
+          {/* Play/Pause button */}
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setIsPlaying((v) => !v) }}
+            aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+            className="absolute left-4 top-4 z-10 flex size-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur transition-colors hover:bg-white/40"
+          >
+            {isPlaying ? <Pause className="size-5" aria-hidden="true" /> : <Play className="size-5" aria-hidden="true" />}
           </button>
 
           {/* Previous button */}

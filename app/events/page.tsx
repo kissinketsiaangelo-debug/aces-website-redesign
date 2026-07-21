@@ -168,7 +168,7 @@ export default function EventsPage() {
         ))}
       </div>
 
-      <div role="tablist" aria-label="Filter events by category" className="flex gap-2 overflow-x-auto px-4 pt-2 pb-1">
+      <div role="tablist" aria-label="Filter events by category" className="flex gap-2 overflow-x-auto no-scrollbar px-4 pt-2 pb-1">
         {categories.map((cat) => (
           <button
             key={cat.key}

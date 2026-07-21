@@ -155,7 +155,7 @@ export default function MarketplacePage() {
         </div>
       </div>
 
-      <div className="overflow-x-auto px-4 pt-4">
+      <div className="overflow-x-auto no-scrollbar px-4 pt-4">
         <div className="flex gap-2" role="tablist" aria-label="Filter by category">
           {CATEGORIES.map((cat) => (
             <button

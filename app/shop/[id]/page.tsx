@@ -86,25 +86,30 @@ export default function ProductDetailPage() {
       </div>
 
       <div className="mt-3 px-4">
-        <button
-          type="button"
-          onClick={() => setLightboxOpen(true)}
-          className="relative aspect-square w-full overflow-hidden rounded-2xl bg-muted text-left"
-          aria-label="View full size"
-        >
-          <Image
-            src={activeImages[selectedImage] || '/placeholder.svg'}
-            alt={product.name}
-            fill
-            sizes="(max-width: 448px) 100vw, 400px"
-            className="object-cover"
-          />
+        <div className="relative flex overflow-x-auto snap-x snap-mandatory no-scrollbar rounded-2xl">
+          {activeImages.map((img, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => { setSelectedImage(i); setLightboxOpen(true) }}
+              className="relative aspect-square w-full shrink-0 snap-start bg-muted"
+              aria-label={`View image ${i + 1} full size`}
+            >
+              <Image
+                src={img || '/placeholder.svg'}
+                alt={`${product.name} view ${i + 1}`}
+                fill
+                sizes="(max-width: 448px) 100vw, 400px"
+                className="object-cover"
+              />
+            </button>
+          ))}
           {product.tag && (
-            <span className="absolute left-3 top-3 rounded-full bg-navy px-2.5 py-1 text-[10px] font-bold text-navy-foreground">
+            <span className="pointer-events-none absolute left-3 top-3 z-10 rounded-full bg-navy px-2.5 py-1 text-[10px] font-bold text-navy-foreground">
               {product.tag}
             </span>
           )}
-        </button>
+        </div>
         {activeImages.length > 1 && (
           <div className="mt-3 flex gap-2">
             {activeImages.map((img, i) => (

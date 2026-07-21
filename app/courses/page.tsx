@@ -239,7 +239,7 @@ export default function CoursesPage() {
 
       {/* Year tabs */}
       <section className="sticky top-[61px] z-30 bg-background/95 px-4 pt-4 backdrop-blur">
-        <div className="flex gap-2 overflow-x-auto pb-2" role="tablist" aria-label="Filter by year">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2" role="tablist" aria-label="Filter by year">
           <button
             type="button"
             role="tab"
@@ -268,7 +268,7 @@ export default function CoursesPage() {
             </button>
           ))}
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-3" role="tablist" aria-label="Filter by semester">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-3" role="tablist" aria-label="Filter by semester">
           <button
             type="button"
             role="tab"
