@@ -41,9 +41,9 @@ export function AppShell({
   title?: string
 }) {
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-background shadow-[0_0_40px_rgba(11,31,58,0.08)]">
+    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-background shadow-[0_0_40px_rgba(11,31,58,0.08)] lg:max-w-6xl lg:shadow-none">
       <AppHeader title={title} />
-      <main className="flex-1 pb-24">{children}</main>
+      <main className="flex-1 pb-24 lg:pb-0">{children}</main>
       <AppFooter />
       <CartToast />
       <BottomNav />
