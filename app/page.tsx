@@ -203,7 +203,7 @@ export default function HomePage() {
   return (
     <AppShell>
       {/* CODEFEST Banner */}
-      <section className="px-4 pt-4">
+      <section className="px-4 pt-4 lg:px-8">
         <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-background border border-primary/20 p-3">
           <span className="text-lg" aria-hidden="true">🔥</span>
           <p className="flex-1 text-xs font-semibold text-navy">
@@ -223,8 +223,8 @@ export default function HomePage() {
       </section>
 
       {/* Hero */}
-      <section className="px-4 pt-5">
-        <div className="relative h-72 overflow-hidden rounded-3xl">
+      <section className="px-4 pt-5 lg:px-8 lg:pt-8">
+        <div className="relative h-72 overflow-hidden rounded-3xl lg:h-[400px]">
           <Image
             src="/images/homeImage.png"
             alt="ACES students collaborating"
@@ -234,12 +234,12 @@ export default function HomePage() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
-          <div className="absolute bottom-0 left-0 right-0 p-5">
+          <div className="absolute bottom-0 left-0 right-0 p-5 lg:p-10">
             <p className="text-xs font-semibold uppercase tracking-widest text-white/90 drop-shadow-sm">Akwaaba, welcome back</p>
-            <h1 className="mt-1 font-heading text-2xl font-bold leading-tight text-balance text-white drop-shadow-sm">
+            <h1 className="mt-1 font-heading text-2xl font-bold leading-tight text-balance text-white drop-shadow-sm lg:text-4xl">
               The Land of ACES, now in your pocket
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-white/85 text-pretty drop-shadow-sm">
+            <p className="mt-2 text-sm leading-relaxed text-white/85 text-pretty drop-shadow-sm lg:text-base lg:max-w-xl">
               Courses, scholarships, events and community for Computer Engineering students at KNUST.
             </p>
             <Link
@@ -254,11 +254,11 @@ export default function HomePage() {
       </section>
 
       {/* Quick actions */}
-      <section className="px-4 pt-6" aria-labelledby="quick-actions">
+      <section className="px-4 pt-6 lg:px-8" aria-labelledby="quick-actions">
         <h2 id="quick-actions" className="font-heading text-lg font-bold text-navy-text">
           Jump right in
         </h2>
-        <div className="mt-3 grid grid-cols-2 gap-3">
+        <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
           {quickActions.map((action) => {
             const Icon = action.icon
             return (
@@ -279,7 +279,7 @@ export default function HomePage() {
       </section>
 
       {/* Our Gallery */}
-      <section className="px-4 pt-7" aria-labelledby="gallery-heading">
+      <section className="px-4 pt-7 lg:px-8" aria-labelledby="gallery-heading">
         <div className="flex items-center justify-between">
           <h2 id="gallery-heading" className="font-heading text-lg font-bold text-navy-text">
             Our Gallery
@@ -289,9 +289,9 @@ export default function HomePage() {
             <ArrowRight className="size-3" aria-hidden="true" />
           </Link>
         </div>
-        <div className="mt-3 flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+        <div className="mt-3 flex gap-3 overflow-x-auto pb-2 scrollbar-none lg:grid lg:grid-cols-4 lg:gap-3 lg:overflow-x-visible">
           {galleryImages.map((img, i) => (
-            <div key={i} className="relative h-36 w-56 shrink-0 overflow-hidden rounded-2xl">
+            <div key={i} className="relative h-36 w-56 shrink-0 overflow-hidden rounded-2xl lg:w-auto lg:h-40">
               <Image src={img.src} alt={img.alt} fill sizes="224px" className="object-cover" />
             </div>
           ))}
@@ -299,7 +299,7 @@ export default function HomePage() {
       </section>
 
       {/* Upcoming events */}
-      <section className="px-4 pt-7" aria-labelledby="events-heading">
+      <section className="px-4 pt-7 lg:px-8" aria-labelledby="events-heading">
         <div className="flex items-center justify-between">
           <h2 id="events-heading" className="font-heading text-lg font-bold text-navy-text">
             Upcoming events
@@ -309,7 +309,7 @@ export default function HomePage() {
             <ArrowRight className="size-3" aria-hidden="true" />
           </Link>
         </div>
-        <ul className="mt-3 flex flex-col gap-3">
+        <ul className="mt-3 flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-4">
           {events.map((event) => {
             const regd = isRegistered(event.name)
             const left = Math.max(0, event.capacity - event.registered - (regd ? 1 : 0))
@@ -367,11 +367,11 @@ export default function HomePage() {
       </section>
 
       {/* Clubs */}
-      <section className="px-4 pt-7" aria-labelledby="clubs-heading">
+      <section className="px-4 pt-7 lg:px-8" aria-labelledby="clubs-heading">
         <h2 id="clubs-heading" className="font-heading text-lg font-bold text-navy-text">
           Our clubs
         </h2>
-        <div className="mt-3 flex flex-col gap-3">
+        <div className="mt-3 flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-4">
           {clubs.map((club) => {
             const member = isMember(club.name)
             const spots = club.capacity - club.members - (member ? 1 : 0)
@@ -420,11 +420,11 @@ export default function HomePage() {
       {joinClubName && <JoinForm club={joinClubName} onClose={() => setJoinClubName(null)} />}
 
       {/* Testimonial */}
-      <section className="px-4 pt-7 pb-6" aria-labelledby="testimonial-heading">
+      <section className="px-4 pt-7 pb-6 lg:px-8 lg:pt-12 lg:pb-10" aria-labelledby="testimonial-heading">
         <h2 id="testimonial-heading" className="sr-only">
           Student testimonial
         </h2>
-        <figure className="rounded-3xl bg-navy p-5 text-navy-foreground">
+        <figure className="rounded-3xl bg-navy p-5 text-navy-foreground lg:max-w-2xl lg:mx-auto">
           <Quote className="size-6 text-primary" aria-hidden="true" />
           <blockquote className="mt-3 text-sm leading-relaxed text-pretty">
             &ldquo;This platform helped me study for examinations. I love how everything is organized and
